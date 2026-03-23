@@ -10,7 +10,7 @@
     ],
     "tailwindFunctions": ["clsx", "cn", "cva"],
     "tailwindStylesheet": "src/css/tw.css",
-    "tabWidth": 4,
+    "tabWidth": 2,
     "overrides": [
         {
             "files": "**/*.yml",
