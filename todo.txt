@@ -1,0 +1,24 @@
+UserSetting ----->
+------------------------------------------
+Edit Profile:
+Add Avatar Photo
+Name
+Last Name
+Nick Name
+------------------------------------------
+Notification:
+mute & message preview
+for:  private, groups, channel (changer's)
+------------------------------------------
+Data Storage:
+clear cache
+------------------------------------------
+Privacy and Security:
+Blocked Users
+Login Email
+------------------------------------------
+General:
+message font-size
+bg-image for chat
+dark-mode
+------------------------------------------

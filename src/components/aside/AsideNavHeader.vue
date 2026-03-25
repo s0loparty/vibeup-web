@@ -10,7 +10,7 @@ import { MenuIcon, SettingsIcon, BookmarkIcon, } from 'lucide-vue-next';
 </script>
 
 <template>
-	<div class="flex justify-between items-center px-4 gap-4 h-18">
+	<div class="flex justify-between items-center px-4 gap-4 h-18 sticky top-0 bg-white">
 		<DropdownMenu>
 			<DropdownMenuTrigger>
 				<Button variant="ghost" size="icon" class="p-0">
