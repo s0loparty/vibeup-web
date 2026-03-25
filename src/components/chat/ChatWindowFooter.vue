@@ -4,7 +4,7 @@ import { SendIcon, SmileIcon, PaperclipIcon, } from 'lucide-vue-next';
 </script>
 
 <template>
-	<div class="shrink-0 bg-white p-4 border-t">
+	<div class="shrink-0 bg-white p-4 app-shadow relative z-5">
 		<div class="flex justify-between items-center gap-2.5">
 			<div class="relative w-full">
 				<Button variant="ghost" size="icon" class="p-0 absolute left-2 top-2.5">
@@ -17,7 +17,7 @@ import { SendIcon, SmileIcon, PaperclipIcon, } from 'lucide-vue-next';
 				</Button>
 			</div>
 
-			<button class="w-14 h-14 bg-blue-400 rounded-[50%] flex justify-center items-center cursor-pointer shrink-0">
+			<button class="w-14 h-14 bg-blue-400 rounded-full flex justify-center items-center cursor-pointer shrink-0">
 				<SendIcon class="text-white" />
 			</button>
 		</div>
