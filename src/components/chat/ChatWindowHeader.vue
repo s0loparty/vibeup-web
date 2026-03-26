@@ -1,43 +1,68 @@
 <script setup lang="ts">
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
-import { SearchIcon, EllipsisVerticalIcon, PinIcon, ArrowLeftIcon, VolumeOffIcon, LockIcon, TrashIcon } from 'lucide-vue-next';
 import {
 	DropdownMenu,
 	DropdownMenuContent,
 	DropdownMenuItem,
+	DropdownMenuSeparator,
 	DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu'
+} from '@/components/ui/dropdown-menu';
 import {
-	Avatar,
-	AvatarFallback,
-	AvatarImage,
-} from '@/components/ui/avatar'
+	ArrowLeftIcon,
+	EllipsisVerticalIcon,
+	LockIcon,
+	PinIcon,
+	SearchIcon,
+	TrashIcon,
+	VolumeOffIcon,
+} from 'lucide-vue-next';
 </script>
 
 <template>
-	<div class="user__chat__header bg-white shrink-0 h-18 flex items-center app-shadow relative z-5">
-		<div class="flex justify-between items-center px-4 w-full">
-			<div class="flex items-center gap-2.5 w-[80%]">
-				<Button variant="ghost" class="p-0 hidden max-[925px]:block">
+	<div
+		id="user-chat-header"
+		class="app-shadow relative z-5 flex h-14 shrink-0 items-center bg-white"
+	>
+		<div class="flex w-full items-center justify-between px-2 xs:px-4">
+			<div class="flex items-center gap-2.5">
+				<Button variant="ghost" class="hidden p-0 max-[925px]:block">
 					<ArrowLeftIcon class="size-6 text-gray-500" />
 				</Button>
 				<!--аватарка-->
-				<Avatar class="size-14">
+				<Avatar class="size-11">
 					<AvatarImage src="https://github.com/shadcn.png" alt="@shadcn" />
 					<AvatarFallback>CN</AvatarFallback>
 				</Avatar>
-				<div class="flex flex-col">
-					<span>Name</span>
-					<span class="text-sm text-gray-500">last seen recently</span>
+				<div class="flex max-w-full min-w-0 flex-col">
+					<span class="truncate leading-normal font-semibold text-ellipsis">
+						Alex DarkStalker 2016
+					</span>
+					<span class="text-sm text-gray-500">был(а) в сети в 13:37</span>
 				</div>
 			</div>
-			<div class="flex justify-between items-center gap-2.5">
-				<Button variant="ghost" size="icon" class="p-0">
+			<div class="flex items-center justify-between gap-2.5">
+				<!-- pin messages -->
+				<Button
+					variant="ghost"
+					size="icon"
+					class="hidden p-0 xs:flex"
+					title="Закреплённые сообщения<"
+				>
 					<PinIcon class="size-6 text-gray-500" />
 				</Button>
-				<Button variant="ghost" size="icon" class="p-0">
+
+				<!-- search -->
+				<Button
+					variant="ghost"
+					size="icon"
+					class="hidden p-0 xs:flex"
+					title="Поиск по чату"
+				>
 					<SearchIcon class="size-6 text-gray-500" />
 				</Button>
+
+				<!-- other buttons -->
 				<DropdownMenu>
 					<DropdownMenuTrigger>
 						<Button variant="ghost" size="icon" class="p-0">
@@ -45,14 +70,18 @@ import {
 						</Button>
 					</DropdownMenuTrigger>
 					<DropdownMenuContent>
+						<DropdownMenuItem> <VolumeOffIcon />Mute </DropdownMenuItem>
+						<DropdownMenuItem> <LockIcon /> Заблокировать </DropdownMenuItem>
+
 						<DropdownMenuItem>
-							<VolumeOffIcon />Mute
-						</DropdownMenuItem>
-						<DropdownMenuItem>
-							<LockIcon /> Block user
-						</DropdownMenuItem>
+							<PinIcon /> Закреплённые сообщения</DropdownMenuItem
+						>
+						<DropdownMenuItem> <SearchIcon /> Поиск по чату </DropdownMenuItem>
+
+						<DropdownMenuSeparator />
+
 						<DropdownMenuItem class="text-red-500 hover:text-red-600!">
-							<TrashIcon />Delete Chat
+							<TrashIcon /> Удалить чат
 						</DropdownMenuItem>
 					</DropdownMenuContent>
 				</DropdownMenu>
