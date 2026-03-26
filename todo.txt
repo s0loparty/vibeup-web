@@ -6,10 +6,6 @@ Name
 Last Name
 Nick Name
 ------------------------------------------
-Notification:
-mute & message preview
-for:  private, groups, channel (changer's)
-------------------------------------------
 Data Storage:
 clear cache
 ------------------------------------------

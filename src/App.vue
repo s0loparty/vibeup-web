@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import AsideNav from './components/aside/AsideNav.vue';
-import ChatUserinfo from './components/chat-userinfo/ChatUserinfo.vue';
+// import ChatUserinfo from './components/chat-userinfo/ChatUserinfo.vue';
 import ChatWindow from './components/chat/ChatWindow.vue';
 </script>
 
@@ -9,7 +9,7 @@ import ChatWindow from './components/chat/ChatWindow.vue';
 		<div class="flex min-h-dvh">
 			<AsideNav />
 			<ChatWindow />
-			<ChatUserinfo />
+			<!-- <ChatUserinfo /> -->
 		</div>
 	</main>
 </template>
