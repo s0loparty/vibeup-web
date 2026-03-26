@@ -2,8 +2,13 @@
 import { ScrollArea } from '@/components/ui/scroll-area'
 import AsideNavHeader from './AsideNavHeader.vue';
 // import AsideNavChatlist from './AsideNavChatlist.vue';
-import AsideNavButtonCreate from './AsideNavButtonCreate.vue';
-import UserSettings from '../aside-tabs/UserSettings.vue';
+// import AsideNavButtonCreate from './AsideNavButtonCreate.vue';
+// import UserSettings from '../aside-tabs/UserSettings.vue';
+// import UserNotify from '../aside-tabs/UserNotify.vue';
+// import UserEditProfile from '../aside-tabs/UserEditProfile.vue';
+// import UserStorage from '../aside-tabs/UserStorage.vue';
+// import UserPrivacy from '../aside-tabs/UserPrivacy.vue';
+import UserGeneral from '../aside-tabs/UserGeneral.vue';
 </script>
 
 <template>
@@ -13,8 +18,13 @@ import UserSettings from '../aside-tabs/UserSettings.vue';
 			<ScrollArea class="h-full">
 				<AsideNavHeader />
 				<!-- <AsideNavChatlist /> -->
-				<UserSettings />
-				<AsideNavButtonCreate />
+				<!-- <UserSettings /> -->
+				<!-- <UserNotify /> -->
+				<!-- <UserEditProfile /> -->
+				<!-- <UserStorage /> -->
+				<!-- <UserPrivacy /> -->
+				<UserGeneral />
+				<!-- <AsideNavButtonCreate /> -->
 			</ScrollArea>
 		</div>
 	</aside>
