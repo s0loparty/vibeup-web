@@ -41,7 +41,7 @@ import {
 			<input
 				type="text"
 				placeholder="Поиск"
-				class="h-11 w-full rounded-4xl bg-gray-200 pr-2 pl-10 placeholder:font-semibold placeholder:text-gray-400"
+				class="h-11 w-full rounded-4xl bg-gray-200 pr-2 pl-10 placeholder:font-normal placeholder:text-gray-400"
 			/>
 		</div>
 	</div>

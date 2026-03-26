@@ -6,6 +6,8 @@ import '@/assets/css/tw.css';
 import App from './App.vue';
 import router from './router';
 
+import '@fontsource/roboto';
+
 const app = createApp(App);
 
 app.use(createPinia());
