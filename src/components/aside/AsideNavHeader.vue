@@ -5,12 +5,19 @@ import {
 	DropdownMenuContent,
 	DropdownMenuItem,
 	DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu'
-import { MenuIcon, SettingsIcon, BookmarkIcon, } from 'lucide-vue-next';
+} from '@/components/ui/dropdown-menu';
+import {
+	BookmarkIcon,
+	MenuIcon,
+	SearchIcon,
+	SettingsIcon,
+} from 'lucide-vue-next';
 </script>
 
 <template>
-	<div class="flex justify-between items-center px-4 gap-4 h-18 sticky top-0 bg-white">
+	<div
+		class="sticky top-0 flex h-14 items-center justify-between gap-4 bg-white px-4"
+	>
 		<DropdownMenu>
 			<DropdownMenuTrigger>
 				<Button variant="ghost" size="icon" class="p-0">
@@ -20,13 +27,22 @@ import { MenuIcon, SettingsIcon, BookmarkIcon, } from 'lucide-vue-next';
 			<!--TODO: align-offset в зависимости от ширины экрана-->
 			<DropdownMenuContent side="bottom" align="end" :align-offset="-100">
 				<DropdownMenuItem>
-					<BookmarkIcon /> Saved Messages
+					<BookmarkIcon /> Сохранённые сообщения
 				</DropdownMenuItem>
-				<DropdownMenuItem>
-					<SettingsIcon /> Settings
-				</DropdownMenuItem>
+				<DropdownMenuItem> <SettingsIcon /> Настройки </DropdownMenuItem>
 			</DropdownMenuContent>
 		</DropdownMenu>
-		<input type="text" placeholder="search_user" class="w-full bg-gray-200 rounded-[20px] px-3 py-3" />
+
+		<!-- search input -->
+		<div class="relative w-full">
+			<SearchIcon
+				class="absolute top-1/2 left-3 size-5 -translate-y-1/2 text-gray-400"
+			/>
+			<input
+				type="text"
+				placeholder="Поиск"
+				class="h-11 w-full rounded-4xl bg-gray-200 pr-2 pl-10 placeholder:font-semibold placeholder:text-gray-400"
+			/>
+		</div>
 	</div>
 </template>
