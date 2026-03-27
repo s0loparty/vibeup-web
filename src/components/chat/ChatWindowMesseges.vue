@@ -27,21 +27,13 @@ const wallpaperOptions = {
 		<ScrollArea class="relative h-full">
 			<div class="chat space-y-3 p-4">
 				<!-- Example message groups with alternating alignment -->
-				<div
-					v-for="(num, index) in 30"
-					:key="num"
-					class="message-group flex"
-					:class="index % 2 === 0 ? 'justify-end' : 'justify-start'"
-				>
-					<div
-						class="message max-w-[90%] rounded-md p-2.5 md:max-w-[70%]"
-						:class="
-							index % 2 === 0
-								? 'bg-blue-500 text-white'
-								: 'bg-white text-gray-800'
-						"
-						style="box-shadow: 0 1px 2px #10232f26"
-					>
+				<div v-for="(num, index) in 30" :key="num" class="message-group flex"
+					:class="index % 2 === 0 ? 'justify-end' : 'justify-start'">
+					<div class="message max-w-[90%] rounded-md p-2.5 md:max-w-[70%]" :class="index % 2 === 0
+							? 'bg-blue-500 text-white'
+							: 'bg-white text-gray-800'
+						" style="box-shadow: 0 1px 2px #10232f26">
+						<!--TODO: ДОБАВИТЬ ВРЕМЯ ОТПРАВКИ СООБЩЕНИЙ-->
 						Lorem ipsum dolor, sit amet consectetur adipisicing elit. Iste
 						perferendis facere dolore deserunt sunt eveniet voluptatem dolores
 						nisi id unde amet obcaecati sapiente soluta quo odit atque natus, et
@@ -63,6 +55,7 @@ const wallpaperOptions = {
 	height: 100%;
 	z-index: 0;
 }
+
 :deep(.tw-wrap) {
 	position: absolute;
 }
