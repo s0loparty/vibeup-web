@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import AsideNavChatlist from './AsideNavChatlist.vue';
+import UserChatlist from '../aside-tabs/UserChatlist.vue';
 </script>
 
 <template>
@@ -7,7 +7,7 @@ import AsideNavChatlist from './AsideNavChatlist.vue';
 	<aside
 		class="relative z-6 flex h-screen max-w-105 min-w-105 flex-col bg-accent max-[925px]:hidden"
 	>
-		<AsideNavChatlist />
+		<UserChatlist />
 		<!-- <UserSettings /> -->
 		<!-- <UserNotify /> -->
 		<!-- <UserEditProfile /> -->
