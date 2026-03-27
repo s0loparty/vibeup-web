@@ -16,7 +16,7 @@ import {
 
 <template>
 	<div
-		class="sticky top-0 flex h-14 items-center justify-between gap-4 bg-white px-4"
+		class="sticky top-0 z-10 flex h-14 items-center justify-between gap-4 bg-white px-4"
 	>
 		<DropdownMenu>
 			<DropdownMenuTrigger>

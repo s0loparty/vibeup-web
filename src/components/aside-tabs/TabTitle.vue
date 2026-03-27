@@ -1,0 +1,15 @@
+<script setup lang="ts">
+import { ArrowLeftIcon } from 'lucide-vue-next';
+import { Button } from '../ui/button';
+
+const { title } = defineProps<{ title: string }>();
+</script>
+
+<template>
+	<div class="flex w-full items-center gap-4 p-2">
+		<Button variant="ghost" class="text-gray-600">
+			<ArrowLeftIcon class="size-6" />
+		</Button>
+		<span class="text-xl font-bold">{{ title }}</span>
+	</div>
+</template>

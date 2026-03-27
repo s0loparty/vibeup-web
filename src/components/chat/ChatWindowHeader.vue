@@ -1,28 +1,14 @@
 <script setup lang="ts">
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
-import {
-	DropdownMenu,
-	DropdownMenuContent,
-	DropdownMenuItem,
-	DropdownMenuSeparator,
-	DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
-import {
-	ArrowLeftIcon,
-	EllipsisVerticalIcon,
-	LockIcon,
-	PinIcon,
-	SearchIcon,
-	TrashIcon,
-	VolumeOffIcon,
-} from 'lucide-vue-next';
+import { ArrowLeftIcon, PinIcon, SearchIcon } from 'lucide-vue-next';
+import ChatWindowHeaderOptions from './ChatWindowHeaderOptions.vue';
 </script>
 
 <template>
 	<div
 		id="user-chat-header"
-		class="app-shadow relative z-5 flex h-14 shrink-0 items-center bg-white"
+		class="relative z-5 flex h-14 shrink-0 items-center bg-white"
 	>
 		<div class="flex w-full items-center justify-between px-2 xs:px-4">
 			<div class="flex items-center gap-2.5">
@@ -47,7 +33,7 @@ import {
 					variant="ghost"
 					size="icon"
 					class="hidden p-0 xs:flex"
-					title="Закреплённые сообщения<"
+					title="Закреплённые сообщения"
 				>
 					<PinIcon class="size-6 text-gray-500" />
 				</Button>
@@ -63,28 +49,7 @@ import {
 				</Button>
 
 				<!-- other buttons -->
-				<DropdownMenu>
-					<DropdownMenuTrigger>
-						<Button variant="ghost" size="icon" class="p-0">
-							<EllipsisVerticalIcon class="size-6 text-gray-500" />
-						</Button>
-					</DropdownMenuTrigger>
-					<DropdownMenuContent>
-						<DropdownMenuItem> <VolumeOffIcon />Mute </DropdownMenuItem>
-						<DropdownMenuItem> <LockIcon /> Заблокировать </DropdownMenuItem>
-
-						<DropdownMenuItem>
-							<PinIcon /> Закреплённые сообщения</DropdownMenuItem
-						>
-						<DropdownMenuItem> <SearchIcon /> Поиск по чату </DropdownMenuItem>
-
-						<DropdownMenuSeparator />
-
-						<DropdownMenuItem class="text-red-500 hover:text-red-600!">
-							<TrashIcon /> Удалить чат
-						</DropdownMenuItem>
-					</DropdownMenuContent>
-				</DropdownMenu>
+				<ChatWindowHeaderOptions />
 			</div>
 		</div>
 	</div>

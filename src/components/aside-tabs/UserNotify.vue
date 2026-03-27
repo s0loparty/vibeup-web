@@ -1,42 +1,40 @@
 <script setup lang="ts">
-import { Button } from '../ui/button';
-import { ArrowLeftIcon } from 'lucide-vue-next';
-import { Switch } from '@/components/ui/switch'
+import { Switch } from '@/components/ui/switch';
+import BaseNavigationItem from '../base/BaseNavigationItem.vue';
+import TabTitle from './TabTitle.vue';
 </script>
 
 <template>
 	<div class="bg-white">
 		<div id="user-notify">
-			<div>
-				<div class="flex items-center gap-4 w-full py-2">
-					<Button variant="ghost">
-						<ArrowLeftIcon class="size-6" />
-					</Button>
-					<span class="font-bold text-xl">Notifications</span>
-				</div>
-				<ul class="p-2">
-					<li>
-						<Button class="flex gap-4 w-full justify-between p-4 h-auto" variant="ghost">
-							<span class="text-lg">Notifications for private chats</span>
-							<Switch />
-						</Button>
-					</li>
-					<li>
-						<Button class="flex gap-4 w-full justify-between p-4 h-auto" variant="ghost">
-							<span class="text-lg">Notifications for groups</span>
-							<Switch />
-						</Button>
-					</li>
-					<li>
-						<Button class="flex gap-4 w-full justify-between p-4 h-auto" variant="ghost">
-							<span class="text-lg">Notifications for channels</span>
-							<Switch />
-						</Button>
-					</li>
-				</ul>
+			<TabTitle title="Notifications" />
+
+			<div class="p-2">
+				<BaseNavigationItem
+					as="label"
+					for="privateChat"
+					class="justify-between text-black hover:text-black"
+				>
+					<span class="text-base"> Notifications for private chats </span>
+					<Switch id="privateChat" />
+				</BaseNavigationItem>
+				<BaseNavigationItem
+					as="label"
+					for="groups"
+					class="justify-between text-black hover:text-black"
+				>
+					<span class="text-base"> Notifications for groups </span>
+					<Switch id="groups" />
+				</BaseNavigationItem>
+				<BaseNavigationItem
+					as="label"
+					for="channels"
+					class="justify-between text-black hover:text-black"
+				>
+					<span class="text-base"> Notifications for channels </span>
+					<Switch id="channels" />
+				</BaseNavigationItem>
 			</div>
 		</div>
-
-
 	</div>
 </template>
