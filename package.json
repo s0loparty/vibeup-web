@@ -18,6 +18,7 @@
   "dependencies": {
     "@fontsource/roboto": "^5.2.10",
     "@tailwindcss/vite": "^4.2.2",
+    "@twallpaper/vue": "^2.1.2",
     "@vue/compiler-sfc": "^3.5.31",
     "@vueuse/core": "^14.2.1",
     "class-variance-authority": "^0.7.1",
