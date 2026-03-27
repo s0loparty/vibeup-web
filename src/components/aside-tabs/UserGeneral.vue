@@ -1,50 +1,56 @@
 <script setup lang="ts">
-import { Button } from '../ui/button';
-import { Slider } from '@/components/ui/slider'
-import { ArrowLeftIcon, ImageIcon, } from 'lucide-vue-next';
+import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
+import { Slider } from '@/components/ui/slider';
+import { ImageIcon } from 'lucide-vue-next';
+import BaseNavigationItem from '../base/BaseNavigationItem.vue';
+import TabTitle from './TabTitle.vue';
 </script>
 
 <template>
 	<div class="bg-white">
 		<div id="user-general">
-			<div>
-				<div class="flex items-center gap-4 w-full py-2">
-					<Button variant="ghost">
-						<ArrowLeftIcon class="size-6" />
-					</Button>
-					<span class="font-bold text-xl">General</span>
-				</div>
-			</div>
+			<TabTitle title="General" />
 
 			<div class="space-y-2.5">
-				<div class="p-2">
+				<div class="space-y-2 p-2">
 					<div class="p-4">
-						<span class="block mb-3.75">Message Text Size</span>
+						<span class="mb-3.75 block">Message Text Size</span>
 						<Slider :default-value="[50]" :max="100" :step="1" class="w-full" />
 					</div>
-					<Button class="flex gap-4 w-full justify-start p-4 h-auto" variant="ghost">
-						<ImageIcon class="size-6 text-gray-500" />
-						<span class="text-lg">Chat Wallpaper</span>
-					</Button>
+
+					<BaseNavigationItem label="Chat Wallpaper" :icon="ImageIcon" />
 				</div>
 
-
-				<div class="p-2">
-					<span class="text-blue-500 font-semibold p-4">Color theme</span>
-					<form>
-						<Button type="button" class="justify-start p-4 h-auto w-full" variant="ghost">
-							<div class="w-full flex items-center gap-4 text-left">
-								<input type="radio" id="day" name="theme" value="#">
-								<label class="w-full cursor-pointer" for="day">Day</label>
-							</div>
-						</Button>
-						<Button type="button" class="justify-start p-4 h-auto w-full" variant="ghost">
-							<div class="w-full flex items-center gap-4 text-left">
-								<input type="radio" id="night" name="theme" value="#">
-								<label class="w-full cursor-pointer" for="night">Night</label>
-							</div>
-						</Button>
-					</form>
+				<div class="space-y-2 px-2.5">
+					<div class="px-4 leading-normal font-semibold text-blue-500">
+						Color theme
+					</div>
+					<RadioGroup default-value="day">
+						<BaseNavigationItem
+							as="label"
+							for="day"
+							class="text-black hover:text-black"
+						>
+							<RadioGroupItem id="day" value="day" />
+							<span class="text-base leading-normal">Day</span>
+						</BaseNavigationItem>
+						<BaseNavigationItem
+							as="label"
+							for="night"
+							class="text-black hover:text-black"
+						>
+							<RadioGroupItem id="night" value="night" />
+							<span class="text-base leading-normal">Night</span>
+						</BaseNavigationItem>
+						<BaseNavigationItem
+							as="label"
+							for="system"
+							class="text-black hover:text-black"
+						>
+							<RadioGroupItem id="system" value="system" />
+							<span class="text-base leading-normal">System</span>
+						</BaseNavigationItem>
+					</RadioGroup>
 				</div>
 			</div>
 		</div>

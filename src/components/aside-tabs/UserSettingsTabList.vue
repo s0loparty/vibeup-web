@@ -1,51 +1,45 @@
 <script setup lang="ts">
-import { Button } from '../ui/button';
-import { BellIcon, DatabaseIcon, DoorOpenIcon, LockIcon, PencilIcon, SettingsIcon, } from 'lucide-vue-next';
+import {
+	BellIcon,
+	DatabaseIcon,
+	DoorOpenIcon,
+	LockIcon,
+	PencilIcon,
+	SettingsIcon,
+} from 'lucide-vue-next';
+import BaseNavigationItem from '../base/BaseNavigationItem.vue';
 </script>
 
 <template>
-	<div class="bg-white">
-		<ul class="p-2 space-y-2">
+	<div class="app-shadow bg-white">
+		<ul class="p-2">
 			<li>
-				<Button class="flex gap-4 w-full justify-start p-4 h-auto" variant="ghost">
-					<PencilIcon class="size-6 text-gray-500" />
-					<span class="text-lg">Edit profile</span>
-				</Button>
+				<BaseNavigationItem label="Edit profile" :icon="PencilIcon" />
 			</li>
 
 			<li>
-				<Button class="flex gap-4 w-full justify-start p-4 h-auto" variant="ghost">
-					<BellIcon class="size-6 text-gray-500" />
-					<span class="text-lg">Notification</span>
-				</Button>
+				<BaseNavigationItem label="Notification" :icon="BellIcon" />
 			</li>
 
 			<li>
-				<Button class="flex gap-4 w-full justify-start p-4 h-auto" variant="ghost">
-					<DatabaseIcon class="size-6 text-gray-500" />
-					<span class="text-lg">Data and Storage</span>
-				</Button>
+				<BaseNavigationItem label="Data and Storage" :icon="DatabaseIcon" />
 			</li>
 
 			<li>
-				<Button class="flex gap-4 w-full justify-start p-4 h-auto" variant="ghost">
-					<LockIcon class="size-6 text-gray-500" />
-					<span class="text-lg">Privacy and Security</span>
-				</Button>
+				<BaseNavigationItem label="Privacy and Security" :icon="LockIcon" />
 			</li>
 
 			<li>
-				<Button class="flex gap-4 w-full justify-start p-4 h-auto" variant="ghost">
-					<SettingsIcon class="size-6 text-gray-500" />
-					<span class="text-lg">General Settings</span>
-				</Button>
+				<BaseNavigationItem label="General Settings" :icon="SettingsIcon" />
 			</li>
 
 			<li>
-				<Button class="flex gap-4 w-full justify-start p-4 h-auto text-red-500 hover:text-red-600" variant="ghost">
-					<DoorOpenIcon class="size-6" />
-					<span class="text-lg">Log Out</span>
-				</Button>
+				<BaseNavigationItem
+					label="Log Out"
+					:icon="DoorOpenIcon"
+					class="text-red-500 hover:bg-red-100/50 hover:text-red-600"
+					label-class="text-inherit"
+				/>
 			</li>
 		</ul>
 	</div>

@@ -2,6 +2,12 @@
 @import 'tw-animate-css';
 
 @custom-variant dark (&:is(.dark *));
+/* @custom-variant dark (&:where(.dark, .dark *)); */
+
+@theme {
+	/* Добавляем xs брейкпоинт со значением 480px (30rem) */
+	--breakpoint-xs: 30rem;
+}
 
 @theme inline {
 	--radius-sm: calc(var(--radius) - 4px);
@@ -114,7 +120,24 @@
 	* {
 		@apply border-border outline-ring/50;
 	}
+
 	body {
 		@apply bg-background text-foreground;
+	}
+}
+
+@layer utilities {
+
+	/* Hide scrollbar for Chrome, Safari and Opera */
+	.no-scrollbar::-webkit-scrollbar {
+		display: none;
+	}
+
+	/* Hide scrollbar for IE, Edge and Firefox */
+	.no-scrollbar {
+		-ms-overflow-style: none;
+		/* IE and Edge */
+		scrollbar-width: none;
+		/* Firefox */
 	}
 }
