@@ -8,7 +8,7 @@ import '@twallpaper/vue/css';
 const wallpaperOptions = {
 	colors: ['#dbddbb', '#6ba587', '#d5d88d', '#88b884'],
 	tails: 120, // slower tail movement (default 90)
-	fps: 30, // animation speed
+	fps: 0, // animation speed
 	animate: false, // enable animation
 	scrollAnimate: false, // don't animate on scroll (keeps it calm while chatting)
 	pattern: {
@@ -21,7 +21,7 @@ const wallpaperOptions = {
 <template>
 	<div class="relative min-h-0 flex-1 overflow-hidden">
 		<!-- Wallpaper background -->
-		<TWallpaper :options="wallpaperOptions" class="absolute inset-0" />
+		<TWallpaper :options="wallpaperOptions" />
 
 		<!-- Content with transparent background -->
 		<ScrollArea class="relative h-full">
@@ -62,5 +62,8 @@ const wallpaperOptions = {
 	width: 100%;
 	height: 100%;
 	z-index: 0;
+}
+:deep(.tw-wrap) {
+	position: absolute;
 }
 </style>
