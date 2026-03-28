@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import LoginUser from './views/auth/LoginUser.vue';
+import RegisterUser from './views/auth/RegisterUser.vue';
 </script>
 
 <template>
@@ -9,7 +9,8 @@ import LoginUser from './views/auth/LoginUser.vue';
 			<!-- <AsideNav /> -->
 			<!-- <ChatWindow /> -->
 			<!-- <ChatUserinfo /> -->
-			<LoginUser />
+			<!-- <LoginUser /> -->
+			<RegisterUser />
 		</div>
 	</main>
 </template>
