@@ -1,16 +1,17 @@
 <script setup lang="ts">
-import RegisterUser from './views/auth/RegisterUser.vue';
+import AsideNav from './components/aside/AsideNav.vue';
+import ChatWindow from './components/chat/ChatWindow.vue';
 </script>
 
 <template>
 	<main class="app-container app-shadow">
 		<!--TODO: УСЛОВИЕ КОГДА ВСЯКИЕ АУФ РЕГИ СТАВИТЬ ПО ЦЕНТРУ-->
 		<div class="flex min-h-dvh justify-center">
-			<!-- <AsideNav /> -->
-			<!-- <ChatWindow /> -->
+			<AsideNav />
+			<ChatWindow />
 			<!-- <ChatUserinfo /> -->
 			<!-- <LoginUser /> -->
-			<RegisterUser />
+			<!-- <RegisterUser /> -->
 		</div>
 	</main>
 </template>
