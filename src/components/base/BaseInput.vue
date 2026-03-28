@@ -6,7 +6,7 @@ const model = defineModel<string | number | undefined>({ required: true });
 </script>
 
 <template>
-	<div class="relative">
+	<div class="relative bg-white">
 		<Input
 			v-model="model"
 			:id="props.id"
