@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import UserGeneralWallpaper from '../aside-tabs/UserGeneralWallpaper.vue';
+import UserPrivacyBlocked from '../aside-tabs/UserPrivacyBlocked.vue';
 </script>
 
 <template>
@@ -15,10 +15,10 @@ import UserGeneralWallpaper from '../aside-tabs/UserGeneralWallpaper.vue';
 		<!-- <UserPrivacy /> -->
 
 		<!--TODO: для блокировки сверстать меню по клику на кнопку ПЛЮС-->
-		<!-- <UserPrivacyBlocked /> -->
+		<UserPrivacyBlocked />
 
 		<!-- <UserPrivacyChangeEmail /> -->
-		<UserGeneralWallpaper />
+		<!-- <UserGeneralWallpaper /> -->
 		<!-- <UserGeneral /> -->
 		<!-- <BaseNavButton :icon="PencilIcon" /> -->
 	</aside>
