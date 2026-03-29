@@ -4,7 +4,7 @@ import BaseNavigationItem from '../base/BaseNavigationItem.vue';
 import TabTitle from './TabTitle.vue';
 </script>
 <template>
-	<div class="bg-white">
+	<div class="h-screen bg-white">
 		<div id="user-privacy">
 			<div>
 				<TabTitle title="Privacy and Security" />

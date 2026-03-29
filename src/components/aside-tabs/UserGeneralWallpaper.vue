@@ -1,14 +1,13 @@
 <script setup lang="ts">
-import { Checkbox } from '@/components/ui/checkbox';
 import { CameraIcon, RotateCcwIcon } from 'lucide-vue-next';
+import { ref } from 'vue';
+import BaseCheckbox from '../base/BaseCheckbox.vue';
 import BaseNavigationItem from '../base/BaseNavigationItem.vue';
-import Label from '../ui/label/Label.vue';
 import { ScrollArea } from '../ui/scroll-area';
 import TabTitle from './TabTitle.vue';
+import UserGeneralWallpaperList from './UserGeneralWallpaperList.vue';
 
-function getRandomColor() {
-	return '#' + Math.floor(Math.random() * 16777215).toString(16);
-}
+const isChecked = ref<boolean>(false);
 </script>
 
 <template>
@@ -25,22 +24,12 @@ function getRandomColor() {
 						/>
 
 						<!--TODO: disable checkbox before select image-->
-						<BaseNavigationItem :as="Label">
-							<Checkbox id="wallpaper" class="size-5 rounded-[5px]" />
-							<span class="text-[16px] leading-normal"
-								>Blur Wallpaper Image</span
-							>
-						</BaseNavigationItem>
+						<BaseCheckbox v-model="isChecked" label="Blur Wallpaper Image" />
 					</div>
 				</div>
-				<div class="grid grid-cols-3 gap-1 bg-white p-2">
-					<div
-						v-for="num in 30"
-						:key="num"
-						class="h-33 cursor-pointer"
-						:style="{ backgroundColor: getRandomColor() }"
-					></div>
-				</div>
+				<ul class="grid grid-cols-3 gap-1 bg-white p-2">
+					<UserGeneralWallpaperList />
+				</ul>
 			</ScrollArea>
 		</div>
 	</div>

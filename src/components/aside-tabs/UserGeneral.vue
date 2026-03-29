@@ -14,7 +14,10 @@ import TabTitle from './TabTitle.vue';
 			<div class="space-y-2.5">
 				<div class="space-y-2 p-2">
 					<div class="p-4">
-						<span class="mb-3.75 block">Message Text Size</span>
+						<div class="flex items-center justify-between">
+							<span class="mb-3.75 block">Message Text Size</span>
+							<span class="mb-3.75 block">16</span>
+						</div>
 						<Slider :default-value="[50]" :max="100" :step="1" class="w-full" />
 					</div>
 
@@ -41,14 +44,6 @@ import TabTitle from './TabTitle.vue';
 						>
 							<RadioGroupItem id="night" value="night" />
 							<span class="text-base leading-normal">Night</span>
-						</BaseNavigationItem>
-						<BaseNavigationItem
-							as="label"
-							for="system"
-							class="text-black hover:text-black"
-						>
-							<RadioGroupItem id="system" value="system" />
-							<span class="text-base leading-normal">System</span>
 						</BaseNavigationItem>
 					</RadioGroup>
 				</div>

@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { ImagePlusIcon } from 'lucide-vue-next';
 import { reactive } from 'vue';
+import BaseAvatar from '../base/BaseAvatar.vue';
 import BaseInput from '../base/BaseInput.vue';
 import BaseTextarea from '../base/BaseTextarea.vue';
 import TabTitle from './TabTitle.vue';
@@ -10,7 +10,7 @@ const form = reactive({ name: '', lastName: '', username: '', bio: '' });
 </script>
 
 <template>
-	<div class="bg-white">
+	<div class="h-screen bg-white">
 		<div id="user-edit-profile">
 			<TabTitle title="Edit Profile" />
 
@@ -18,14 +18,11 @@ const form = reactive({ name: '', lastName: '', username: '', bio: '' });
 				<div class="my-4 flex justify-center">
 					<div class="group relative">
 						<button class="block cursor-pointer">
-							<Avatar class="size-30">
-								<AvatarImage
-									class="brightness-50"
-									src="https://github.com/shadcn.png"
-									alt="@shadcn"
-								/>
-								<AvatarFallback>CN</AvatarFallback>
-							</Avatar>
+							<BaseAvatar
+								class="size-30 brightness-50"
+								name="Sueta"
+								src="https://github.com/shadcn.png"
+							/>
 						</button>
 						<ImagePlusIcon
 							class="absolute top-1/2 left-1/2 size-13 -translate-1/2 cursor-pointer text-white transition-transform duration-200 group-hover:scale-120"

@@ -26,14 +26,6 @@ import TabTitle from './TabTitle.vue';
 					<span class="text-base"> Notifications for groups </span>
 					<Switch id="groups" />
 				</BaseNavigationItem>
-				<BaseNavigationItem
-					as="label"
-					for="channels"
-					class="justify-between text-black hover:text-black"
-				>
-					<span class="text-base"> Notifications for channels </span>
-					<Switch id="channels" />
-				</BaseNavigationItem>
 			</div>
 		</div>
 	</div>

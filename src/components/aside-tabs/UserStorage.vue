@@ -5,7 +5,7 @@ import TabTitle from './TabTitle.vue';
 </script>
 
 <template>
-	<div class="bg-white">
+	<div class="h-screen bg-white">
 		<div id="user-storage">
 			<div>
 				<TabTitle title="Data and Storage" />
