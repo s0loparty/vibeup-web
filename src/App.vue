@@ -3,7 +3,7 @@ import { ref } from 'vue';
 import AsideNav from './components/aside/AsideNav.vue';
 import ChatWindow from './components/chat/ChatWindow.vue';
 
-const isAuth = ref(false);
+const isAuth = ref(true);
 </script>
 
 <template>
