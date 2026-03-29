@@ -10,6 +10,9 @@ import UserSettings from '@/components/aside-tabs/UserSettings.vue';
 import UserStorage from '@/components/aside-tabs/UserStorage.vue';
 import { direction } from '@/composables/useRouteTransition';
 import AsideLayout from '@/layouts/AsideLayout.vue';
+import AuthLayout from '@/layouts/AuthLayout.vue';
+import LoginUser from '@/views/auth/LoginUser.vue';
+import RegisterUser from '@/views/auth/RegisterUser.vue';
 import { createRouter, createWebHashHistory } from 'vue-router';
 import type {
 	GenerateRoutesMap,
@@ -18,9 +21,28 @@ import type {
 
 const routes = [
 	{
+		path: '/auth',
+		name: 'auth',
+		redirect: () => ({ path: '/auth/login' }),
+		component: AuthLayout,
+		children: [
+			{
+				path: '/auth/login',
+				component: LoginUser,
+				name: 'auth:login',
+			},
+			{
+				path: '/auth/register',
+				component: RegisterUser,
+				name: 'auth:register',
+			},
+		],
+	},
+	{
 		path: '/',
 		component: AsideLayout,
 		name: 'main',
+		meta: { auth: true },
 		children: [
 			{
 				path: '/',
