@@ -15,7 +15,7 @@ const isChecked = ref<boolean>(false);
 		<div id="user-general-wallpaper" class="flex h-full flex-col">
 			<TabTitle class="bg-white py-2.5" title="Chat Wallpaper" />
 			<ScrollArea class="min-h-0 flex-1">
-				<div class="bg-white">
+				<div class="bg-white shadow-bottom">
 					<div class="mb-5 p-2">
 						<BaseNavigationItem label="Upload Wallpaper" :icon="CameraIcon" />
 						<BaseNavigationItem
@@ -27,7 +27,7 @@ const isChecked = ref<boolean>(false);
 						<BaseCheckbox v-model="isChecked" label="Blur Wallpaper Image" />
 					</div>
 				</div>
-				<ul class="grid grid-cols-3 gap-1 bg-white p-2">
+				<ul class="grid grid-cols-3 gap-1 bg-white p-2 shadow-top">
 					<UserGeneralWallpaperList />
 				</ul>
 			</ScrollArea>

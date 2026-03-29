@@ -1,23 +1,32 @@
 <script setup lang="ts">
 import { Button } from '@/components/ui/button';
-import { SendIcon, SmileIcon, PaperclipIcon, } from 'lucide-vue-next';
+import { PaperclipIcon, SendIcon, SmileIcon } from 'lucide-vue-next';
 </script>
 
 <template>
-	<div class="shrink-0 bg-white p-4 app-shadow relative z-5">
-		<div class="flex justify-between items-center gap-2.5">
+	<div class="relative z-5 shrink-0 bg-white p-4 shadow-bottom">
+		<div class="flex items-center justify-between gap-2.5">
 			<div class="relative w-full">
-				<Button variant="ghost" size="icon" class="p-0 absolute left-2 top-2.5">
+				<Button variant="ghost" size="icon" class="absolute top-2.5 left-2 p-0">
 					<SmileIcon class="size-6 text-gray-500" />
 				</Button>
-				<textarea type="text" placeholder="Message"
-					class="w-full bg-gray-200 pt-4 px-15 rounded-[15px] block mx-auto resize-none" />
-				<Button variant="ghost" size="icon" class="p-0 absolute right-2 top-2.5">
+				<textarea
+					type="text"
+					placeholder="Message"
+					class="mx-auto block w-full resize-none rounded-[15px] bg-gray-200 px-15 pt-4"
+				/>
+				<Button
+					variant="ghost"
+					size="icon"
+					class="absolute top-2.5 right-2 p-0"
+				>
 					<PaperclipIcon class="size-6 text-gray-500" />
 				</Button>
 			</div>
 
-			<button class="w-14 h-14 bg-blue-400 rounded-full flex justify-center items-center cursor-pointer shrink-0">
+			<button
+				class="flex h-14 w-14 shrink-0 cursor-pointer items-center justify-center rounded-full bg-blue-400"
+			>
 				<SendIcon class="text-white" />
 			</button>
 		</div>

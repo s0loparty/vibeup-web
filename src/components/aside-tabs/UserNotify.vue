@@ -5,7 +5,7 @@ import TabTitle from './TabTitle.vue';
 </script>
 
 <template>
-	<div class="bg-white">
+	<div class="h-full bg-white">
 		<div id="user-notify">
 			<TabTitle title="Notifications" />
 

@@ -29,7 +29,9 @@ import {
 				<DropdownMenuItem>
 					<BookmarkIcon /> Сохранённые сообщения
 				</DropdownMenuItem>
-				<DropdownMenuItem> <SettingsIcon /> Настройки </DropdownMenuItem>
+				<DropdownMenuItem @click="$router.push('/settings')">
+					<SettingsIcon /> Настройки
+				</DropdownMenuItem>
 			</DropdownMenuContent>
 		</DropdownMenu>
 

@@ -7,7 +7,7 @@ import TabTitle from './TabTitle.vue';
 </script>
 
 <template>
-	<div class="bg-white">
+	<div class="h-full bg-white">
 		<div id="user-general">
 			<TabTitle title="General" />
 
@@ -21,7 +21,11 @@ import TabTitle from './TabTitle.vue';
 						<Slider :default-value="[50]" :max="100" :step="1" class="w-full" />
 					</div>
 
-					<BaseNavigationItem label="Chat Wallpaper" :icon="ImageIcon" />
+					<BaseNavigationItem
+						label="Chat Wallpaper"
+						:icon="ImageIcon"
+						@click="$router.push({ name: 'settings:general:wallpaper' })"
+					/>
 				</div>
 
 				<div class="space-y-2 px-2.5">
