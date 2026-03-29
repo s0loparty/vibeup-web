@@ -8,7 +8,7 @@ function getRandomColor() {
 	<li
 		v-for="num in 30"
 		:key="num"
-		class="h-33 cursor-pointer"
+		class="h-33 cursor-pointer rounded-sm"
 		:style="{ backgroundColor: getRandomColor() }"
 	></li>
 </template>

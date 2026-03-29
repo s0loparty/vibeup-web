@@ -14,12 +14,14 @@ import TabTitle from './TabTitle.vue';
 						label="Blocked Users"
 						sublabel="100 users"
 						:icon="UserXIcon"
+						@click="$router.push({ name: 'settings:privacy:blacklist' })"
 					/>
 
 					<BaseNavigationItem
 						label="Login Email"
 						sublabel="lorem-pipsum****@gmail.com"
 						:icon="MailIcon"
+						@click="$router.push({ name: 'settings:privacy:change-email' })"
 					/>
 				</div>
 			</div>

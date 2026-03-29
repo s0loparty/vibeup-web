@@ -45,3 +45,37 @@ aside::before {
 #user-chat-header {
 	box-shadow: 0 1px 5px -1px #00000036
 }
+
+
+/* ANIMATIONS */
+/* вперед (как push) */
+.slide-left-enter-active,
+.slide-left-leave-active {
+	transition: all 0.3s ease;
+	position: absolute;
+	width: 100%;
+}
+
+.slide-left-enter-from {
+	transform: translateX(100%);
+}
+
+.slide-left-leave-to {
+	transform: translateX(-100%);
+}
+
+/* назад (pop) */
+.slide-right-enter-active,
+.slide-right-leave-active {
+	transition: all 0.2s ease;
+	position: absolute;
+	width: 100%;
+}
+
+.slide-right-enter-from {
+	transform: translateX(-100%);
+}
+
+.slide-right-leave-to {
+	transform: translateX(100%);
+}

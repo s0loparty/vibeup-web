@@ -27,7 +27,7 @@ import TabTitle from './TabTitle.vue';
 					</div>
 				</div>
 
-				<div class="app-shadow p-2">
+				<div class="p-2 shadow-bottom">
 					<BaseNavigationItem
 						label="Anime T9n"
 						sublabel="Username"
