@@ -14,10 +14,11 @@ import BaseAvatar from '../base/BaseAvatar.vue';
 		</div>
 
 		<div class="w-full max-w-full min-w-0">
-			<div class="flex items-center justify-between gap-2.5">
+			<div class="flex flex-col justify-center gap-1.25">
 				<span class="truncate leading-normal font-semibold text-ellipsis">
 					Имя Человека
 				</span>
+				<span class="text-sm text-gray-400">Nick Name</span>
 			</div>
 		</div>
 	</li>

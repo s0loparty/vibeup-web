@@ -1,9 +1,15 @@
 <script setup lang="ts">
 import { PlusIcon } from 'lucide-vue-next';
+import { ref } from 'vue';
+import BaseDialog from '../base/BaseDialog.vue';
+import BaseInput from '../base/BaseInput.vue';
 import BaseNavButton from '../base/BaseNavButton.vue';
 import { ScrollArea } from '../ui/scroll-area';
 import TabTitle from './TabTitle.vue';
 import UserBlockedListItem from './UserBlockedListItem.vue';
+import UserProbBlockedList from './UserProbBlockedList.vue';
+
+const searchToBlock = ref<string>('');
 </script>
 
 <template>
@@ -24,7 +30,27 @@ import UserBlockedListItem from './UserBlockedListItem.vue';
 					</ul>
 				</ScrollArea>
 			</div>
-			<BaseNavButton :icon="PlusIcon" />
+			<BaseDialog>
+				<template #trigger>
+					<BaseNavButton :icon="PlusIcon" />
+				</template>
+				<template #title> <div>Block User</div> </template>
+				<template #description>
+					<div class="min-h-0 overflow-hidden pt-4">
+						<BaseInput
+							id="block-user"
+							v-model="searchToBlock"
+							label="User name"
+							class="mb-4"
+						/>
+						<ScrollArea class="h-screen max-h-125 flex-1">
+							<ul>
+								<UserProbBlockedList v-for="num in 30" :key="num" />
+							</ul>
+						</ScrollArea>
+					</div>
+				</template>
+			</BaseDialog>
 		</div>
 	</div>
 </template>
