@@ -1,11 +1,11 @@
 <script setup lang="ts">
-import UserPrivacyChangeEmail from '../aside-tabs/UserPrivacyChangeEmail.vue';
+import UserGeneralWallpaper from '../aside-tabs/UserGeneralWallpaper.vue';
 </script>
 
 <template>
 	<!--на 925px примерно прячем и показываем стрелочку по клику навесное меню выезжает поверх чатика-->
 	<aside
-		class="relative z-6 flex h-screen max-w-105 min-w-105 flex-col bg-accent max-[925px]:hidden"
+		class="relative z-6 h-screen max-w-105 min-w-105 bg-accent max-[925px]:hidden"
 	>
 		<!-- <UserChatList /> -->
 		<!-- <UserSettings /> -->
@@ -14,7 +14,8 @@ import UserPrivacyChangeEmail from '../aside-tabs/UserPrivacyChangeEmail.vue';
 		<!-- <UserStorage /> -->
 		<!-- <UserPrivacy /> -->
 		<!-- <UserPrivacyBlocked /> -->
-		<UserPrivacyChangeEmail />
+		<!-- <UserPrivacyChangeEmail /> -->
+		<UserGeneralWallpaper />
 		<!-- <UserGeneral /> -->
 		<!-- <AsideNavButtonCreate /> -->
 	</aside>
