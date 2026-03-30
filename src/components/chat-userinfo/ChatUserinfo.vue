@@ -24,7 +24,7 @@ import BaseNavigationItem from '../base/BaseNavigationItem.vue';
 				<span class="text-xl text-white">User Info</span>
 			</div>
 
-			<div class="min-h-90.5 w-full bg-blue-400">
+			<div class="min-h-90.5 w-full bg-brand-400">
 				<img
 					class="min-h-90.5 w-full object-cover"
 					src="https://www.giantbomb.com/a/uploads/scale_super/0/4/175752-shrek.jpg"

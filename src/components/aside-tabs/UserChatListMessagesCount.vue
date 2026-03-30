@@ -11,7 +11,7 @@ const { notifyEnable, count } = defineProps<Props>();
 	<div
 		:class="[
 			'flex h-5.5 shrink-0 items-center justify-center rounded-full px-2 text-xs font-semibold text-white',
-			notifyEnable ? 'bg-blue-500' : 'bg-gray-400/70',
+			notifyEnable ? 'bg-brand-500' : 'bg-gray-400/70',
 		]"
 	>
 		{{ count }}

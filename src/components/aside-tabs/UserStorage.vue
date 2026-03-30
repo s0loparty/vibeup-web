@@ -19,8 +19,8 @@ import TabTitle from './TabTitle.vue';
 					<BaseNavigationItem
 						label="Clear All"
 						:icon="TrashIcon"
-						class="text-blue-400 hover:text-blue-500"
-						label-class="text-blue-400 group-hover:text-blue-500"
+						class="text-brand-400 hover:text-brand-500"
+						label-class="text-brand-400 group-hover:text-brand-500"
 					/>
 				</div>
 			</div>

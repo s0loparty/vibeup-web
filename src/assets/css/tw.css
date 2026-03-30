@@ -12,6 +12,13 @@
 	--shadow-top: 0 -1px 3px 0 rgba(0, 0, 0, .06);
 	--shadow-bottom: 0 1px 3px 0 rgba(0, 0, 0, .06);
 	--shadow-box: 0 0 4px 0px rgba(0, 0, 0, .06);
+
+	/* colors */
+	--color-brand-600: color-mix(in srgb, var(--color-brand-500) 90%, black);
+	/* --color-brand-500: lab(54.1736% 13.3369 -74.6839); */
+	--color-brand-500: #78a5aa;
+	/* повторяется в src/composables/useAppColor.ts */
+	--color-brand-400: color-mix(in srgb, var(--color-brand-500) 90%, white);
 }
 
 @theme inline {
