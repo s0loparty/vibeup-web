@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { Button } from '@/components/ui/button';
-import { PaperclipIcon, SendIcon, SmileIcon } from 'lucide-vue-next';
+import { PaperclipIcon, RocketIcon, SmileIcon } from 'lucide-vue-next';
 </script>
 
 <template>
@@ -25,9 +25,13 @@ import { PaperclipIcon, SendIcon, SmileIcon } from 'lucide-vue-next';
 			</div>
 
 			<button
-				class="flex h-14 w-14 shrink-0 cursor-pointer items-center justify-center rounded-full bg-blue-400"
+				class="group flex size-12 shrink-0 cursor-pointer items-center justify-center rounded-full bg-brand-400"
 			>
-				<SendIcon class="text-white" />
+				<!-- <SendIcon class="text-white" /> -->
+				<!-- <img :src="sendicon" alt="" class="size-8" /> -->
+				<RocketIcon
+					class="text-white transition-transform group-active:scale-120"
+				/>
 			</button>
 		</div>
 	</div>

@@ -39,7 +39,7 @@ const forwarded = useForwardPropsEmits(delegatedProps, emits);
 		>
 			<SliderRange
 				data-slot="slider-range"
-				class="absolute bg-blue-400 data-[orientation=horizontal]:h-full data-[orientation=vertical]:w-full"
+				class="absolute bg-brand-400 data-[orientation=horizontal]:h-full data-[orientation=vertical]:w-full"
 			/>
 		</SliderTrack>
 
@@ -47,7 +47,7 @@ const forwarded = useForwardPropsEmits(delegatedProps, emits);
 			v-for="(_, key) in modelValue"
 			:key="key"
 			data-slot="slider-thumb"
-			class="block size-3 shrink-0 cursor-pointer rounded-full border border-blue-400 bg-blue-400 shadow-sm ring-ring/50 transition-[color,box-shadow] focus-visible:ring-4 focus-visible:outline-hidden active:ring-2 active:ring-blue-400 disabled:pointer-events-none disabled:opacity-50"
+			class="block size-3 shrink-0 cursor-pointer rounded-full border border-brand-400 bg-brand-400 shadow-sm ring-ring/50 transition-[color,box-shadow] focus-visible:ring-4 focus-visible:outline-hidden active:ring-2 active:ring-brand-400 disabled:pointer-events-none disabled:opacity-50"
 		/>
 	</SliderRoot>
 </template>

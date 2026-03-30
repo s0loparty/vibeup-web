@@ -2,8 +2,13 @@
 import { ref } from 'vue';
 import AsideNav from './components/aside/AsideNav.vue';
 import ChatWindow from './components/chat/ChatWindow.vue';
+import { useAppColor } from './composables/useAppColor';
+
+const appColor = useAppColor();
 
 const isAuth = ref(true);
+
+appColor.setHtmlColor();
 </script>
 
 <template>

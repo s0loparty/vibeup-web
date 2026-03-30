@@ -21,18 +21,18 @@ const forwardedProps = useForwardProps(delegatedProps);
 		v-bind="forwardedProps"
 		:class="
 			cn(
-				'aspect-square size-5 shrink-0 rounded-full border-2 border-blue-500 text-primary shadow-xs transition-[color,box-shadow] outline-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 disabled:cursor-not-allowed disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-destructive/20 dark:bg-input/30 dark:aria-invalid:ring-destructive/40',
+				'aspect-square size-5 shrink-0 rounded-full border-2 border-brand-500 text-primary shadow-xs transition-[color,box-shadow] outline-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 disabled:cursor-not-allowed disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-destructive/20 dark:bg-input/30 dark:aria-invalid:ring-destructive/40',
 				props.class,
 			)
 		"
 	>
 		<RadioGroupIndicator
 			data-slot="radio-group-indicator"
-			class="relative flex items-center justify-center text-blue-500"
+			class="relative flex items-center justify-center text-brand-500"
 		>
 			<slot>
 				<CircleIcon
-					class="absolute top-1/2 left-1/2 size-3 -translate-x-1/2 -translate-y-1/2 fill-blue-500"
+					class="absolute top-1/2 left-1/2 size-3 -translate-x-1/2 -translate-y-1/2 fill-brand-500"
 				/>
 			</slot>
 		</RadioGroupIndicator>
