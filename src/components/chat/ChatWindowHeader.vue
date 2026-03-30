@@ -1,8 +1,12 @@
 <script setup lang="ts">
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
+import { useUserInfoStore } from '@/stores/userInfoStore';
 import { ArrowLeftIcon, PinIcon, SearchIcon } from 'lucide-vue-next';
+import { storeToRefs } from 'pinia';
+import BaseAvatar from '../base/BaseAvatar.vue';
 import ChatWindowHeaderOptions from './ChatWindowHeaderOptions.vue';
+
+const { showPanel } = storeToRefs(useUserInfoStore());
 </script>
 
 <template>
@@ -11,15 +15,19 @@ import ChatWindowHeaderOptions from './ChatWindowHeaderOptions.vue';
 		class="relative z-5 flex h-14 shrink-0 items-center bg-white"
 	>
 		<div class="flex w-full items-center justify-between px-2 xs:px-4">
-			<div class="flex items-center gap-2.5">
+			<div
+				class="flex cursor-pointer items-center gap-2.5"
+				@click="showPanel = true"
+			>
 				<Button variant="ghost" class="hidden p-0 max-[925px]:block">
 					<ArrowLeftIcon class="size-6 text-gray-500" />
 				</Button>
 				<!--аватарка-->
-				<Avatar class="size-11">
-					<AvatarImage src="https://github.com/shadcn.png" alt="@shadcn" />
-					<AvatarFallback>CN</AvatarFallback>
-				</Avatar>
+				<BaseAvatar
+					src="https://github.com/shadcn.png"
+					name="avatar"
+					class="size-11"
+				/>
 				<div class="flex max-w-full min-w-0 flex-col">
 					<span class="truncate leading-normal font-semibold text-ellipsis">
 						Alex DarkStalker 2016
@@ -27,6 +35,7 @@ import ChatWindowHeaderOptions from './ChatWindowHeaderOptions.vue';
 					<span class="text-sm text-gray-500">был(а) в сети в 13:37</span>
 				</div>
 			</div>
+
 			<div class="flex items-center justify-between gap-2.5">
 				<!-- pin messages -->
 				<Button

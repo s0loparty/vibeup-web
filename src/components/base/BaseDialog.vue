@@ -22,7 +22,7 @@ const slots = defineSlots<Slots>();
 		<DialogTrigger>
 			<slot name="trigger"></slot>
 		</DialogTrigger>
-		<DialogContent>
+		<DialogContent class="p-4">
 			<DialogHeader>
 				<DialogTitle v-if="slots.title">
 					<slot name="title"></slot>
