@@ -1,15 +1,14 @@
 <script setup lang="ts">
 import { Button } from '@/components/ui/button';
-import { PaperclipIcon, RocketIcon, SmileIcon } from 'lucide-vue-next';
+import { PaperclipIcon, RocketIcon } from 'lucide-vue-next';
+import BaseEmojiPicker from '../base/BaseEmojiPicker.vue';
 </script>
 
 <template>
 	<div class="relative z-5 shrink-0 bg-white p-4 shadow-bottom">
 		<div class="flex items-center justify-between gap-2.5">
 			<div class="relative w-full">
-				<Button variant="ghost" size="icon" class="absolute top-2.5 left-2 p-0">
-					<SmileIcon class="size-6 text-gray-500" />
-				</Button>
+				<BaseEmojiPicker />
 				<textarea
 					type="text"
 					placeholder="Message"
