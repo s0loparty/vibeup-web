@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import AsideNav from '@/modules/aside/pages/AsideNav.vue';
 import ChatUserinfo from '@/modules/chat/chat-userinfo/ChatUserinfo.vue';
 import ChatWindow from '@/modules/chat/ChatWindow.vue';
 import { ref } from 'vue';
@@ -19,7 +18,7 @@ appColor.setHtmlColor();
 	>
 		<!--TODO: УСЛОВИЕ КОГДА ВСЯКИЕ АУФ РЕГИ СТАВИТЬ ПО ЦЕНТРУ-->
 		<div class="relative flex min-h-dvh justify-center">
-			<AsideNav />
+			<RouterView />
 			<ChatWindow />
 			<ChatUserinfo />
 		</div>
