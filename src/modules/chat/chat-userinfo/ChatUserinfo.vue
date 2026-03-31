@@ -9,11 +9,11 @@ import {
 	TabsList,
 	TabsTrigger,
 } from '@/app/components/ui/tabs';
-import { useUserInfoStore } from '@/app/stores/userInfoStore';
+import { useAppMenuStore } from '@/app/stores/useAppMenuStore';
 import { AtSignIcon, BellIcon, XIcon } from 'lucide-vue-next';
 import { storeToRefs } from 'pinia';
 
-const { showPanel } = storeToRefs(useUserInfoStore());
+const { showUserInfo } = storeToRefs(useAppMenuStore());
 </script>
 
 <template>
@@ -26,9 +26,9 @@ const { showPanel } = storeToRefs(useUserInfoStore());
 		leave-to-class="translate-x-full opacity-0"
 	>
 		<div
-			v-if="showPanel"
+			v-if="showUserInfo"
 			style="box-shadow: 0 0.25rem 0.5rem 0.1rem #0003"
-			class="absolute top-0 right-0 z-99 flex h-full w-sm shrink-0 flex-col bg-gray-400 shadow-bottom"
+			class="absolute top-0 right-0 z-99 flex h-full w-sm shrink-0 flex-col bg-gray-100 shadow-bottom max-md:max-w-full"
 		>
 			<!-- avatar + user info -->
 			<div class="relative shrink-0">
@@ -39,16 +39,16 @@ const { showPanel } = storeToRefs(useUserInfoStore());
 					<Button
 						variant="ghost"
 						class="text-white hover:bg-white/30 hover:text-white"
-						@click="showPanel = false"
+						@click="showUserInfo = false"
 					>
 						<XIcon class="size-6" />
 					</Button>
 					<span class="text-xl text-white">User Info</span>
 				</div>
 
-				<div class="min-h-90.5 w-full bg-brand-400">
+				<div class="min-h-90.5 w-full bg-brand-400 max-sm:min-h-70">
 					<img
-						class="min-h-90.5 w-full object-cover"
+						class="min-h-90.5 w-full object-cover max-sm:min-h-70"
 						src="https://www.giantbomb.com/a/uploads/scale_super/0/4/175752-shrek.jpg"
 						alt=""
 					/>

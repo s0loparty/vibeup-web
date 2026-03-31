@@ -1,12 +1,12 @@
 <script setup lang="ts">
 import BaseAvatar from '@/app/components/base/BaseAvatar.vue';
 import { Button } from '@/app/components/ui/button';
-import { useUserInfoStore } from '@/app/stores/userInfoStore';
+import { useAppMenuStore } from '@/app/stores/useAppMenuStore';
 import { ArrowLeftIcon, PinIcon, SearchIcon } from 'lucide-vue-next';
 import { storeToRefs } from 'pinia';
 import ChatWindowHeaderOptions from './ChatWindowHeaderOptions.vue';
 
-const { showPanel } = storeToRefs(useUserInfoStore());
+const { showUserInfo, showAside } = storeToRefs(useAppMenuStore());
 </script>
 
 <template>
@@ -14,14 +14,18 @@ const { showPanel } = storeToRefs(useUserInfoStore());
 		id="user-chat-header"
 		class="relative z-5 flex h-14 shrink-0 items-center bg-white"
 	>
+		<Button
+			@click="showAside = !showAside"
+			variant="ghost"
+			class="hidden p-0 max-lg:block"
+		>
+			<ArrowLeftIcon class="size-6 text-gray-500" />
+		</Button>
 		<div class="flex w-full items-center justify-between px-2 xs:px-4">
 			<div
 				class="flex cursor-pointer items-center gap-2.5"
-				@click="showPanel = true"
+				@click="showUserInfo = true"
 			>
-				<Button variant="ghost" class="hidden p-0 max-[925px]:block">
-					<ArrowLeftIcon class="size-6 text-gray-500" />
-				</Button>
 				<!--аватарка-->
 				<BaseAvatar
 					src="https://github.com/shadcn.png"
