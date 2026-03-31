@@ -1,39 +1,61 @@
 src/
+├─ app/                        # ядро приложения
+│   ├─ App.vue
+│   ├─ main.ts
+│   ├─ router/
+│   │   ├─ index.ts            # корневой роутер, собирает все модули
+│   │   └─ guards.ts           # middleware/guards для роутов
+│   ├─ store/
+│   │   └─ index.ts            # глобальный стор (если нужен)
+│   ├─ layout/
+│   │   ├─ DefaultLayout.vue   # базовый layout админки
+│   │   └─ AuthLayout.vue      # layout для логина/регистрации
+│   └─ components/             # глобальные UI-компоненты (кнопки, таблицы)
 │
-├── app/
-│   ├── router/
-│   ├── layouts/
-│   ├── providers/
-│   │   ├── query-client.ts
-│   │   └── form.ts
-│
-├── shared/
-│   ├── api/
-│   │   └── generated/
+├─ modules/                    # бизнес-модули
+│   ├─ users/
+│   │   ├─ pages/              # Vue-страницы
+│   │   │   ├─ UsersList.vue
+│   │   │   └─ UserEdit.vue
+│   │   ├─ query/              # query композаблы для tanstak/use-query
+│   │   │   └─ usePageQuery.ts
+│   │   │   └─ usePagesQuery.ts
+│   │   │   └─ useEditPageMutation.ts
+│   │   │   └─ EventCreate.vue
+│   │   ├─ components/         # компоненты только для users
+│   │   ├─ store/              # pinia или самописные store
+│   │   │   └─ users.store.ts
+│   │   ├─ api/                # слой API для пользователей
+│   │   │   └─ users.api.ts
+│   │   └─ routes.ts           # локальные роуты модуля
 │   │
-│   ├── lib/
-│   │   ├── query/
-│   │   ├── form/
-│   │   └── utils/
+│   ├─ events/
+│   │   ├─ pages/
+│   │   │   ├─ EventsList.vue
+│   │   │   └─ EventCreate.vue
+│   │   ├─ store/
+│   │   │   └─ events.store.ts
+│   │   ├─ api/
+│   │   │   └─ events.api.ts
+│   │   └─ routes.ts
 │   │
-│   ├── validation/
-│   └── ui/
+│   └─ settings/
+│       ├─ pages/
+│       │   └─ SettingsPage.vue
+│       ├─ store/
+│       │   └─ settings.store.ts
+│       └─ routes.ts
 │
-├── modules/
-│   ├── chat/
-│   │   ├── useChat.ts
-│   │   ├── chat.api.ts
-│   │   ├── chat.schemas.ts
-│   │   ├── chat.forms.ts
-│   │   ├── Chat.vue
-│   │   └── ChatUserInfo.vue
-│   │
-│   ├── user/
-│   └── auth/
+├─ shared/                     # кросс-модульные утилиты и хуки
+│   ├─ utils/
+│   │   └─ formatDate.ts
+│   ├─ composables/
+│   │   └─ useFetch.ts
+│   └─ types/
+│       └─ common.ts
 │
-├── pages/
-│   ├── HomePage.vue
-│   └── ChatPage.vue
-│
-├── App.vue
-└── main.ts
+└─ assets/
+    ├─ styles/
+    │   ├─ tailwind.css
+    │   └─ variables.scss
+    └─ images/
