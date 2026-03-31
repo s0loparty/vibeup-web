@@ -9,7 +9,7 @@ const textModel = ref('');
 </script>
 
 <template>
-	<div class="shrink-0 p-4 pt-0">
+	<div class="mx-auto w-full max-w-175 shrink-0 p-4 pt-0">
 		<div class="flex items-center justify-between gap-2.5">
 			<div class="relative w-full">
 				<BaseEmojiPicker />

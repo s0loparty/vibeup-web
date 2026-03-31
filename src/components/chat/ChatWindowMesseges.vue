@@ -22,7 +22,7 @@ const { showScrollBtn, handleScroll, scrollToBottom } =
 			ref="scrollAreaRef"
 			class="relative h-full"
 		>
-			<div class="chat space-y-3 p-4">
+			<div class="chat mx-auto max-w-175 space-y-3 p-4">
 				<!-- Example message groups with alternating alignment -->
 				<div
 					v-for="(num, index) in 30"

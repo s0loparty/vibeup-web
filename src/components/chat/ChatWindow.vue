@@ -12,12 +12,8 @@ import ChatWindowWallpaper from './ChatWindowWallpaper.vue';
 		<div class="flex h-full flex-col">
 			<ChatWindowWallpaper />
 			<ChatWindowHeader />
-			<div
-				class="relative mx-auto flex h-full max-w-175 flex-col overflow-hidden"
-			>
-				<ChatWindowMesseges />
-				<ChatWindowFooter />
-			</div>
+			<ChatWindowMesseges />
+			<ChatWindowFooter />
 		</div>
 	</section>
 </template>
