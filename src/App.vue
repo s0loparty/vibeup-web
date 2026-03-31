@@ -12,7 +12,11 @@ appColor.setHtmlColor();
 </script>
 
 <template>
-	<main v-if="isAuth" class="app-container overflow-x-hidden shadow-bottom">
+	<main
+		v-if="isAuth"
+		class="app-container overflow-x-hidden"
+		style="box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.1)"
+	>
 		<!--TODO: УСЛОВИЕ КОГДА ВСЯКИЕ АУФ РЕГИ СТАВИТЬ ПО ЦЕНТРУ-->
 		<div class="relative flex min-h-dvh justify-center">
 			<AsideNav />
