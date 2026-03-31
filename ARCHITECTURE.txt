@@ -1,0 +1,39 @@
+src/
+│
+├── app/
+│   ├── router/
+│   ├── layouts/
+│   ├── providers/
+│   │   ├── query-client.ts
+│   │   └── form.ts
+│
+├── shared/
+│   ├── api/
+│   │   └── generated/
+│   │
+│   ├── lib/
+│   │   ├── query/
+│   │   ├── form/
+│   │   └── utils/
+│   │
+│   ├── validation/
+│   └── ui/
+│
+├── modules/
+│   ├── chat/
+│   │   ├── useChat.ts
+│   │   ├── chat.api.ts
+│   │   ├── chat.schemas.ts
+│   │   ├── chat.forms.ts
+│   │   ├── Chat.vue
+│   │   └── ChatUserInfo.vue
+│   │
+│   ├── user/
+│   └── auth/
+│
+├── pages/
+│   ├── HomePage.vue
+│   └── ChatPage.vue
+│
+├── App.vue
+└── main.ts
