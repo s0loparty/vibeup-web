@@ -1,23 +1,23 @@
 <script setup lang="ts">
 import { Button } from '@/components/ui/button';
 import { PaperclipIcon, RocketIcon } from 'lucide-vue-next';
+import { ref } from 'vue';
 import BaseEmojiPicker from '../base/BaseEmojiPicker.vue';
+import ChatWindowTextField from './ChatWindowTextField.vue';
+
+const textModel = ref('');
 </script>
 
 <template>
-	<div class="relative z-5 shrink-0 bg-white p-4 shadow-bottom">
+	<div class="mx-auto w-full max-w-175 shrink-0 p-4 pt-0">
 		<div class="flex items-center justify-between gap-2.5">
 			<div class="relative w-full">
 				<BaseEmojiPicker />
-				<textarea
-					type="text"
-					placeholder="Message"
-					class="mx-auto block w-full resize-none rounded-[15px] bg-gray-200 px-15 pt-4"
-				/>
+				<ChatWindowTextField v-model.trim="textModel" />
 				<Button
 					variant="ghost"
 					size="icon"
-					class="absolute top-2.5 right-2 p-0"
+					class="absolute right-2 bottom-2.5 p-0"
 				>
 					<PaperclipIcon class="size-6 text-gray-500" />
 				</Button>

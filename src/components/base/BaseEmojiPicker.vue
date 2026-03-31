@@ -25,13 +25,17 @@ const isOpen = ref(false);
 <template>
 	<Popover v-model:open="isOpen">
 		<PopoverTrigger as-child>
-			<Button variant="ghost" size="icon" class="absolute top-2.5 left-2 p-0">
+			<Button
+				variant="ghost"
+				size="icon"
+				class="absolute bottom-2.5 left-2 z-10 p-0"
+			>
 				<SmileIcon class="size-6 text-gray-500" />
 			</Button>
 		</PopoverTrigger>
 		<PopoverContent class="w-fit rounded-xl p-0">
 			<EmojiPicker
-				class="h-[342px] !border-none !shadow-none"
+				class="h-85.5 border-none! shadow-none!"
 				@emoji-select="handleEmojiSelect"
 			>
 				<EmojiPickerSearch />
