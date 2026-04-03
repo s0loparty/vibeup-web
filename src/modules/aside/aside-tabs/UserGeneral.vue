@@ -13,7 +13,7 @@ const { appColor, resetColor } = useAppColor();
 
 <template>
 	<div class="h-full bg-white">
-		<div id="user-general">
+		<div id="user-general" v-if="$route.name === 'settings:general'">
 			<TabTitle title="General" />
 
 			<div class="space-y-2 px-2">
@@ -70,5 +70,9 @@ const { appColor, resetColor } = useAppColor();
 				</div>
 			</div>
 		</div>
+
+		<RouterView v-slot="{ Component }" v-else>
+			<component :is="Component"></component>
+		</RouterView>
 	</div>
 </template>

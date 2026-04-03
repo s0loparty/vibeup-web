@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import BaseNavigationItem from '@/app/components/base/BaseNavigationItem.vue';
 import { ScrollArea } from '@/app/components/ui/scroll-area';
+import { useLogoutMutation } from '@/app/query/auth/useLogoutMutation';
 import {
 	BellIcon,
 	DatabaseIcon,
@@ -9,6 +10,8 @@ import {
 	PencilIcon,
 	SettingsIcon,
 } from 'lucide-vue-next';
+
+const { mutate: logout } = useLogoutMutation();
 </script>
 
 <template>
@@ -19,7 +22,7 @@ import {
 					<BaseNavigationItem
 						label="Edit profile"
 						:icon="PencilIcon"
-						@click="$router.push('/settings/profile-edit')"
+						@click="$router.push({ name: 'settings:profile-edit' })"
 					/>
 				</li>
 
@@ -27,7 +30,7 @@ import {
 					<BaseNavigationItem
 						label="Notification"
 						:icon="BellIcon"
-						@click="$router.push('/settings/notify')"
+						@click="$router.push({ name: 'settings:notify' })"
 					/>
 				</li>
 
@@ -61,6 +64,7 @@ import {
 						:icon="DoorOpenIcon"
 						class="text-red-500 hover:bg-red-100/50 hover:text-red-600"
 						label-class="text-inherit"
+						@click="logout"
 					/>
 				</li>
 			</ul>

@@ -8,7 +8,7 @@ const model = defineModel<string | number | undefined>({ required: true });
 <template>
 	<div class="relative bg-white">
 		<Input
-			v-model="model"
+			v-model.trim="model"
 			:id="props.id"
 			type="text"
 			class="peer"
