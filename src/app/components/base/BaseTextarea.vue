@@ -56,19 +56,29 @@ onMounted(() => {
 
 <template>
 	<div class="relative">
-		<div ref="editableDiv" contenteditable="true" :class="[
-			'no-scrollbar min-h-20 w-full overflow-auto rounded-md border px-4 py-2 transition-colors',
-			'peer',
-			isFocused
-				? 'border-brand-500 outline-1 outline-brand-500'
-				: 'border-gray-300',
-		]" @input="handleInput" @focus="handleFocus" @blur="handleBlur"></div>
-		<label :for="id" class="pointer-events-none absolute left-3 h-auto bg-white px-1 text-gray-500 transition-all"
+		<div
+			ref="editableDiv"
+			contenteditable="true"
+			:class="[
+				'no-scrollbar min-h-20 w-full overflow-auto rounded-md border px-4 py-2 transition-colors',
+				'peer',
+				isFocused
+					? 'border-brand-500 outline-1 outline-brand-500'
+					: 'border-gray-300',
+			]"
+			@input="handleInput"
+			@focus="handleFocus"
+			@blur="handleBlur"
+		></div>
+		<label
+			:for="id"
+			class="pointer-events-none absolute left-3 h-auto bg-white px-1 text-gray-500 transition-all"
 			:class="{
 				'-top-2.5 text-sm': isFocused || hasContent,
 				'text-brand-500': isFocused,
 				'top-4 text-base text-gray-400': !isFocused && !hasContent,
-			}">
+			}"
+		>
 			{{ label }}
 		</label>
 	</div>

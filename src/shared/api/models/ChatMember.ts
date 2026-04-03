@@ -7,19 +7,18 @@ import type { User } from './User';
  * Участник чата
  */
 export type ChatMember = {
-    user_id: number;
-    chat_id: number;
-    role: ChatMember.role;
-    last_read_message_id?: number | null;
-    created_at?: string;
-    updated_at?: string;
-    user?: User | null;
+	user_id: number;
+	chat_id: number;
+	role: ChatMember.role;
+	last_read_message_id?: number | null;
+	created_at?: string;
+	updated_at?: string;
+	user?: User | null;
 };
 export namespace ChatMember {
-    export enum role {
-        OWNER = 'owner',
-        MODERATOR = 'moderator',
-        MEMBER = 'member',
-    }
+	export enum role {
+		OWNER = 'owner',
+		MODERATOR = 'moderator',
+		MEMBER = 'member',
+	}
 }
-
