@@ -2,7 +2,6 @@
 /* istanbul ignore file */
 /* tslint:disable */
 
-import { AUTH_TOKEN } from '@/app/constants/auth';
 import type { ApiRequestOptions } from './ApiRequestOptions';
 
 type Resolver<T> = (options: ApiRequestOptions) => Promise<T>;
@@ -25,7 +24,7 @@ export const OpenAPI: OpenAPIConfig = {
 	VERSION: '1.0.0',
 	WITH_CREDENTIALS: false,
 	CREDENTIALS: 'include',
-	TOKEN: localStorage.getItem(AUTH_TOKEN) || '',
+	TOKEN: undefined,
 	USERNAME: undefined,
 	PASSWORD: undefined,
 	HEADERS: undefined,

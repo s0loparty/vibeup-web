@@ -1,4 +1,3 @@
-import { OpenAPI } from '@/shared/api';
 import { type User } from '@/shared/api/models/User';
 import { useLocalStorage } from '@vueuse/core';
 import { defineStore } from 'pinia';
@@ -15,7 +14,6 @@ export const useAuthStore = defineStore('auth', () => {
 
 	function setToken(newToken: string) {
 		token.value = newToken;
-		OpenAPI.TOKEN = token.value;
 	}
 
 	function setUser(newUser: User) {

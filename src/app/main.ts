@@ -5,6 +5,9 @@ import { createApp } from 'vue';
 import '@/assets/css/app.css';
 import '@/assets/css/tw.css';
 
+// Initialize API client (sets up axios interceptors for auth tokens)
+import './client/api';
+
 import App from './App.vue';
 import router from './router';
 
