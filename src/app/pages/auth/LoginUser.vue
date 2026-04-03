@@ -3,12 +3,18 @@ import BaseInput from '@/app/components/base/BaseInput.vue';
 import { Button } from '@/app/components/ui/button';
 import { Checkbox } from '@/app/components/ui/checkbox';
 import { Label } from '@/app/components/ui/label';
+import { useLoginMutation } from '@/app/query/auth/useLoginMutation';
+import logo from '@/assets/logo.webp';
 import { ref } from 'vue';
 
-import logo from '@/assets/logo.webp';
+const { mutate: login, isPending } = useLoginMutation();
 
 const email = ref('');
 const password = ref('');
+
+function onLogin() {
+	login({ email: email.value, password: password.value });
+}
 </script>
 
 <template>
@@ -17,7 +23,7 @@ const password = ref('');
 
 		<div class="rounded-lg bg-white p-4 shadow-lg">
 			<h6 class="mb-5 text-center text-2xl font-semibold">Вход в аккаунт</h6>
-			<form class="space-y-5">
+			<form class="space-y-5" @submit.prevent="onLogin">
 				<BaseInput v-model="email" id="email" label="Email" />
 				<BaseInput v-model="password" id="password" label="Password" />
 				<div class="flex items-center justify-between">
@@ -30,6 +36,7 @@ const password = ref('');
 					</a>
 				</div>
 				<Button
+					:is-loading="isPending"
 					class="h-12 w-full bg-brand-500 text-base text-white transition-colors hover:bg-brand-600"
 					variant="secondary"
 				>

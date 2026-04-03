@@ -5,7 +5,7 @@ import TabTitle from './TabTitle.vue';
 </script>
 
 <template>
-	<div class="settings-header bg-white">
+	<div class="settings-header bg-white" v-if="$route.name === 'settings:index'">
 		<div class="settings-header-top">
 			<div>
 				<TabTitle title="Settings" />

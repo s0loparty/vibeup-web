@@ -6,7 +6,7 @@ import TabTitle from './TabTitle.vue';
 <template>
 	<div class="h-screen bg-white">
 		<div id="user-privacy">
-			<div>
+			<div v-if="$route.name === 'settings:privacy'">
 				<TabTitle title="Privacy and Security" />
 
 				<div class="p-2">
@@ -25,6 +25,10 @@ import TabTitle from './TabTitle.vue';
 					/>
 				</div>
 			</div>
+
+			<RouterView v-slot="{ Component }" v-else>
+				<component :is="Component" />
+			</RouterView>
 		</div>
 	</div>
 </template>
