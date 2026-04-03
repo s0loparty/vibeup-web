@@ -35,9 +35,7 @@ function getTransition() {
 		>
 			<RouterView v-slot="{ Component, route }">
 				<Transition :name="getTransition()">
-					<KeepAlive>
-						<component :is="Component" :key="route.fullPath" />
-					</KeepAlive>
+					<component :is="Component" :key="route.fullPath" />
 				</Transition>
 			</RouterView>
 		</aside>

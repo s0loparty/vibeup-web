@@ -9,7 +9,7 @@ const { showAside } = storeToRefs(useAppMenuStore());
 </script>
 
 <template>
-	<div class="min-h-0 flex-1 overflow-hidden">
+	<div id="user-chat-list" class="min-h-0 flex-1 overflow-hidden">
 		<AsideNavHeader />
 
 		<!-- 56px - высота шапки -->

@@ -4,12 +4,14 @@ import UserEditProfile from '@/modules/aside/aside-tabs/UserEditProfile.vue';
 import UserGeneral from '@/modules/aside/aside-tabs/UserGeneral.vue';
 import UserGeneralWallpaper from '@/modules/aside/aside-tabs/UserGeneralWallpaper.vue';
 import UserNotify from '@/modules/aside/aside-tabs/UserNotify.vue';
-import UserPrivacy from '@/modules/aside/aside-tabs/UserPrivacy.vue';
 import UserPrivacyBlacklist from '@/modules/aside/aside-tabs/UserPrivacyBlacklist.vue';
 import UserPrivacyChangeEmail from '@/modules/aside/aside-tabs/UserPrivacyChangeEmail.vue';
-import UserSettings from '@/modules/aside/aside-tabs/UserSettings.vue';
 import UserStorage from '@/modules/aside/aside-tabs/UserStorage.vue';
 import { type NamedRouteRecordRaw } from 'vue-routes-to-types';
+import UserSettingsGeneralPage from '../pages/UserSettingsGeneralPage.vue';
+import UserSettingsPage from '../pages/UserSettingsPage.vue';
+import UserSettingsPrivacyPage from '../pages/UserSettingsPrivacyPage.vue';
+import UserPrivacy from './aside-tabs/UserPrivacy.vue';
 import UserSettingsTabList from './aside-tabs/UserSettingsTabList.vue';
 
 export default [
@@ -27,65 +29,80 @@ export default [
 			},
 			{
 				path: 'settings',
-				component: UserSettings,
+				component: UserSettingsPage,
 				name: 'settings',
 				meta: { level: 2 },
+				redirect: { name: 'settings:index' },
 				children: [
 					{
 						path: '',
 						component: UserSettingsTabList,
 						name: 'settings:index',
-						meta: { level: 2 },
+						meta: { level: 3 },
 					},
 					{
 						path: 'profile-edit',
 						component: UserEditProfile,
 						name: 'settings:profile-edit',
-						meta: { level: 3 },
+						meta: { level: 4 },
 					},
 					{
 						path: 'notify',
 						component: UserNotify,
 						name: 'settings:notify',
-						meta: { level: 3 },
+						meta: { level: 4 },
 					},
 					{
 						path: 'storage',
 						component: UserStorage,
 						name: 'settings:storage',
-						meta: { level: 3 },
+						meta: { level: 4 },
 					},
 					{
 						path: 'privacy',
-						component: UserPrivacy,
+						component: UserSettingsPrivacyPage,
 						name: 'settings:privacy',
-						meta: { level: 3 },
+						meta: { level: 4 },
+						redirect: { name: 'settings:privacy.index' },
 						children: [
+							{
+								path: '',
+								component: UserPrivacy,
+								name: 'settings:privacy.index',
+								meta: { level: 4 },
+							},
 							{
 								path: 'change-email',
 								component: UserPrivacyChangeEmail,
 								name: 'settings:privacy:change-email',
-								meta: { level: 4 },
+								meta: { level: 5 },
 							},
 							{
 								path: 'blacklist',
 								component: UserPrivacyBlacklist,
 								name: 'settings:privacy:blacklist',
-								meta: { level: 4 },
+								meta: { level: 5 },
 							},
 						],
 					},
 					{
 						path: 'general',
-						component: UserGeneral,
+						component: UserSettingsGeneralPage,
 						name: 'settings:general',
-						meta: { level: 3 },
+						meta: { level: 4 },
+						redirect: { name: 'settings:general:index' },
 						children: [
+							{
+								path: '',
+								component: UserGeneral,
+								name: 'settings:general:index',
+								meta: { level: 4 },
+							},
 							{
 								path: 'wallpaper',
 								component: UserGeneralWallpaper,
 								name: 'settings:general:wallpaper',
-								meta: { level: 4 },
+								meta: { level: 5 },
 							},
 						],
 					},

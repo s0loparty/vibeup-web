@@ -6,29 +6,23 @@ import TabTitle from './TabTitle.vue';
 <template>
 	<div class="h-screen bg-white">
 		<div id="user-privacy">
-			<div v-if="$route.name === 'settings:privacy'">
-				<TabTitle title="Privacy and Security" />
+			<TabTitle title="Privacy and Security" />
 
-				<div class="p-2">
-					<BaseNavigationItem
-						label="Blocked Users"
-						sublabel="100 users"
-						:icon="UserXIcon"
-						@click="$router.push({ name: 'settings:privacy:blacklist' })"
-					/>
+			<div class="p-2">
+				<BaseNavigationItem
+					label="Blocked Users"
+					sublabel="100 users"
+					:icon="UserXIcon"
+					@click="$router.push({ name: 'settings:privacy:blacklist' })"
+				/>
 
-					<BaseNavigationItem
-						label="Login Email"
-						sublabel="lorem-pipsum****@gmail.com"
-						:icon="MailIcon"
-						@click="$router.push({ name: 'settings:privacy:change-email' })"
-					/>
-				</div>
+				<BaseNavigationItem
+					label="Login Email"
+					sublabel="lorem-pipsum****@gmail.com"
+					:icon="MailIcon"
+					@click="$router.push({ name: 'settings:privacy:change-email' })"
+				/>
 			</div>
-
-			<RouterView v-slot="{ Component }" v-else>
-				<component :is="Component" />
-			</RouterView>
 		</div>
 	</div>
 </template>

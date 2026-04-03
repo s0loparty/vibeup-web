@@ -17,9 +17,9 @@ appColor.setHtmlColor();
 		class="app-container overflow-x-hidden"
 		style="box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.1)"
 	>
-		<!--TODO: УСЛОВИЕ КОГДА ВСЯКИЕ АУФ РЕГИ СТАВИТЬ ПО ЦЕНТРУ-->
 		<div class="relative flex min-h-dvh justify-center">
 			<RouterView />
+
 			<ChatWindow />
 			<ChatUserinfo />
 		</div>

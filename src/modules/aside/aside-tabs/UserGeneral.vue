@@ -13,10 +13,19 @@ const { appColor, resetColor } = useAppColor();
 
 <template>
 	<div class="h-full bg-white">
-		<div id="user-general" v-if="$route.name === 'settings:general'">
+		<div id="user-general">
 			<TabTitle title="General" />
 
 			<div class="space-y-2 px-2">
+				<!-- go to chat wallpaper settigns  -->
+				<div class="px-2">
+					<BaseNavigationItem
+						label="Chat Wallpaper"
+						:icon="ImageIcon"
+						@click="$router.push({ name: 'settings:general:wallpaper' })"
+					/>
+				</div>
+
 				<div class="space-y-2 px-6">
 					<div class="leading-normal">App main color</div>
 					<div class="flex w-full items-center gap-x-2">
@@ -27,22 +36,12 @@ const { appColor, resetColor } = useAppColor();
 					</div>
 				</div>
 
-				<div class="space-y-2 px-2">
-					<!-- message text size -->
-					<div class="p-4">
-						<div class="flex items-center justify-between">
-							<span class="mb-3.75 block">Message Text Size</span>
-							<span class="mb-3.75 block">16</span>
-						</div>
-						<Slider :default-value="[50]" :max="100" :step="1" class="w-full" />
+				<div class="px-6 py-4">
+					<div class="flex items-center justify-between">
+						<span class="mb-3.75 block">Message Text Size</span>
+						<span class="mb-3.75 block">16</span>
 					</div>
-
-					<!-- go to chat wallpaper settigns  -->
-					<BaseNavigationItem
-						label="Chat Wallpaper"
-						:icon="ImageIcon"
-						@click="$router.push({ name: 'settings:general:wallpaper' })"
-					/>
+					<Slider :default-value="[50]" :max="100" :step="1" class="w-full" />
 				</div>
 
 				<div class="space-y-2 px-2">
@@ -70,9 +69,5 @@ const { appColor, resetColor } = useAppColor();
 				</div>
 			</div>
 		</div>
-
-		<RouterView v-slot="{ Component }" v-else>
-			<component :is="Component"></component>
-		</RouterView>
 	</div>
 </template>

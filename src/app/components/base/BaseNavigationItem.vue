@@ -23,7 +23,7 @@ const slots = defineSlots<{ default?: unknown }>();
 	<Button
 		:class="
 			cn(
-				'group flex h-auto min-h-12 w-full justify-start gap-4 px-4 py-2 text-gray-500 hover:text-gray-500',
+				'group flex h-auto min-h-12 w-full justify-start gap-3 px-4 py-2 text-gray-500 hover:text-gray-500',
 				$attrs['class'],
 			)
 		"
