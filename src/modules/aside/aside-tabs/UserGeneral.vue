@@ -5,10 +5,26 @@ import { Button } from '@/app/components/ui/button';
 import { RadioGroup, RadioGroupItem } from '@/app/components/ui/radio-group';
 import { Slider } from '@/app/components/ui/slider';
 import { useAppColor } from '@/app/composables/useAppColor';
+import { useFontSize } from '@/app/composables/useFontSize';
 import { ImageIcon, RotateCcwIcon } from 'lucide-vue-next';
+import { computed } from 'vue';
 import TabTitle from './TabTitle.vue';
 
 const { appColor, resetColor } = useAppColor();
+const { fontSize, resetFontSize, MIN_FONT_SIZE, MAX_FONT_SIZE } = useFontSize();
+
+// Slider работает с диапазоном 0-100, конвертируем в реальный размер
+const sliderValue = computed({
+	get: () => {
+		const range = MAX_FONT_SIZE - MIN_FONT_SIZE;
+		return [((fontSize.value - MIN_FONT_SIZE) / range) * 100];
+	},
+	set: (value: number[]) => {
+		const range = MAX_FONT_SIZE - MIN_FONT_SIZE;
+		const firstValue = value[0] ?? 0;
+		fontSize.value = Math.round(MIN_FONT_SIZE + (firstValue / 100) * range);
+	},
+});
 </script>
 
 <template>
@@ -36,12 +52,22 @@ const { appColor, resetColor } = useAppColor();
 					</div>
 				</div>
 
-				<div class="px-6 py-4">
-					<div class="flex items-center justify-between">
-						<span class="mb-3.75 block">Message Text Size</span>
-						<span class="mb-3.75 block">16</span>
+				<div class="w-f px-6 py-4">
+					<div class="flex items-center gap-x-2">
+						<div class="w-full">
+							<span class="mb-3 block">App Text Size — {{ fontSize }}</span>
+							<Slider
+								v-model="sliderValue"
+								:max="100"
+								:step="1"
+								class="w-full"
+							/>
+						</div>
+
+						<Button variant="outline" class="h-9.5" @click="resetFontSize">
+							<RotateCcwIcon />
+						</Button>
 					</div>
-					<Slider :default-value="[50]" :max="100" :step="1" class="w-full" />
 				</div>
 
 				<div class="space-y-2 px-2">

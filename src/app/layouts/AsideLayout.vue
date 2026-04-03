@@ -31,7 +31,7 @@ function getTransition() {
 	>
 		<aside
 			v-show="shouldShowAside"
-			class="relative z-50 flex h-screen max-w-105 min-w-105 flex-col overflow-x-hidden bg-accent max-[840px]:absolute max-[840px]:max-w-full max-[840px]:min-w-auto"
+			class="relative z-50 flex h-screen max-w-105 min-w-105 flex-col overflow-hidden bg-accent max-[840px]:absolute max-[840px]:max-w-full max-[840px]:min-w-auto"
 		>
 			<RouterView v-slot="{ Component, route }">
 				<Transition :name="getTransition()">
