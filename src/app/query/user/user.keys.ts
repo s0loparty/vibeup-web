@@ -1,4 +1,4 @@
-import { Service, type User } from '@/shared/api';
+import { Service } from '@/shared/api';
 import { createQueryKeys } from '@lukemorales/query-key-factory';
 
 export const userKeys = createQueryKeys('user', {
