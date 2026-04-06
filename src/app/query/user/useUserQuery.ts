@@ -1,4 +1,5 @@
 import { useAuthStore } from '@/app/stores/useAuthStore';
+import { Service } from '@/shared/api';
 import { useQuery } from '@tanstack/vue-query';
 import { storeToRefs } from 'pinia';
 import { userKeys } from './user.keys';
@@ -8,8 +9,9 @@ export function useUserQuery() {
 
 	return useQuery({
 		...userKeys.current(),
+		queryFn: () => Service.userShow(),
 		enabled: isAuthenticated, // Запрос только если аутентифицирован
-		staleTime: 60_000 * 5, // 5 минут
+		staleTime: Infinity,
 		retry: false,
 	});
 }
