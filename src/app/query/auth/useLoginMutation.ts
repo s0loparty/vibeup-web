@@ -1,6 +1,8 @@
+import { getErrorMessage } from '@/app/client/api-errors';
 import { type AuthCredential } from '@/app/types/auth';
 import { Service, type AuthToken, type User } from '@/shared/api';
 import { useMutation } from '@tanstack/vue-query';
+import { toast } from 'vue-sonner';
 import router from '../../router';
 import { useAuthStore } from '../../stores/useAuthStore';
 import { authKeys } from './auth.keys';
@@ -28,7 +30,7 @@ export function useLoginMutation() {
 		},
 
 		onError(error) {
-			//TODOS: прикрутить TOAST NOTIFICATION
+			toast.error(getErrorMessage(error));
 			console.log(`Error: ${error}`);
 		},
 	});

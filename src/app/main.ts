@@ -4,6 +4,7 @@ import { createApp } from 'vue';
 
 import '@/assets/css/app.css';
 import '@/assets/css/tw.css';
+import 'vue-sonner/style.css';
 
 // Initialize API client (sets up axios interceptors for auth tokens)
 import './client/api';

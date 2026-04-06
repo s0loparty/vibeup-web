@@ -21,6 +21,7 @@
     "@lukemorales/query-key-factory": "^1.3.4",
     "@tailwindcss/vite": "^4.2.2",
     "@tanstack/vue-query": "^5.96.0",
+    "@tanstack/vue-query-devtools": "^6.1.13",
     "@tanstack/zod-form-adapter": "^0.42.1",
     "@twallpaper/vue": "^2.1.2",
     "@vue/compiler-sfc": "^3.5.31",
@@ -38,6 +39,7 @@
     "vue-frimousse": "^0.1.4",
     "vue-router": "^5.0.4",
     "vue-routes-to-types": "^0.3.8",
+    "vue-sonner": "^2.0.9",
     "zod": "^3.25.76"
   },
   "devDependencies": {

@@ -1,7 +1,9 @@
 <script setup lang="ts">
+import { Toaster } from '@/app/components/ui/sonner';
 import ChatUserinfo from '@/modules/chat/chat-userinfo/ChatUserinfo.vue';
 import ChatWindow from '@/modules/chat/ChatWindow.vue';
 import { useQueryClient } from '@tanstack/vue-query';
+import { VueQueryDevtools } from '@tanstack/vue-query-devtools';
 import { watch } from 'vue';
 import { useAppColor } from './composables/useAppColor';
 import { userKeys } from './query/user/user.keys';
@@ -54,4 +56,11 @@ watch(
 	<div v-else class="flex items-center justify-center">
 		<RouterView />
 	</div>
+
+	<Toaster
+		:closeButton="true"
+		closeButtonPosition="top-right"
+		position="top-center"
+	/>
+	<VueQueryDevtools />
 </template>

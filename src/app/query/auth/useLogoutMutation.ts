@@ -1,8 +1,10 @@
+import { getErrorMessage } from '@/app/client/api-errors';
 import router from '@/app/router';
 import { useAuthStore } from '@/app/stores/useAuthStore';
 import { handleApiError } from '@/app/utils/error-handler';
 import { Service } from '@/shared/api';
 import { useMutation, useQueryClient } from '@tanstack/vue-query';
+import { toast } from 'vue-sonner';
 import { userKeys } from '../user/user.keys';
 import { authKeys } from './auth.keys';
 
@@ -35,6 +37,8 @@ export function useLogoutMutation() {
 				router.push({ name: 'auth:login' });
 				return;
 			}
+
+			toast.error(getErrorMessage(error));
 			console.error('Error logging out:', error);
 		},
 	});

@@ -14,7 +14,6 @@ import { AUTH_TOKEN } from '../constants/auth';
 // Configure OpenAPI base URL
 OpenAPI.BASE = import.meta.env.VITE_API_BASE_URL || 'http://localhost';
 OpenAPI.VERSION = '1.0.0';
-OpenAPI.TOKEN = undefined;
 
 // Flag чтобы избежать множественных редиректов при нескольких параллельных запросах
 let isRedirecting = false;
