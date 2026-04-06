@@ -1,19 +1,45 @@
 <script setup lang="ts">
 import ChatUserinfo from '@/modules/chat/chat-userinfo/ChatUserinfo.vue';
 import ChatWindow from '@/modules/chat/ChatWindow.vue';
-import { storeToRefs } from 'pinia';
+import { useQueryClient } from '@tanstack/vue-query';
+import { watch } from 'vue';
 import { useAppColor } from './composables/useAppColor';
+import { userKeys } from './query/user/user.keys';
+import { useUserQuery } from './query/user/useUserQuery';
 import { useAuthStore } from './stores/useAuthStore';
 
-const { isAuthenticated } = storeToRefs(useAuthStore());
-const appColor = useAppColor();
+const authStore = useAuthStore();
+const queryClient = useQueryClient();
 
+// Initialize app color
+const appColor = useAppColor();
 appColor.setHtmlColor();
+
+// Загружаем данные пользователя когда аутентифицирован
+const { data: user } = useUserQuery();
+
+// Синхронизируем данные пользователя из Vue Query в Pinia
+watch(user, (newUser) => {
+	if (newUser) {
+		authStore.setUser(newUser);
+	}
+});
+
+// При логауте — инвалидируем кэш пользователя
+watch(
+	() => authStore.isAuthenticated,
+	(isAuth) => {
+		if (!isAuth) {
+			queryClient.invalidateQueries({ queryKey: userKeys.current().queryKey });
+			authStore.reset();
+		}
+	},
+);
 </script>
 
 <template>
 	<main
-		v-if="isAuthenticated"
+		v-if="authStore.isAuthenticated"
 		class="app-container overflow-x-hidden"
 		style="box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.1)"
 	>

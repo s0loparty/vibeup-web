@@ -44,11 +44,18 @@ router.beforeEach((to, from) => {
 	const toLevel = to.meta.level ?? 0;
 	const fromLevel = from.meta.level ?? 0;
 
+	// Если аутентифицирован и идёт на auth страницы — редирект на main
 	if (
 		isAuthenticated.value &&
 		(to.name === 'auth:login' || to.name === 'auth:register')
 	) {
 		return { name: 'main' };
+	}
+
+	// Если не аутентифицирован и идёт на защищённый маршрут — редирект на login
+	const requiresAuth = to.matched.some((record) => record.meta.auth === true);
+	if (!isAuthenticated.value && requiresAuth) {
+		return { name: 'auth:login' };
 	}
 
 	direction.value = toLevel > fromLevel ? 'forward' : 'back';

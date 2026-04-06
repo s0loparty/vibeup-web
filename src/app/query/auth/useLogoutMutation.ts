@@ -1,5 +1,6 @@
 import router from '@/app/router';
 import { useAuthStore } from '@/app/stores/useAuthStore';
+import { handleApiError } from '@/app/utils/error-handler';
 import { Service } from '@/shared/api';
 import { useMutation, useQueryClient } from '@tanstack/vue-query';
 import { userKeys } from '../user/user.keys';
@@ -18,16 +19,22 @@ export function useLogoutMutation() {
 
 		onSuccess() {
 			client.invalidateQueries({
-				//TODO:1 - ID USERA
-				queryKey: userKeys.user(1).queryKey,
+				queryKey: userKeys.current().queryKey,
 			});
 
 			authStore.reset();
-
 			router.push({ name: 'auth:login' });
 		},
 
-		onError(error) {
+		onError(err) {
+			const error = handleApiError(err);
+
+			// Если токен уже протух (401), всё равно редиректим на логин
+			if (error.status === 401) {
+				authStore.reset();
+				router.push({ name: 'auth:login' });
+				return;
+			}
 			console.error('Error logging out:', error);
 		},
 	});

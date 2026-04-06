@@ -32,7 +32,7 @@ const sliderValue = computed({
 		<div id="user-general">
 			<TabTitle title="General" />
 
-			<div class="space-y-2 px-2">
+			<div class="space-y-4">
 				<!-- go to chat wallpaper settigns  -->
 				<div class="px-2">
 					<BaseNavigationItem
@@ -70,10 +70,8 @@ const sliderValue = computed({
 					</div>
 				</div>
 
-				<div class="space-y-2 px-2">
-					<div class="px-4 leading-normal font-semibold text-brand-500">
-						Color theme
-					</div>
+				<div class="space-y-2 px-6">
+					<div>Color theme</div>
 					<RadioGroup default-value="day">
 						<BaseNavigationItem
 							as="label"

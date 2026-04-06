@@ -1,6 +1,9 @@
-import type { User } from '@/shared/api';
+import { Service, type User } from '@/shared/api';
 import { createQueryKeys } from '@lukemorales/query-key-factory';
 
 export const userKeys = createQueryKeys('user', {
-	user: (userId: User['id']) => [userId],
+	current: () => ({
+		queryKey: ['currentUser'],
+		queryFn: () => Service.userShow(),
+	}),
 });

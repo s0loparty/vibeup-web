@@ -1,3 +1,5 @@
+import router from '@/app/router';
+import { useAuthStore } from '@/app/stores/useAuthStore';
 import { OpenAPI } from '@/shared/api/core/OpenAPI';
 import axios from 'axios';
 import { AUTH_TOKEN } from '../constants/auth';
@@ -5,24 +7,19 @@ import { AUTH_TOKEN } from '../constants/auth';
 /**
  * Конфигурация API-клиента
  *
- * Этот файл настраивает перехватчик Axios, который автоматически внедряет
- * токен Bearer из localStorage в каждый запрос.
- *
- * Подход с использованием перехватчика гарантирует:
- * - Токен всегда актуален (считывается при каждом запросе)
- * - Отсутствие необходимости в ручной синхронизации между состоянием аутентификации и API-клиентом
- * - Корректную работу с процессами выхода/входа
+ * - Request interceptor: добавляет Bearer токен из localStorage
+ * - Response interceptor: ловит 401 и редиректит на логин
  */
 
 // Configure OpenAPI base URL
 OpenAPI.BASE = import.meta.env.VITE_API_BASE_URL || 'http://localhost';
 OpenAPI.VERSION = '1.0.0';
-
-// Убедитесь, что TOKEN не определен, чтобы перехватчик обрабатывал аутентификацию.
-// (Предотвращает дублирование заголовков авторизации)
 OpenAPI.TOKEN = undefined;
 
-// Добавьте перехватчик Axios для внедрения токена Bearer в каждый запрос.
+// Flag чтобы избежать множественных редиректов при нескольких параллельных запросах
+let isRedirecting = false;
+
+// Request interceptor — добавляем токен
 axios.interceptors.request.use(
 	(config) => {
 		const token = localStorage.getItem(AUTH_TOKEN);
@@ -31,10 +28,39 @@ axios.interceptors.request.use(
 		}
 		return config;
 	},
+	(error) => Promise.reject(error),
+);
+
+// Response interceptor — обрабатываем 401
+axios.interceptors.response.use(
+	(response) => response,
 	(error) => {
+		if (error.response?.status === 401) {
+			// Игнорируем 401 от logout — там своя логика
+			const requestUrl = error.config?.url || '';
+			if (requestUrl.includes('/auth/logout')) {
+				return Promise.reject(error);
+			}
+
+			if (!isRedirecting) {
+				isRedirecting = true;
+
+				// Очищаем состояние аутентификации
+				const authStore = useAuthStore();
+				authStore.reset();
+
+				// Редирект на логин
+				router.push({ name: 'auth:login' }).finally(() => {
+					// Сбрасываем флаг после редиректа
+					setTimeout(() => {
+						isRedirecting = false;
+					}, 1000);
+				});
+			}
+		}
+
 		return Promise.reject(error);
 	},
 );
 
-// Экспорт настроенные OpenAPI и axios для использования в приложении.
 export { axios, OpenAPI };

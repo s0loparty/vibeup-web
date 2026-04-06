@@ -13,7 +13,7 @@ const email = ref<string>('');
 			<div>
 				<TabTitle title="Change Email" />
 				<div class="flex flex-col items-center justify-center p-5">
-					<MailboxIcon class="size-30 fill-gray-300 text-brand-400" />
+					<MailboxIcon class="size-30 fill-gray-100 stroke-1 text-brand-400" />
 					<span class="mb-2.5 text-center text-2xl">Enter New Email</span>
 					<span class="mb-5 text-center"
 						>You will receive an email with a link to change your email.</span
