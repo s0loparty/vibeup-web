@@ -1,14 +1,12 @@
 <script setup lang="ts">
-import BaseInput from '@/app/components/base/BaseInput.vue';
+import BaseFormInput from '@/app/components/base/form/BaseFormInput.vue';
 import { Button } from '@/app/components/ui/button';
 import { useRegisterMutation } from '@/app/query/auth/useRegisterMutation';
+import { registerSchema } from '@/app/utils/validations/auth/register';
 import logo from '@/assets/logo.webp';
-import { ref } from 'vue';
+import { useForm } from 'vee-validate';
 
 const { mutate: regsiter, isPending } = useRegisterMutation();
-
-const email = ref('');
-const password = ref('');
 
 function onRegister() {
 	regsiter({
@@ -16,6 +14,12 @@ function onRegister() {
 		password: password.value,
 	});
 }
+
+const { defineField } = useForm({
+	validationSchema: registerSchema,
+});
+const [email] = defineField('email');
+const [password] = defineField('password');
 </script>
 
 <template>
@@ -25,8 +29,8 @@ function onRegister() {
 		<div class="rounded-lg bg-white p-4 shadow-lg">
 			<h6 class="mb-5 text-center text-2xl font-semibold">Регистрация</h6>
 			<form @submit.prevent="onRegister" class="space-y-5">
-				<BaseInput v-model="email" id="email" label="Email" />
-				<BaseInput v-model="password" id="password" label="Password" />
+				<BaseFormInput v-model="email" name="email" label="Email" />
+				<BaseFormInput v-model="password" name="password" label="Password" />
 				<Button
 					:is-loading="isPending"
 					class="h-12 w-full bg-brand-500 text-base text-white transition-colors hover:bg-brand-600"

@@ -1,18 +1,25 @@
 <script setup lang="ts">
-import BaseInput from '@/app/components/base/BaseInput.vue';
+import BaseFormInput from '@/app/components/base/form/BaseFormInput.vue';
 import { Button } from '@/app/components/ui/button';
 import { Checkbox } from '@/app/components/ui/checkbox';
 import { Label } from '@/app/components/ui/label';
 import { useLoginMutation } from '@/app/query/auth/useLoginMutation';
+import { loginSchema } from '@/app/utils/validations/auth/login';
 import logo from '@/assets/logo.webp';
-import { ref } from 'vue';
+import { useForm } from 'vee-validate';
 
 const { mutate: login, isPending } = useLoginMutation();
 
-const email = ref('');
-const password = ref('');
+const { defineField } = useForm({
+	validationSchema: loginSchema,
+});
+const [email] = defineField('email');
+const [password] = defineField('password');
+const [isRemember] = defineField('remember');
 
 function onLogin() {
+	//TODO: isRemember v-model работает true-false
+	// Если выбрано надо запомнить юзера - токен авторизации
 	login({ email: email.value, password: password.value });
 }
 </script>
@@ -24,11 +31,12 @@ function onLogin() {
 		<div class="rounded-lg bg-white p-4 shadow-lg">
 			<h6 class="mb-5 text-center text-2xl font-semibold">Вход в аккаунт</h6>
 			<form class="space-y-5" @submit.prevent="onLogin">
-				<BaseInput v-model="email" id="email" label="Email" />
-				<BaseInput v-model="password" id="password" label="Password" />
+				<BaseFormInput v-model="email" name="email" label="Email" />
+				<BaseFormInput v-model="password" name="password" label="Password" />
+
 				<div class="flex items-center justify-between">
 					<div class="flex items-center gap-2.5">
-						<Checkbox id="remember" />
+						<Checkbox id="remember" v-model="isRemember" />
 						<Label class="text-sm" for="remember"> Запомнить меня</Label>
 					</div>
 					<a class="text-sm text-brand-400 hover:text-brand-500" href="#">
