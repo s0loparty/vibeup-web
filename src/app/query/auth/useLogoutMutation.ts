@@ -2,7 +2,7 @@ import { getErrorMessage } from '@/app/client/api-errors';
 import router from '@/app/router';
 import { useAuthStore } from '@/app/stores/useAuthStore';
 import { handleApiError } from '@/app/utils/error-handler';
-import { Service } from '@/shared/api';
+import { authLogout } from '@/shared/api';
 import { useMutation, useQueryClient } from '@tanstack/vue-query';
 import { toast } from 'vue-sonner';
 import { userKeys } from '../user/user.keys';
@@ -16,11 +16,11 @@ export function useLogoutMutation() {
 		mutationKey: authKeys.logout().queryKey,
 
 		mutationFn: async () => {
-			return Service.authLogout();
+			return authLogout();
 		},
 
 		onSuccess() {
-			client.invalidateQueries({
+			client.removeQueries({
 				queryKey: userKeys.current().queryKey,
 			});
 

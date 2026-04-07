@@ -2,16 +2,13 @@
 import { Toaster } from '@/app/components/ui/sonner';
 import ChatUserinfo from '@/modules/chat/chat-userinfo/ChatUserinfo.vue';
 import ChatWindow from '@/modules/chat/ChatWindow.vue';
-import { useQueryClient } from '@tanstack/vue-query';
 import { VueQueryDevtools } from '@tanstack/vue-query-devtools';
 import { watch } from 'vue';
 import { useAppColor } from './composables/useAppColor';
-import { userKeys } from './query/user/user.keys';
 import { useUserQuery } from './query/user/useUserQuery';
 import { useAuthStore } from './stores/useAuthStore';
 
 const authStore = useAuthStore();
-const queryClient = useQueryClient();
 
 // Initialize app color
 const appColor = useAppColor();
@@ -22,21 +19,10 @@ const { data: user } = useUserQuery();
 
 // Синхронизируем данные пользователя из Vue Query в Pinia
 watch(user, (newUser) => {
-	if (newUser) {
+	if (newUser && authStore.isAuthenticated) {
 		authStore.setUser(newUser);
 	}
 });
-
-// При логауте — инвалидируем кэш пользователя
-watch(
-	() => authStore.isAuthenticated,
-	(isAuth) => {
-		if (!isAuth) {
-			queryClient.invalidateQueries({ queryKey: userKeys.current().queryKey });
-			authStore.reset();
-		}
-	},
-);
 </script>
 
 <template>

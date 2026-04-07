@@ -6,7 +6,7 @@ import { ImagePlusIcon } from 'lucide-vue-next';
 import { reactive } from 'vue';
 import TabTitle from './TabTitle.vue';
 
-const form = reactive({ name: '', lastName: '', username: '', bio: '' });
+const form = reactive({ username: '', bio: '' });
 </script>
 
 <template>
@@ -31,12 +31,7 @@ const form = reactive({ name: '', lastName: '', username: '', bio: '' });
 				</div>
 
 				<div class="space-y-4 px-4 pb-4">
-					<BaseInput v-model="form.name" label="Name" id="name" />
-
-					<BaseInput v-model="form.lastName" label="Last Name" id="lastName" />
-
 					<BaseInput v-model="form.username" label="Username" id="username" />
-
 					<BaseTextarea
 						v-model.trim="form.bio"
 						label="Bio (optional)"
