@@ -1,10 +1,14 @@
 import { getErrorMessage } from '@/app/client/api-errors';
-import { Service, type AuthToken, type User } from '@/shared/api';
+import {
+	authRegister,
+	type AuthRegisterData,
+	type AuthToken,
+	type User,
+} from '@/shared/api';
 import { useMutation } from '@tanstack/vue-query';
 import { toast } from 'vue-sonner';
 import router from '../../router';
 import { useAuthStore } from '../../stores/useAuthStore';
-import type { AuthCredential } from '../../types/auth';
 import { authKeys } from './auth.keys';
 
 export function useRegisterMutation() {
@@ -13,8 +17,14 @@ export function useRegisterMutation() {
 	return useMutation({
 		mutationKey: authKeys.register().queryKey,
 
-		mutationFn: (credential: AuthCredential) => {
-			return Service.authRegister(credential);
+		mutationFn: async (credential: AuthRegisterData['body']) => {
+			const result = await authRegister({ body: credential });
+
+			if (result.error) {
+				throw result.error;
+			}
+
+			return result.data;
 		},
 
 		onSuccess(data: { user?: User; token?: AuthToken }) {

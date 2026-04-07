@@ -1,7 +1,6 @@
 import router from '@/app/router';
 import { useAuthStore } from '@/app/stores/useAuthStore';
-import { OpenAPI } from '@/shared/api/core/OpenAPI';
-import axios from 'axios';
+import { client } from '@/shared/api/client.gen';
 import { AUTH_TOKEN } from '../constants/auth';
 
 /**
@@ -11,15 +10,19 @@ import { AUTH_TOKEN } from '../constants/auth';
  * - Response interceptor: ловит 401 и редиректит на логин
  */
 
-// Configure OpenAPI base URL
-OpenAPI.BASE = import.meta.env.VITE_API_BASE_URL || 'http://localhost';
-OpenAPI.VERSION = '1.0.0';
+// Configure client
+client.setConfig({
+	baseURL: import.meta.env.VITE_API_BASE_URL || 'http://localhost',
+	headers: {
+		'Content-Type': 'application/json',
+	},
+});
 
 // Flag чтобы избежать множественных редиректов при нескольких параллельных запросах
 let isRedirecting = false;
 
 // Request interceptor — добавляем токен
-axios.interceptors.request.use(
+client.instance.interceptors.request.use(
 	(config) => {
 		const token = localStorage.getItem(AUTH_TOKEN);
 		if (token) {
@@ -31,7 +34,7 @@ axios.interceptors.request.use(
 );
 
 // Response interceptor — обрабатываем 401
-axios.interceptors.response.use(
+client.instance.interceptors.response.use(
 	(response) => response,
 	(error) => {
 		if (error.response?.status === 401) {
@@ -62,4 +65,4 @@ axios.interceptors.response.use(
 	},
 );
 
-export { axios, OpenAPI };
+export { client };

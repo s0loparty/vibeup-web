@@ -1,4 +1,4 @@
-import { type User } from '@/shared/api/models/User';
+import type { User } from '@/shared/api';
 import { useLocalStorage } from '@vueuse/core';
 import { defineStore } from 'pinia';
 import { computed, ref } from 'vue';

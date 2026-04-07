@@ -33,4 +33,21 @@ export default defineConfigWithVueTs(
 			'vue/multi-word-component-names': 'off',
 		},
 	},
+
+	{
+		// Указываем путь к сгенерированным файлам
+		files: ['src/shared/api/**/*.ts'],
+		rules: {
+			'@typescript-eslint/ban-ts-comment': [
+				'error',
+				{
+					// Для этих файлов разрешаем expect-error БЕЗ описания
+					'ts-expect-error': false,
+					'ts-ignore': 'allow-with-description',
+					minimumDescriptionLength: 3,
+				},
+			],
+			'@typescript-eslint/no-explicit-any': 'off',
+		},
+	},
 );

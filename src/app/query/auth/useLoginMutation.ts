@@ -1,6 +1,10 @@
 import { getErrorMessage } from '@/app/client/api-errors';
-import { type AuthCredential } from '@/app/types/auth';
-import { Service, type AuthToken, type User } from '@/shared/api';
+import {
+	authLogin,
+	type AuthLoginData,
+	type AuthToken,
+	type User,
+} from '@/shared/api';
 import { useMutation } from '@tanstack/vue-query';
 import { toast } from 'vue-sonner';
 import router from '../../router';
@@ -13,8 +17,14 @@ export function useLoginMutation() {
 	return useMutation({
 		mutationKey: authKeys.login().queryKey,
 
-		mutationFn: (credential: AuthCredential) => {
-			return Service.authLogin(credential);
+		mutationFn: async (credential: AuthLoginData['body']) => {
+			const result = await authLogin({ body: credential });
+
+			if (result.error) {
+				throw result.error;
+			}
+
+			return result.data;
 		},
 
 		onSuccess(data: { user?: User; token?: AuthToken }) {
