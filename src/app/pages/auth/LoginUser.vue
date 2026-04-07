@@ -4,7 +4,7 @@ import { Button } from '@/app/components/ui/button';
 import { Checkbox } from '@/app/components/ui/checkbox';
 import { Label } from '@/app/components/ui/label';
 import { useLoginMutation } from '@/app/query/auth/useLoginMutation';
-import { loginSchema } from '@/app/utils/validations/login';
+import { loginSchema } from '@/app/utils/validations/auth/login';
 import logo from '@/assets/logo.webp';
 import { useForm } from 'vee-validate';
 

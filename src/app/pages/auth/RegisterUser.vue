@@ -2,7 +2,7 @@
 import BaseFormInput from '@/app/components/base/form/BaseFormInput.vue';
 import { Button } from '@/app/components/ui/button';
 import { useRegisterMutation } from '@/app/query/auth/useRegisterMutation';
-import { registerSchema } from '@/app/utils/validations/register';
+import { registerSchema } from '@/app/utils/validations/auth/register';
 import logo from '@/assets/logo.webp';
 import { useForm } from 'vee-validate';
 
