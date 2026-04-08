@@ -2,11 +2,48 @@
 import BaseAvatar from '@/app/components/base/BaseAvatar.vue';
 import BaseInput from '@/app/components/base/BaseInput.vue';
 import BaseTextarea from '@/app/components/base/BaseTextarea.vue';
+import { useUpdateUserMutation } from '@/app/query/user/useUpdateUserMutation';
+import { useAuthStore } from '@/app/stores/useAuthStore';
+import { watchDebounced } from '@vueuse/core';
 import { ImagePlusIcon } from 'lucide-vue-next';
-import { reactive } from 'vue';
+import { reactive, watch } from 'vue';
 import TabTitle from './TabTitle.vue';
 
-const form = reactive({ username: '', bio: '' });
+const { mutate: updateUser } = useUpdateUserMutation();
+const authStore = useAuthStore();
+
+const form = reactive({
+	username: '',
+	bio: '',
+});
+
+watchDebounced(
+	() => [form.username, form.bio],
+	([newUserName, newBio]) => {
+		const user = authStore.user;
+		if (!user) return;
+
+		if (user.username !== newUserName || user.bio !== newBio) {
+			updateUser({
+				username: newUserName,
+				bio: newBio,
+			});
+		}
+	},
+	{ debounce: 2500 },
+);
+
+watch(
+	() => authStore.user,
+	(newUser) => {
+		if (!newUser) return;
+
+		form.username = newUser?.username || '';
+		form.bio = newUser?.bio || '';
+	},
+
+	{ immediate: true },
+);
 </script>
 
 <template>

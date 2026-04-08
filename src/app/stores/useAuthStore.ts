@@ -1,12 +1,12 @@
 import type { User } from '@/shared/api';
 import { useLocalStorage } from '@vueuse/core';
 import { defineStore } from 'pinia';
-import { computed, ref } from 'vue';
+import { computed, shallowRef } from 'vue';
 import { AUTH_TOKEN } from '../constants/auth';
 
 export const useAuthStore = defineStore('auth', () => {
 	const token = useLocalStorage(AUTH_TOKEN, '');
-	const user = ref<User | null>(null);
+	const user = shallowRef<User | null>(null);
 
 	const isAuthenticated = computed(() => {
 		return token.value.length > 0;
