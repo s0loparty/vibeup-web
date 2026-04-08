@@ -1,6 +1,7 @@
 import { getErrorMessage } from '@/app/client/api-errors';
 import router from '@/app/router';
 import { useAuthStore } from '@/app/stores/useAuthStore';
+import type { QueryMeta } from '@/app/types/query-meta';
 import { handleApiError } from '@/app/utils/error-handler';
 import { authLogout } from '@/shared/api';
 import { useMutation, useQueryClient } from '@tanstack/vue-query';
@@ -14,6 +15,10 @@ export function useLogoutMutation() {
 
 	return useMutation({
 		mutationKey: authKeys.logout().queryKey,
+
+		meta: {
+			loader: 'global',
+		} satisfies QueryMeta,
 
 		mutationFn: async () => {
 			return authLogout();
