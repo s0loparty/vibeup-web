@@ -1,11 +1,11 @@
 import { getErrorMessage } from '@/app/client/api-errors';
+import { useAuthStore } from '@/app/stores/useAuthStore';
 import { userUpdate, type UserUpdateData } from '@/shared/api';
-import { useMutation, useQueryClient } from '@tanstack/vue-query';
+import { useMutation } from '@tanstack/vue-query';
 import { toast } from 'vue-sonner';
-import { userKeys } from './user.keys';
 
 export function useUpdateUserMutation() {
-	const queryClient = useQueryClient();
+	const authStore = useAuthStore();
 
 	return useMutation({
 		mutationFn: async (newUserInfo: UserUpdateData['body']) => {
@@ -18,10 +18,9 @@ export function useUpdateUserMutation() {
 			return result.data;
 		},
 
-		onSuccess: () => {
-			queryClient.invalidateQueries({
-				queryKey: userKeys.current().queryKey,
-			});
+		onSuccess: (newUserInfo) => {
+			authStore.user = newUserInfo;
+			toast.success('Данные успешно обновлены');
 		},
 
 		onError: (error) => {

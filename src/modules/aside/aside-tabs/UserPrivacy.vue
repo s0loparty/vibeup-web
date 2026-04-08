@@ -1,8 +1,12 @@
 <script setup lang="ts">
 import BaseNavigationItem from '@/app/components/base/BaseNavigationItem.vue';
+import { useAuthStore } from '@/app/stores/useAuthStore';
 import { MailIcon, UserXIcon } from 'lucide-vue-next';
 import TabTitle from './TabTitle.vue';
+
+const authStore = useAuthStore();
 </script>
+
 <template>
 	<div class="h-screen bg-white">
 		<div id="user-privacy">
@@ -18,7 +22,7 @@ import TabTitle from './TabTitle.vue';
 
 				<BaseNavigationItem
 					label="Login Email"
-					sublabel="lorem-pipsum****@gmail.com"
+					:sublabel="authStore.user?.email"
 					:icon="MailIcon"
 					@click="$router.push({ name: 'settings:privacy:change-email' })"
 				/>
