@@ -4,7 +4,8 @@ info:
   description: 'API documentation for Vibe application'
   version: 1.0.0
 servers:
-  - url: 'http://localhost:80'
+  -
+    url: 'http://localhost:80'
     description: 'Local development server'
 paths:
   /api/v1/auth/register:
@@ -131,7 +132,8 @@ paths:
                     example: Unauthenticated.
                 type: object
       security:
-        - bearerAuth: []
+        -
+          bearerAuth: []
   /api/v1/chats:
     get:
       tags:
@@ -140,7 +142,8 @@ paths:
       description: 'Возвращает список чатов пользователя с курсорной пагинацией'
       operationId: chats.index
       parameters:
-        - name: 'filter[type]'
+        -
+          name: 'filter[type]'
           in: query
           description: 'Фильтр по типу чата'
           required: false
@@ -149,13 +152,15 @@ paths:
             enum:
               - private
               - group
-        - name: include
+        -
+          name: include
           in: query
           description: 'Включить связанные данные (members, lastMessage, creator)'
           required: false
           schema:
             type: string
-        - name: sort
+        -
+          name: sort
           in: query
           description: 'Сортировка: id, created_at, updated_at (префикс - для убывания)'
           required: false
@@ -186,7 +191,8 @@ paths:
                     example: Unauthenticated.
                 type: object
       security:
-        - bearerAuth: []
+        -
+          bearerAuth: []
     post:
       tags:
         - Чаты
@@ -261,7 +267,8 @@ paths:
                     example: 'Пользователь не найден'
                 type: object
       security:
-        - bearerAuth: []
+        -
+          bearerAuth: []
   '/api/v1/chats/{chat}':
     get:
       tags:
@@ -270,13 +277,15 @@ paths:
       description: 'Возвращает данные чата по ID'
       operationId: chats.show
       parameters:
-        - name: chat
+        -
+          name: chat
           in: path
           description: 'ID чата'
           required: true
           schema:
             type: integer
-        - name: include
+        -
+          name: include
           in: query
           description: 'Включить связанные данные (members, lastMessage, creator)'
           required: false
@@ -313,7 +322,8 @@ paths:
                     example: 'Чат не найден'
                 type: object
       security:
-        - bearerAuth: []
+        -
+          bearerAuth: []
     put:
       tags:
         - Чаты
@@ -321,7 +331,8 @@ paths:
       description: 'Обновляет название чата. Только для group чатов'
       operationId: chats.update
       parameters:
-        - name: chat
+        -
+          name: chat
           in: path
           description: 'ID чата'
           required: true
@@ -371,7 +382,8 @@ paths:
                     example: 'Only owner or moderator can edit this chat'
                 type: object
       security:
-        - bearerAuth: []
+        -
+          bearerAuth: []
     delete:
       tags:
         - Чаты
@@ -379,7 +391,8 @@ paths:
       description: 'Удаляет чат. Только владелец может удалить'
       operationId: chats.destroy
       parameters:
-        - name: chat
+        -
+          name: chat
           in: path
           description: 'ID чата'
           required: true
@@ -410,7 +423,8 @@ paths:
                     example: 'Only owner can delete this chat'
                 type: object
       security:
-        - bearerAuth: []
+        -
+          bearerAuth: []
   /api/v1/user:
     get:
       tags:
@@ -436,7 +450,8 @@ paths:
                     example: Unauthenticated.
                 type: object
       security:
-        - bearerAuth: []
+        -
+          bearerAuth: []
     put:
       tags:
         - 'Текущий пользователь'
@@ -448,10 +463,14 @@ paths:
           application/json:
             schema:
               properties:
-                name:
+                username:
                   description: 'Имя пользователя'
                   type: string
                   example: 'John Doe'
+                bio:
+                  description: 'Описание профиля'
+                  type: string
+                  example: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Consequuntur, labore!'
                 email:
                   description: 'Email адрес'
                   type: string
@@ -487,7 +506,8 @@ paths:
               schema:
                 $ref: '#/components/schemas/ValidationError'
       security:
-        - bearerAuth: []
+        -
+          bearerAuth: []
     delete:
       tags:
         - 'Текущий пользователь'
@@ -516,7 +536,8 @@ paths:
                     example: Unauthenticated.
                 type: object
       security:
-        - bearerAuth: []
+        -
+          bearerAuth: []
   '/api/v1/chats/{chatId}/messages':
     get:
       tags:
@@ -525,13 +546,15 @@ paths:
       description: 'Возвращает список сообщений чата с курсорной пагинацией'
       operationId: messages.index
       parameters:
-        - name: chatId
+        -
+          name: chatId
           in: path
           description: 'ID чата'
           required: true
           schema:
             type: integer
-        - name: 'filter[type]'
+        -
+          name: 'filter[type]'
           in: query
           description: 'Фильтр по типу сообщения'
           required: false
@@ -543,31 +566,36 @@ paths:
               - video
               - audio
               - file
-        - name: 'filter[sender_id]'
+        -
+          name: 'filter[sender_id]'
           in: query
           description: 'Фильтр по ID отправителя'
           required: false
           schema:
             type: integer
-        - name: 'filter[before]'
+        -
+          name: 'filter[before]'
           in: query
           description: 'Сообщения до указанного ID (для пагинации)'
           required: false
           schema:
             type: integer
-        - name: 'filter[after]'
+        -
+          name: 'filter[after]'
           in: query
           description: 'Сообщения после указанного ID (для пагинации)'
           required: false
           schema:
             type: integer
-        - name: include
+        -
+          name: include
           in: query
           description: 'Включить связанные данные (sender, replyTo, chat)'
           required: false
           schema:
             type: string
-        - name: sort
+        -
+          name: sort
           in: query
           description: 'Сортировка: id, created_at, updated_at (префикс - для убывания)'
           required: false
@@ -608,7 +636,8 @@ paths:
                     example: 'Not a member of this chat'
                 type: object
       security:
-        - bearerAuth: []
+        -
+          bearerAuth: []
     post:
       tags:
         - Сообщения
@@ -616,7 +645,8 @@ paths:
       description: 'Отправляет новое сообщение в чат'
       operationId: messages.store
       parameters:
-        - name: chatId
+        -
+          name: chatId
           in: path
           description: 'ID чата'
           required: true
@@ -675,7 +705,8 @@ paths:
               schema:
                 $ref: '#/components/schemas/ValidationError'
       security:
-        - bearerAuth: []
+        -
+          bearerAuth: []
   '/api/v1/chats/{chatId}/messages/{message}':
     get:
       tags:
@@ -684,13 +715,15 @@ paths:
       description: 'Возвращает одно сообщение по ID'
       operationId: messages.show
       parameters:
-        - name: chatId
+        -
+          name: chatId
           in: path
           description: 'ID чата'
           required: true
           schema:
             type: integer
-        - name: message
+        -
+          name: message
           in: path
           description: 'ID сообщения'
           required: true
@@ -724,7 +757,8 @@ paths:
                     example: 'Сообщение не найдено'
                 type: object
       security:
-        - bearerAuth: []
+        -
+          bearerAuth: []
     put:
       tags:
         - Сообщения
@@ -732,13 +766,15 @@ paths:
       description: 'Обновляет текст сообщения. Только автор может редактировать'
       operationId: messages.update
       parameters:
-        - name: chatId
+        -
+          name: chatId
           in: path
           description: 'ID чата'
           required: true
           schema:
             type: integer
-        - name: message
+        -
+          name: message
           in: path
           description: 'ID сообщения'
           required: true
@@ -772,7 +808,8 @@ paths:
                     example: 'Cannot edit this message'
                 type: object
       security:
-        - bearerAuth: []
+        -
+          bearerAuth: []
     delete:
       tags:
         - Сообщения
@@ -780,13 +817,15 @@ paths:
       description: 'Удаляет сообщение. Только автор или модератор/владелец'
       operationId: messages.destroy
       parameters:
-        - name: chatId
+        -
+          name: chatId
           in: path
           description: 'ID чата'
           required: true
           schema:
             type: integer
-        - name: message
+        -
+          name: message
           in: path
           description: 'ID сообщения'
           required: true
@@ -817,7 +856,8 @@ paths:
                     example: 'Cannot delete this message'
                 type: object
       security:
-        - bearerAuth: []
+        -
+          bearerAuth: []
 components:
   schemas:
     AuthToken:
@@ -900,7 +940,8 @@ components:
           format: date-time
         user:
           oneOf:
-            - $ref: '#/components/schemas/User'
+            -
+              $ref: '#/components/schemas/User'
           nullable: true
       type: object
     Message:
@@ -949,11 +990,13 @@ components:
           format: date-time
         sender:
           oneOf:
-            - $ref: '#/components/schemas/User'
+            -
+              $ref: '#/components/schemas/User'
           nullable: true
         reply_to:
           oneOf:
-            - $ref: '#/components/schemas/Message'
+            -
+              $ref: '#/components/schemas/Message'
           nullable: true
       type: object
     CursorPaginationMeta:
@@ -1018,15 +1061,19 @@ components:
       description: 'User model'
       required:
         - id
-        - name
+        - username
         - email
       properties:
         id:
           type: integer
           example: 1
-        name:
+        username:
           type: string
           example: 'John Doe'
+        bio:
+          type: string
+          example: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Consequuntur, labore!'
+          nullable: true
         email:
           type: string
           format: email
@@ -1060,11 +1107,15 @@ components:
       name: Authorization
       in: header
 tags:
-  - name: Авторизация
+  -
+    name: Авторизация
     description: 'Операции аутентификации и регистрации пользователей'
-  - name: 'Текущий пользователь'
+  -
+    name: 'Текущий пользователь'
     description: 'Операции управления данными текущего пользователя'
-  - name: Чаты
+  -
+    name: Чаты
     description: 'Операции управления чатами'
-  - name: Сообщения
+  -
+    name: Сообщения
     description: 'Операции управления сообщениями в чатах'

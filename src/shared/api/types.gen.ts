@@ -105,7 +105,8 @@ export type ValidationError = {
  */
 export type User = {
     id: number;
-    name: string;
+    username: string;
+    bio?: string | null;
     email: string;
     email_verified_at?: string | null;
     last_seen_at?: string | null;
@@ -494,7 +495,11 @@ export type UserUpdateData = {
         /**
          * Имя пользователя
          */
-        name?: string;
+        username?: string;
+        /**
+         * Описание профиля
+         */
+        bio?: string;
         /**
          * Email адрес
          */

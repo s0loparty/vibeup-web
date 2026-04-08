@@ -4,6 +4,7 @@ import ChatUserinfo from '@/modules/chat/chat-userinfo/ChatUserinfo.vue';
 import ChatWindow from '@/modules/chat/ChatWindow.vue';
 import { VueQueryDevtools } from '@tanstack/vue-query-devtools';
 import { watch } from 'vue';
+import AppLoader from './components/AppLoader.vue';
 import { useAppColor } from './composables/useAppColor';
 import { useUserQuery } from './query/user/useUserQuery';
 import { useAuthStore } from './stores/useAuthStore';
@@ -49,4 +50,5 @@ watch(user, (newUser) => {
 		position="top-center"
 	/>
 	<VueQueryDevtools />
+	<AppLoader />
 </template>
