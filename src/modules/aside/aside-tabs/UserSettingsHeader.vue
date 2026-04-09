@@ -55,7 +55,7 @@ function copyHandler() {
 
 				<div class="p-2 shadow-bottom">
 					<TooltipProvider>
-						<Tooltip :open="showTooltip" :delayDuration="0">
+						<Tooltip :open="showTooltip">
 							<TooltipTrigger as-child>
 								<div @click="copyHandler">
 									<BaseNavigationItem
@@ -65,7 +65,7 @@ function copyHandler() {
 									/>
 								</div>
 							</TooltipTrigger>
-							<TooltipContent :side-offset="-15"> Copied! </TooltipContent>
+							<TooltipContent :side-offset="-15"> Скопировано! </TooltipContent>
 						</Tooltip>
 					</TooltipProvider>
 				</div>
