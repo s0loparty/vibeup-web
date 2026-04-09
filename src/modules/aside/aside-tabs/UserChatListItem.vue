@@ -1,5 +1,7 @@
 <script setup lang="ts">
 import BaseAvatar from '@/app/components/base/BaseAvatar.vue';
+import type { ChatWithLastMessage } from '@/app/types/api';
+import { computed } from 'vue';
 import UserChatListMessagePin from './UserChatListMessagePin.vue';
 import UserChatListMessagesCount from './UserChatListMessagesCount.vue';
 
@@ -12,6 +14,20 @@ function getRandomIntegerInclusive(min: number, max: number) {
 const countMessages = getRandomIntegerInclusive(1, 150);
 
 const fiftyFifty = Math.random() < 0.5;
+
+const props = defineProps<{
+	chat: ChatWithLastMessage;
+}>();
+
+const isGroupChat = computed(() => {
+	return props.chat.type === 'group';
+});
+
+const chatLabel = computed(() => {
+	return isGroupChat.value
+		? (props.chat.title ?? '')
+		: (props.chat.members[0]?.username ?? '');
+});
 </script>
 
 <template>
@@ -21,22 +37,22 @@ const fiftyFifty = Math.random() < 0.5;
 		<div>
 			<BaseAvatar
 				src="https://avatars.fastly.steamstatic.com/b26fca93fa06c59914c985d829bd8126390ec1b1_full.jpg"
-				name="Заголовок чата / Имя Человека"
+				:name="chatLabel"
 			/>
 		</div>
 
 		<div class="w-full max-w-full min-w-0">
 			<div class="flex items-center justify-between gap-2.5">
 				<span class="truncate leading-normal font-semibold text-ellipsis">
-					Заголовок чата / Имя Человека
+					{{ chatLabel }}
 				</span>
-				<span class="text-sm text-gray-400">16:41</span>
+				<span class="shrink-0 text-sm text-gray-400">
+					{{ chat.last_message.updated_at }}
+				</span>
 			</div>
-			<div class="flex flex-nowrap gap-x-2">
+			<div class="flex flex-nowrap justify-between gap-x-2">
 				<p class="truncate text-sm leading-normal text-ellipsis text-gray-400">
-					Lorem ipsum dolor sit, amet consectetur adipisicing elit. Unde placeat
-					facilis labore itaque facere? Ipsum sunt exercitationem maiores
-					placeat libero.
+					{{ chat.last_message.body }}
 				</p>
 
 				<div class="flex items-center gap-x-2">
