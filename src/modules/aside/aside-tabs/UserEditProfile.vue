@@ -30,7 +30,7 @@ watchDebounced(
 			});
 		}
 	},
-	{ debounce: 2500 },
+	{ debounce: 2000 },
 );
 
 watch(
