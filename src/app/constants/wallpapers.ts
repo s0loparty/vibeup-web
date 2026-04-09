@@ -48,7 +48,7 @@ export const STATIC_WALLPAPERS: TWallpaperOptions[] = [
 	{
 		colors: ['#ecd893', '#e5a1d0', '#edd594', '#d1a3e2'],
 		animate: false,
-		fps: 30,
+		fps: 1,
 		pattern: {
 			mask: false,
 			size,
@@ -58,7 +58,7 @@ export const STATIC_WALLPAPERS: TWallpaperOptions[] = [
 	{
 		colors: ['#679ced', '#e39fea', '#888dec', '#8adbf2'],
 		animate: false,
-		fps: 30,
+		fps: 1,
 		pattern: {
 			mask: false,
 			size,
@@ -68,7 +68,7 @@ export const STATIC_WALLPAPERS: TWallpaperOptions[] = [
 	{
 		colors: ['#dbddbb', '#6ba587', '#d5d88d', '#88b884'],
 		animate: false,
-		fps: 30,
+		fps: 1,
 		pattern: {
 			mask: false,
 			size,
@@ -78,7 +78,7 @@ export const STATIC_WALLPAPERS: TWallpaperOptions[] = [
 	{
 		colors: ['#dbddbb', '#6ba587', '#d5d88d', '#88b884'],
 		animate: false,
-		fps: 30,
+		fps: 1,
 		pattern: {
 			mask: false,
 			size,

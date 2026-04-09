@@ -1,10 +1,29 @@
 <script setup lang="ts">
 import BaseNavigationItem from '@/app/components/base/BaseNavigationItem.vue';
+import {
+	Tooltip,
+	TooltipContent,
+	TooltipProvider,
+	TooltipTrigger,
+} from '@/app/components/ui/tooltip';
 import { useAuthStore } from '@/app/stores/useAuthStore';
+import { useClipboard } from '@vueuse/core';
 import { AtSignIcon } from 'lucide-vue-next';
+import { ref } from 'vue';
 import TabTitle from './TabTitle.vue';
 
 const authStore = useAuthStore();
+const { copy } = useClipboard();
+
+const showTooltip = ref(false);
+
+function copyHandler() {
+	copy(authStore.user?.username || '');
+	showTooltip.value = true;
+	setTimeout(() => {
+		showTooltip.value = false;
+	}, 1500);
+}
 </script>
 
 <template>
@@ -28,25 +47,27 @@ const authStore = useAuthStore();
 						</span>
 						<span class="text-gray-300">
 							<!--TODO ВРЕМЕННО ВЫГЛЯДИТ КАК ОТСТОЙ НАДО ЗАМЕНИТЬ-->
-							Был(а) в сети в
-							{{
-								new Date(
-									authStore.user?.last_seen_at ?? new Date(),
-								).toLocaleTimeString([], {
-									hour: '2-digit',
-									minute: '2-digit',
-								})
-							}}
+							Был(а) в сети
+							{{ authStore.user?.last_seen_at }}
 						</span>
 					</div>
 				</div>
 
 				<div class="p-2 shadow-bottom">
-					<BaseNavigationItem
-						:label="authStore.user?.username"
-						sublabel="Username"
-						:icon="AtSignIcon"
-					/>
+					<TooltipProvider>
+						<Tooltip :open="showTooltip" :delayDuration="0">
+							<TooltipTrigger as-child>
+								<div @click="copyHandler">
+									<BaseNavigationItem
+										:label="authStore.user?.username"
+										sublabel="Username"
+										:icon="AtSignIcon"
+									/>
+								</div>
+							</TooltipTrigger>
+							<TooltipContent :side-offset="-15"> Copied! </TooltipContent>
+						</Tooltip>
+					</TooltipProvider>
 				</div>
 			</div>
 		</div>

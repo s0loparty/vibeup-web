@@ -38,8 +38,8 @@ watch(
 	(newUser) => {
 		if (!newUser) return;
 
-		form.username = newUser?.username || '';
-		form.bio = newUser?.bio || '';
+		form.username = newUser.username || '';
+		form.bio = newUser.bio || '';
 	},
 
 	{ immediate: true },
