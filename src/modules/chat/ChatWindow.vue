@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import ChatWindowFooter from './ChatWindowFooter.vue';
 import ChatWindowHeader from './ChatWindowHeader.vue';
-import ChatWindowMesseges from './ChatWindowMesseges.vue';
+import ChatWindowMessages from './ChatWindowMessages.vue';
 import ChatWindowWallpaper from './ChatWindowWallpaper.vue';
 </script>
 
@@ -12,7 +12,7 @@ import ChatWindowWallpaper from './ChatWindowWallpaper.vue';
 		<div class="flex h-full flex-col">
 			<ChatWindowWallpaper />
 			<ChatWindowHeader />
-			<ChatWindowMesseges />
+			<ChatWindowMessages />
 			<ChatWindowFooter />
 		</div>
 	</section>
