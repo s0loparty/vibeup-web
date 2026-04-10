@@ -14,7 +14,7 @@
     "lint:eslint": "eslint . --fix --cache",
     "format": "prettier --write --experimental-cli src/",
     "prepare": "husky",
-    "generate": "npx @hey-api/openapi-ts -i ./src/assets/collection.yaml -o ./src/shared/api -c @hey-api/client-axios"
+    "generate": "npx @hey-api/openapi-ts -i http://localhost/docs/api-docs.yaml -o ./src/shared/api -c @hey-api/client-axios"
   },
   "dependencies": {
     "@fontsource/roboto": "^5.2.10",

@@ -1,4 +1,9 @@
 <script setup lang="ts">
+import {
+	ResizableHandle,
+	ResizablePanel,
+	ResizablePanelGroup,
+} from '@/app/components/ui/resizable';
 import { Toaster } from '@/app/components/ui/sonner';
 import ChatUserinfo from '@/modules/chat/chat-userinfo/ChatUserinfo.vue';
 import ChatWindow from '@/modules/chat/ChatWindow.vue';
@@ -33,9 +38,15 @@ watch(user, (newUser) => {
 		style="box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.1)"
 	>
 		<div class="relative flex min-h-dvh justify-center">
-			<RouterView />
-
-			<ChatWindow />
+			<ResizablePanelGroup direction="horizontal">
+				<ResizablePanel sizeUnit="px" :maxSize="420" :minSize="300">
+					<RouterView />
+				</ResizablePanel>
+				<ResizableHandle />
+				<ResizablePanel>
+					<ChatWindow />
+				</ResizablePanel>
+			</ResizablePanelGroup>
 			<ChatUserinfo />
 		</div>
 	</main>
