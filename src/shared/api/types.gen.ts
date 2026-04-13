@@ -5,6 +5,35 @@ export type ClientOptions = {
 };
 
 /**
+ * User
+ *
+ * Пользователь приложения
+ */
+export type User = {
+    id: number;
+    username: string;
+    bio?: string | null;
+    email: string;
+    email_verified_at?: string | null;
+    last_seen_at?: string | null;
+    /**
+     * Аватарка пользователя
+     */
+    avatar: {
+        /**
+         * URL оригинальной аватарки
+         */
+        original?: string | null;
+        /**
+         * URL thumbnail 120x120
+         */
+        thumbnail?: string | null;
+    } | null;
+    created_at?: string;
+    updated_at?: string;
+};
+
+/**
  * AuthToken
  *
  * Токен аутентификации
@@ -22,9 +51,17 @@ export type AuthToken = {
 export type Chat = {
     id: number;
     type: 'private' | 'group';
+    /**
+     * Название группы (только для group)
+     */
     title?: string | null;
     created_by: number;
     last_message_id?: number | null;
+    /**
+     * Отображаемый заголовок: для group — title, для private — username собеседника
+     */
+    display_title: string;
+    last_message?: Message | null;
     created_at?: string;
     updated_at?: string;
 };
@@ -122,6 +159,58 @@ export type PaginatedMessagesResponse = {
 };
 
 /**
+ * AvatarResponse
+ *
+ * Данные аватарки пользователя
+ */
+export type AvatarResponse = {
+    /**
+     * URL оригинальной аватарки
+     */
+    original?: string | null;
+    /**
+     * URL thumbnail 78x78
+     */
+    thumbnail?: string | null;
+};
+
+/**
+ * ChatFileResponse
+ *
+ * Данные файла в чате
+ */
+export type ChatFileResponse = {
+    id: number;
+    original_name: string;
+    mime_type: string;
+    /**
+     * Размер в байтах
+     */
+    size: number;
+    /**
+     * Временная ссылка для скачивания
+     */
+    temporary_url?: string | null;
+    created_at?: string;
+};
+
+/**
+ * TemporaryUrlResponse
+ *
+ * Временная ссылка для скачивания файла
+ */
+export type TemporaryUrlResponse = {
+    /**
+     * Временная ссылка
+     */
+    url?: string;
+    /**
+     * Время истечения ссылки
+     */
+    expires_at?: string;
+};
+
+/**
  * Error
  *
  * Ошибка
@@ -140,22 +229,6 @@ export type ValidationError = {
     errors: {
         [key: string]: Array<string>;
     };
-};
-
-/**
- * User
- *
- * User model
- */
-export type User = {
-    id: number;
-    username: string;
-    bio: string | null;
-    email: string;
-    email_verified_at?: string | null;
-    last_seen_at?: string | null;
-    created_at?: string;
-    updated_at?: string;
 };
 
 export type AuthRegisterData = {
@@ -254,6 +327,103 @@ export type AuthLogoutResponses = {
 };
 
 export type AuthLogoutResponse = AuthLogoutResponses[keyof AuthLogoutResponses];
+
+export type AvatarDestroyData = {
+    body?: never;
+    path?: never;
+    query?: never;
+    url: '/api/v1/user/avatar';
+};
+
+export type AvatarDestroyErrors = {
+    /**
+     * Пользователь не аутентифицирован
+     */
+    401: {
+        message?: string;
+    };
+};
+
+export type AvatarDestroyError = AvatarDestroyErrors[keyof AvatarDestroyErrors];
+
+export type AvatarDestroyResponses = {
+    /**
+     * Аватарка удалена
+     */
+    200: {
+        message?: string;
+    };
+};
+
+export type AvatarDestroyResponse = AvatarDestroyResponses[keyof AvatarDestroyResponses];
+
+export type AvatarUploadData = {
+    body: {
+        /**
+         * Файл аватарки (jpg, png, webp, макс. 2MB)
+         */
+        avatar: Blob | File;
+    };
+    path?: never;
+    query?: never;
+    url: '/api/v1/user/avatar';
+};
+
+export type AvatarUploadErrors = {
+    /**
+     * Ошибка валидации (неподдерживаемый формат или размер > 2MB)
+     */
+    400: ValidationError;
+    /**
+     * Пользователь не аутентифицирован
+     */
+    401: {
+        message?: string;
+    };
+};
+
+export type AvatarUploadError = AvatarUploadErrors[keyof AvatarUploadErrors];
+
+export type AvatarUploadResponses = {
+    /**
+     * Аватарка загружена
+     */
+    200: AvatarResponse;
+};
+
+export type AvatarUploadResponse = AvatarUploadResponses[keyof AvatarUploadResponses];
+
+export type AvatarShowData = {
+    body?: never;
+    path: {
+        /**
+         * ID пользователя
+         */
+        userId: number;
+    };
+    query?: never;
+    url: '/api/v1/users/{userId}/avatar';
+};
+
+export type AvatarShowErrors = {
+    /**
+     * Пользователь не найден
+     */
+    404: {
+        message?: string;
+    };
+};
+
+export type AvatarShowError = AvatarShowErrors[keyof AvatarShowErrors];
+
+export type AvatarShowResponses = {
+    /**
+     * Данные аватарки
+     */
+    200: AvatarResponse;
+};
+
+export type AvatarShowResponse = AvatarShowResponses[keyof AvatarShowResponses];
 
 export type ChatsIndexData = {
     body?: never;
@@ -478,6 +648,129 @@ export type ChatsUpdateResponses = {
 };
 
 export type ChatsUpdateResponse = ChatsUpdateResponses[keyof ChatsUpdateResponses];
+
+export type ChatFilesStoreData = {
+    body: {
+        /**
+         * Файл для загрузки (макс. 100MB)
+         */
+        file: Blob | File;
+    };
+    path: {
+        /**
+         * ID чата
+         */
+        chatId: number;
+    };
+    query?: never;
+    url: '/api/v1/chats/{chatId}/files';
+};
+
+export type ChatFilesStoreErrors = {
+    /**
+     * Ошибка: превышена квота или недопустимый файл
+     */
+    400: {
+        message?: string;
+    };
+    /**
+     * Нет доступа к чату
+     */
+    403: {
+        message?: string;
+    };
+};
+
+export type ChatFilesStoreError = ChatFilesStoreErrors[keyof ChatFilesStoreErrors];
+
+export type ChatFilesStoreResponses = {
+    /**
+     * Файл успешно загружен
+     */
+    201: ChatFileResponse;
+};
+
+export type ChatFilesStoreResponse = ChatFilesStoreResponses[keyof ChatFilesStoreResponses];
+
+export type ChatFilesDownloadData = {
+    body?: never;
+    path: {
+        /**
+         * ID чата
+         */
+        chatId: number;
+        /**
+         * ID файла
+         */
+        fileId: number;
+    };
+    query?: never;
+    url: '/api/v1/chats/{chatId}/files/{fileId}/download';
+};
+
+export type ChatFilesDownloadErrors = {
+    /**
+     * Нет доступа к файлу
+     */
+    403: {
+        message?: string;
+    };
+    /**
+     * Файл не найден
+     */
+    404: {
+        message?: string;
+    };
+};
+
+export type ChatFilesDownloadError = ChatFilesDownloadErrors[keyof ChatFilesDownloadErrors];
+
+export type ChatFilesDownloadResponses = {
+    /**
+     * Временная ссылка сгенерирована
+     */
+    200: TemporaryUrlResponse;
+};
+
+export type ChatFilesDownloadResponse = ChatFilesDownloadResponses[keyof ChatFilesDownloadResponses];
+
+export type ChatFilesDestroyData = {
+    body?: never;
+    path: {
+        /**
+         * ID чата
+         */
+        chatId: number;
+        /**
+         * ID файла
+         */
+        fileId: number;
+    };
+    query?: never;
+    url: '/api/v1/chats/{chatId}/files/{fileId}';
+};
+
+export type ChatFilesDestroyErrors = {
+    /**
+     * Нет прав на удаление
+     */
+    403: {
+        message?: string;
+    };
+};
+
+export type ChatFilesDestroyError = ChatFilesDestroyErrors[keyof ChatFilesDestroyErrors];
+
+export type ChatFilesDestroyResponses = {
+    /**
+     * Файл удалён
+     */
+    200: {
+        message?: string;
+    };
+};
+
+export type ChatFilesDestroyResponse = ChatFilesDestroyResponses[keyof ChatFilesDestroyResponses];
 
 export type UserDestroyData = {
     body?: never;
