@@ -1,25 +1,27 @@
-import type { ChatWithLastMessage } from '@/app/types/api';
-import { chatsIndex, type CursorPaginationMeta } from '@/shared/api';
-import { useQuery } from '@tanstack/vue-query';
+import { chatsIndex } from '@/shared/api';
+import { useInfiniteQuery } from '@tanstack/vue-query';
 import { chatKeys } from './chat.keys';
 
 export function useChatQuery() {
-	return useQuery({
+	return useInfiniteQuery({
 		queryKey: chatKeys.list().queryKey,
 
-		select(data) {
-			return data.data as {
-				meta: CursorPaginationMeta;
-				data: ChatWithLastMessage[];
-			};
-		},
+		initialPageParam: '',
 
-		queryFn: () => {
+		refetchOnMount: false,
+
+		queryFn: ({ pageParam }) => {
+			console.log('REQUEST cursor:', pageParam);
+
 			return chatsIndex({
 				query: {
-					include: 'lastMessage,members',
+					cursor: pageParam,
 				},
 			});
+		},
+
+		getNextPageParam: (lastPage) => {
+			return lastPage.data?.meta?.next_cursor || undefined;
 		},
 	});
 }

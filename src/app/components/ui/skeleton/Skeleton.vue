@@ -3,7 +3,7 @@ import { cn } from '@/shared/lib/utils';
 import type { HTMLAttributes } from 'vue';
 
 interface SkeletonProps {
-	class?: HTMLAttributes['class'];
+    class?: HTMLAttributes['class'];
 }
 
 const props = defineProps<SkeletonProps>();
