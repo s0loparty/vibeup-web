@@ -26,5 +26,9 @@ export function useChatQuery() {
 		getNextPageParam: (lastPage) => {
 			return lastPage.data?.meta?.next_cursor || undefined;
 		},
+
+		getNextPageParam: (lastPage) => {
+			return lastPage.data?.meta?.next_cursor || undefined;
+		},
 	});
 }
