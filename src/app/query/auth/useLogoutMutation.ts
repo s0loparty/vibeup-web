@@ -6,11 +6,11 @@ import { handleApiError } from '@/app/utils/error-handler';
 import { authLogout } from '@/shared/api';
 import { useMutation, useQueryClient } from '@tanstack/vue-query';
 import { toast } from 'vue-sonner';
-import { userKeys } from '../user/user.keys';
 import { authKeys } from './auth.keys';
 
 export function useLogoutMutation() {
 	const authStore = useAuthStore();
+
 	const client = useQueryClient();
 
 	return useMutation({
@@ -25,11 +25,9 @@ export function useLogoutMutation() {
 		},
 
 		onSuccess() {
-			client.removeQueries({
-				queryKey: userKeys.current().queryKey,
-			});
-
+			client.clear();
 			authStore.reset();
+
 			router.push({ name: 'auth:login' });
 		},
 

@@ -10,7 +10,7 @@ export function useUserQuery() {
 	return useQuery({
 		...userKeys.current(),
 		queryFn: () => userShow(),
-		enabled: isAuthenticated, // Запрос только если аутентифицирован
+		enabled: isAuthenticated,
 		staleTime: Infinity,
 		retry: false,
 		select(data) {

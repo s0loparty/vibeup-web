@@ -4,4 +4,6 @@ export const userKeys = createQueryKeys('user', {
 	current: () => ({
 		queryKey: ['currentUser'],
 	}),
+
+	avatar: () => ['avatar'],
 });

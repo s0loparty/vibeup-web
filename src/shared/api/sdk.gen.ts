@@ -2,7 +2,7 @@
 
 import { type Client, formDataBodySerializer, type Options as Options2, type TDataShape } from './client';
 import { client } from './client.gen';
-import type { AuthLoginData, AuthLoginErrors, AuthLoginResponses, AuthLogoutData, AuthLogoutErrors, AuthLogoutResponses, AuthRegisterData, AuthRegisterErrors, AuthRegisterResponses, AvatarDestroyData, AvatarDestroyErrors, AvatarDestroyResponses, AvatarShowData, AvatarShowErrors, AvatarShowResponses, AvatarUploadData, AvatarUploadErrors, AvatarUploadResponses, ChatFilesDestroyData, ChatFilesDestroyErrors, ChatFilesDestroyResponses, ChatFilesDownloadData, ChatFilesDownloadErrors, ChatFilesDownloadResponses, ChatFilesStoreData, ChatFilesStoreErrors, ChatFilesStoreResponses, ChatsDestroyData, ChatsDestroyErrors, ChatsDestroyResponses, ChatsIndexData, ChatsIndexErrors, ChatsIndexResponses, ChatsShowData, ChatsShowErrors, ChatsShowResponses, ChatsStoreData, ChatsStoreErrors, ChatsStoreResponses, ChatsUpdateData, ChatsUpdateErrors, ChatsUpdateResponses, MessagesDestroyData, MessagesDestroyErrors, MessagesDestroyResponses, MessagesIndexData, MessagesIndexErrors, MessagesIndexResponses, MessagesShowData, MessagesShowErrors, MessagesShowResponses, MessagesStoreData, MessagesStoreErrors, MessagesStoreResponses, MessagesUpdateData, MessagesUpdateErrors, MessagesUpdateResponses, UserDestroyData, UserDestroyErrors, UserDestroyResponses, UserShowData, UserShowErrors, UserShowResponses, UserUpdateData, UserUpdateErrors, UserUpdateResponses } from './types.gen';
+import type { AuthLoginData, AuthLoginErrors, AuthLoginResponses, AuthLogoutData, AuthLogoutErrors, AuthLogoutResponses, AuthRegisterData, AuthRegisterErrors, AuthRegisterResponses, ChatFilesDestroyData, ChatFilesDestroyErrors, ChatFilesDestroyResponses, ChatFilesDownloadData, ChatFilesDownloadErrors, ChatFilesDownloadResponses, ChatFilesStoreData, ChatFilesStoreErrors, ChatFilesStoreResponses, ChatsDestroyData, ChatsDestroyErrors, ChatsDestroyResponses, ChatsIndexData, ChatsIndexErrors, ChatsIndexResponses, ChatsShowData, ChatsShowErrors, ChatsShowResponses, ChatsStoreData, ChatsStoreErrors, ChatsStoreResponses, ChatsUpdateData, ChatsUpdateErrors, ChatsUpdateResponses, MessagesDestroyData, MessagesDestroyErrors, MessagesDestroyResponses, MessagesIndexData, MessagesIndexErrors, MessagesIndexResponses, MessagesShowData, MessagesShowErrors, MessagesShowResponses, MessagesStoreData, MessagesStoreErrors, MessagesStoreResponses, MessagesUpdateData, MessagesUpdateErrors, MessagesUpdateResponses, UserDestroyData, UserDestroyErrors, UserDestroyResponses, UsersAvatarsDestroyData, UsersAvatarsDestroyErrors, UsersAvatarsDestroyResponses, UsersAvatarsShowData, UsersAvatarsShowErrors, UsersAvatarsShowResponses, UsersAvatarsStoreData, UsersAvatarsStoreErrors, UsersAvatarsStoreResponses, UserShowData, UserShowErrors, UserShowResponses, UserUpdateData, UserUpdateErrors, UserUpdateResponses } from './types.gen';
 
 export type Options<TData extends TDataShape = TDataShape, ThrowOnError extends boolean = boolean, TResponse = unknown> = Options2<TData, ThrowOnError, TResponse> & {
     /**
@@ -57,47 +57,6 @@ export const authLogout = <ThrowOnError extends boolean = false>(options?: Optio
     responseType: 'json',
     security: [{ scheme: 'bearer', type: 'http' }],
     url: '/api/v1/auth/logout',
-    ...options
-});
-
-/**
- * Удалить аватарку
- *
- * Удаляет текущую аватарку пользователя
- */
-export const avatarDestroy = <ThrowOnError extends boolean = false>(options?: Options<AvatarDestroyData, ThrowOnError>) => (options?.client ?? client).delete<AvatarDestroyResponses, AvatarDestroyErrors, ThrowOnError>({
-    responseType: 'json',
-    security: [{ scheme: 'bearer', type: 'http' }],
-    url: '/api/v1/user/avatar',
-    ...options
-});
-
-/**
- * Загрузить или заменить аватарку
- *
- * Загружает новую аватарку. Старая аватарка автоматически удаляется.
- */
-export const avatarUpload = <ThrowOnError extends boolean = false>(options: Options<AvatarUploadData, ThrowOnError>) => (options.client ?? client).post<AvatarUploadResponses, AvatarUploadErrors, ThrowOnError>({
-    ...formDataBodySerializer,
-    responseType: 'json',
-    security: [{ scheme: 'bearer', type: 'http' }],
-    url: '/api/v1/user/avatar',
-    ...options,
-    headers: {
-        'Content-Type': null,
-        ...options.headers
-    }
-});
-
-/**
- * Получить аватарку пользователя
- *
- * Возвращает URL оригинальной аватарки и thumbnail
- */
-export const avatarShow = <ThrowOnError extends boolean = false>(options: Options<AvatarShowData, ThrowOnError>) => (options.client ?? client).get<AvatarShowResponses, AvatarShowErrors, ThrowOnError>({
-    responseType: 'json',
-    security: [{ scheme: 'bearer', type: 'http' }],
-    url: '/api/v1/users/{userId}/avatar',
     ...options
 });
 
@@ -314,6 +273,47 @@ export const messagesUpdate = <ThrowOnError extends boolean = false>(options: Op
     ...options,
     headers: {
         'Content-Type': 'application/json',
+        ...options.headers
+    }
+});
+
+/**
+ * Удалить аватарку
+ *
+ * Удаляет текущую аватарку пользователя
+ */
+export const usersAvatarsDestroy = <ThrowOnError extends boolean = false>(options: Options<UsersAvatarsDestroyData, ThrowOnError>) => (options.client ?? client).delete<UsersAvatarsDestroyResponses, UsersAvatarsDestroyErrors, ThrowOnError>({
+    responseType: 'json',
+    security: [{ scheme: 'bearer', type: 'http' }],
+    url: '/api/v1/users/{user}/avatar',
+    ...options
+});
+
+/**
+ * Получить аватарку пользователя
+ *
+ * Возвращает URL оригинальной аватарки и thumbnail
+ */
+export const usersAvatarsShow = <ThrowOnError extends boolean = false>(options: Options<UsersAvatarsShowData, ThrowOnError>) => (options.client ?? client).get<UsersAvatarsShowResponses, UsersAvatarsShowErrors, ThrowOnError>({
+    responseType: 'json',
+    security: [{ scheme: 'bearer', type: 'http' }],
+    url: '/api/v1/users/{user}/avatar',
+    ...options
+});
+
+/**
+ * Загрузить или заменить аватарку
+ *
+ * Загружает новую аватарку. Старая аватарка автоматически удаляется.
+ */
+export const usersAvatarsStore = <ThrowOnError extends boolean = false>(options: Options<UsersAvatarsStoreData, ThrowOnError>) => (options.client ?? client).post<UsersAvatarsStoreResponses, UsersAvatarsStoreErrors, ThrowOnError>({
+    ...formDataBodySerializer,
+    responseType: 'json',
+    security: [{ scheme: 'bearer', type: 'http' }],
+    url: '/api/v1/users/{user}/avatar',
+    ...options,
+    headers: {
+        'Content-Type': null,
         ...options.headers
     }
 });

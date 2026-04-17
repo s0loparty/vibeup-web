@@ -2,67 +2,65 @@
 import BaseAvatar from '@/app/components/base/BaseAvatar.vue';
 import BaseInput from '@/app/components/base/BaseInput.vue';
 import BaseTextarea from '@/app/components/base/BaseTextarea.vue';
-import { useUpdateUserMutation } from '@/app/query/user/useUpdateUserMutation';
-import { useAuthStore } from '@/app/stores/useAuthStore';
-import { watchDebounced } from '@vueuse/core';
-import { ImagePlusIcon } from 'lucide-vue-next';
-import { reactive, watch } from 'vue';
+import {
+	DropdownMenu,
+	DropdownMenuContent,
+	DropdownMenuItem,
+	DropdownMenuTrigger,
+} from '@/app/components/ui/dropdown-menu';
+import { useRemoveUserAvatarMutation } from '@/app/query/user/useRemoveUserAvatarMutation';
+import {
+	CircleUserRoundIcon,
+	EllipsisVerticalIcon,
+	LoaderIcon,
+} from 'lucide-vue-next';
+import { useUserEditProfile } from '../composables/useUserEditProfile';
 import TabTitle from './TabTitle.vue';
 
-const { mutate: updateUser } = useUpdateUserMutation();
-const authStore = useAuthStore();
+const { isAvatarUpdate, waitUserAvatar, userAvatar, form, open } =
+	useUserEditProfile();
 
-const form = reactive({
-	username: '',
-	bio: '',
-});
-
-watchDebounced(
-	() => [form.username, form.bio],
-	([newUserName, newBio]) => {
-		const user = authStore.user;
-		if (!user) return;
-
-		if (user.username !== newUserName || user.bio !== newBio) {
-			updateUser({
-				username: newUserName,
-				bio: newBio,
-			});
-		}
-	},
-	{ debounce: 2000 },
-);
-
-watch(
-	() => authStore.user,
-	(newUser) => {
-		if (!newUser) return;
-
-		form.username = newUser.username || '';
-		form.bio = newUser.bio || '';
-	},
-
-	{ immediate: true },
-);
+const { mutate: removeAvatar, isPending: isRemovingAvatar } =
+	useRemoveUserAvatarMutation();
 </script>
 
 <template>
 	<div class="h-screen bg-white">
 		<div id="user-edit-profile">
-			<TabTitle title="Edit Profile" />
+			<div class="flex items-center justify-between">
+				<TabTitle title="Edit Profile" />
+				<DropdownMenu>
+					<DropdownMenuTrigger class="mr-4 cursor-pointer">
+						<EllipsisVerticalIcon class="size-6" />
+					</DropdownMenuTrigger>
+					<DropdownMenuContent>
+						<DropdownMenuItem @click="open()"
+							>Загрузить аватар</DropdownMenuItem
+						>
+						<DropdownMenuItem
+							class="text-red-500 focus:bg-red-100/50 focus:text-red-500"
+							@click="removeAvatar"
+							>Удалить аватар</DropdownMenuItem
+						>
+					</DropdownMenuContent>
+				</DropdownMenu>
+			</div>
 
 			<div>
 				<div class="my-4 flex justify-center">
-					<div class="group relative">
-						<button class="block cursor-pointer">
-							<BaseAvatar
-								class="size-30 brightness-50"
-								name="Sueta"
-								src="https://github.com/shadcn.png"
-							/>
-						</button>
-						<ImagePlusIcon
-							class="absolute top-1/2 left-1/2 size-13 -translate-1/2 cursor-pointer text-white transition-transform duration-200 group-hover:scale-120"
+					<div class="flex size-30 items-center justify-center">
+						<LoaderIcon
+							v-if="isAvatarUpdate || isRemovingAvatar || waitUserAvatar"
+							class="mx-auto my-2.5 size-8 animate-spin text-brand-500"
+						/>
+						<CircleUserRoundIcon
+							v-else-if="!userAvatar?.thumbnail"
+							class="mx-auto size-30 text-brand-400"
+						/>
+						<BaseAvatar
+							v-else
+							class="size-30 brightness-50"
+							:src="userAvatar.thumbnail"
 						/>
 					</div>
 				</div>

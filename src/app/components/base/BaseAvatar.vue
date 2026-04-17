@@ -5,7 +5,7 @@ import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
 
 type Props = {
 	src: string;
-	name: string;
+	name?: string;
 };
 
 const { name, src } = defineProps<Props>();
