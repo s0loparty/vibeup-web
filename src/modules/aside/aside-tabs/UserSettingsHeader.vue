@@ -8,14 +8,16 @@ import {
 } from '@/app/components/ui/tooltip';
 import { useAuthStore } from '@/app/stores/useAuthStore';
 import { useClipboard } from '@vueuse/core';
-import { AtSignIcon } from 'lucide-vue-next';
+import { AtSignIcon, CircleUserRoundIcon } from 'lucide-vue-next';
 import { ref } from 'vue';
+import { useUserEditProfile } from '../composables/useUserEditProfile';
 import TabTitle from './TabTitle.vue';
+
+const showTooltip = ref(false);
 
 const authStore = useAuthStore();
 const { copy } = useClipboard();
-
-const showTooltip = ref(false);
+const { userAvatar } = useUserEditProfile();
 
 function copyHandler() {
 	copy(authStore.user?.username || '');
@@ -33,10 +35,15 @@ function copyHandler() {
 				<TabTitle title="Settings" />
 
 				<div class="relative">
+					<CircleUserRoundIcon
+						v-if="!userAvatar?.original"
+						class="mx-auto size-50 text-brand-400"
+					/>
 					<img
-						class="min-h-90.5 w-full object-cover"
-						src="https://i.pinimg.com/originals/5b/18/9d/5b189ddbad90269952a0ca4b20634ec6.jpg"
-						alt="Alex Darkstalker 2016"
+						v-else
+						class="max-h-90.5 min-h-90.5 w-full object-cover"
+						:src="userAvatar.original"
+						:alt="authStore.user?.username"
 					/>
 
 					<div

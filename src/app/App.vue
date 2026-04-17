@@ -11,6 +11,7 @@ import { VueQueryDevtools } from '@tanstack/vue-query-devtools';
 import { watch } from 'vue';
 import AppLoader from './components/AppLoader.vue';
 import { useAppColor } from './composables/useAppColor';
+import { useUserAvatarQuery } from './query/user/useUserAvatarQuery';
 import { useUserQuery } from './query/user/useUserQuery';
 import { useAuthStore } from './stores/useAuthStore';
 
@@ -22,13 +23,26 @@ appColor.setHtmlColor();
 
 // Загружаем данные пользователя когда аутентифицирован
 const { data: user } = useUserQuery();
+const { data: avatar } = useUserAvatarQuery();
 
 // Синхронизируем данные пользователя из Vue Query в Pinia
-watch(user, (newUser) => {
-	if (newUser && authStore.isAuthenticated) {
-		authStore.setUser(newUser);
-	}
-});
+watch(
+	user,
+	(newUser) => {
+		if (newUser && authStore.isAuthenticated) {
+			authStore.setUser(newUser);
+		}
+	},
+	{ once: true },
+);
+
+watch(
+	avatar,
+	(newAvatar) => {
+		return newAvatar;
+	},
+	{ once: true },
+);
 </script>
 
 <template>
