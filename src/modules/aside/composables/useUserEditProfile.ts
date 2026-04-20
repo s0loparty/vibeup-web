@@ -40,10 +40,22 @@ export function useUserEditProfile() {
 			if (!user) return;
 
 			if (user.username !== newUserName || user.bio !== newBio) {
-				updateUser({
-					username: newUserName,
-					bio: newBio,
-				});
+				updateUser(
+					{
+						username: newUserName,
+						bio: newBio,
+					},
+					{
+						onError: () => {
+							const currentUser = authStore.user;
+
+							if (!currentUser) return;
+
+							form.username = currentUser?.username;
+							form.bio = currentUser.bio ?? '';
+						},
+					},
+				);
 			}
 		},
 		{ debounce: 2000 },
