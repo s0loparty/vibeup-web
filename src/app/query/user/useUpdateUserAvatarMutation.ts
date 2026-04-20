@@ -4,13 +4,14 @@ import { usersAvatarsStore, type UsersAvatarsStoreData } from '@/shared/api';
 import { useMutation, useQueryClient } from '@tanstack/vue-query';
 import { toast } from 'vue-sonner';
 import { userKeys } from './user.keys';
+import { userMutationKeys } from './userMutation.keys';
 
 export function useUpdateUserAvatarMutation() {
 	const clinet = useQueryClient();
 	const authStore = useAuthStore();
 
 	return useMutation({
-		mutationKey: userKeys.avatar().queryKey,
+		mutationKey: userMutationKeys.updateAvatar().queryKey,
 
 		mutationFn: async (file: UsersAvatarsStoreData['body']['avatar']) => {
 			const result = await usersAvatarsStore({
@@ -25,13 +26,25 @@ export function useUpdateUserAvatarMutation() {
 			return result.data;
 		},
 
+		onMutate: async () => {
+			await clinet.cancelQueries({ queryKey: userKeys.avatar().queryKey });
+
+			const prevAvatarData = clinet.getQueryData(userKeys.avatar().queryKey);
+
+			return { prevAvatarData };
+		},
+
 		onSuccess: (newAvatar) => {
 			clinet.setQueryData(userKeys.avatar().queryKey, newAvatar);
 		},
 
-		onError: (error) => {
+		onError: (error, newAvatar, context) => {
 			toast.error(getErrorMessage(error));
 			console.log(error);
+
+			if (context) {
+				clinet.setQueryData(userKeys.avatar().queryKey, context.prevAvatarData);
+			}
 		},
 	});
 }

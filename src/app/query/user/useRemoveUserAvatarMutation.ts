@@ -24,13 +24,25 @@ export function useRemoveUserAvatarMutation() {
 			return result;
 		},
 
+		onMutate: async () => {
+			await client.cancelQueries({ queryKey: userKeys.avatar().queryKey });
+
+			const currentAvatar = client.getQueryData(userKeys.avatar().queryKey);
+
+			return { currentAvatar };
+		},
+
 		onSuccess: () => {
 			client.setQueriesData({ queryKey: userKeys.avatar().queryKey }, null);
 		},
 
-		onError: (error) => {
+		onError: (error, _, context) => {
 			toast.error(getErrorMessage(error));
 			console.log(error);
+
+			if (context) {
+				client.setQueryData(userKeys.avatar().queryKey, context.currentAvatar);
+			}
 		},
 	});
 }

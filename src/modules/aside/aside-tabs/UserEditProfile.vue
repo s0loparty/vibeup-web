@@ -8,12 +8,9 @@ import {
 	DropdownMenuItem,
 	DropdownMenuTrigger,
 } from '@/app/components/ui/dropdown-menu';
+import { Skeleton } from '@/app/components/ui/skeleton';
 import { useRemoveUserAvatarMutation } from '@/app/query/user/useRemoveUserAvatarMutation';
-import {
-	CircleUserRoundIcon,
-	EllipsisVerticalIcon,
-	LoaderIcon,
-} from 'lucide-vue-next';
+import { CircleUserRoundIcon, EllipsisVerticalIcon } from 'lucide-vue-next';
 import { useUserEditProfile } from '../composables/useUserEditProfile';
 import TabTitle from './TabTitle.vue';
 
@@ -49,9 +46,9 @@ const { mutate: removeAvatar, isPending: isRemovingAvatar } =
 			<div>
 				<div class="my-4 flex justify-center">
 					<div class="flex size-30 items-center justify-center">
-						<LoaderIcon
+						<Skeleton
+							class="mx-auto size-30 rounded-full"
 							v-if="isAvatarUpdate || isRemovingAvatar || waitUserAvatar"
-							class="mx-auto my-2.5 size-8 animate-spin text-brand-500"
 						/>
 						<CircleUserRoundIcon
 							v-else-if="!userAvatar?.thumbnail"
