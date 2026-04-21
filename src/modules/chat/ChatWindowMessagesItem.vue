@@ -48,7 +48,7 @@ defineProps<{
 				</div>
 			</div>
 		</ContextMenuTrigger>
-		<ContextMenuContent class="w-25">
+		<ContextMenuContent class="w-25 bg-white/95">
 			<ContextMenuItem>
 				<ReplyIcon />
 				Reply

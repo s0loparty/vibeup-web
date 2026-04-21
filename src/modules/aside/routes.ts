@@ -8,9 +8,13 @@ import UserPrivacyBlacklist from '@/modules/aside/aside-tabs/UserPrivacyBlacklis
 import UserPrivacyChangeEmail from '@/modules/aside/aside-tabs/UserPrivacyChangeEmail.vue';
 import UserStorage from '@/modules/aside/aside-tabs/UserStorage.vue';
 import { type NamedRouteRecordRaw } from 'vue-routes-to-types';
+import UserChatCreateGroupPage from '../pages/UserChatCreateGroupPage.vue';
 import UserSettingsGeneralPage from '../pages/UserSettingsGeneralPage.vue';
 import UserSettingsPage from '../pages/UserSettingsPage.vue';
 import UserSettingsPrivacyPage from '../pages/UserSettingsPrivacyPage.vue';
+import UserChatCreateGroup from './aside-tabs/UserChatCreateGroup.vue';
+import UserChatCreateGroupSettings from './aside-tabs/UserChatCreateGroupSettings.vue';
+import UserChatCreatePrivat from './aside-tabs/UserChatCreatePrivat.vue';
 import UserPrivacy from './aside-tabs/UserPrivacy.vue';
 import UserSettingsTabList from './aside-tabs/UserSettingsTabList.vue';
 
@@ -107,6 +111,33 @@ export default [
 						],
 					},
 				],
+			},
+			{
+				path: 'create-group',
+				component: UserChatCreateGroupPage,
+				name: 'create-group',
+				meta: { level: 1 },
+				redirect: { name: 'create-group:index' },
+				children: [
+					{
+						path: '',
+						component: UserChatCreateGroup,
+						name: 'create-group:index',
+						meta: { level: 1 },
+					},
+					{
+						path: 'group-settings',
+						component: UserChatCreateGroupSettings,
+						name: 'create-group:settings',
+						meta: { level: 2 },
+					},
+				],
+			},
+			{
+				path: 'create-private',
+				component: UserChatCreatePrivat,
+				name: 'create-private',
+				meta: { level: 1 },
 			},
 		],
 	},

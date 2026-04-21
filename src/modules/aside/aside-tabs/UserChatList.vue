@@ -6,6 +6,7 @@ import AsideNavHeader from '@/modules/aside/components/AsideNavHeader.vue';
 import { LoaderIcon } from 'lucide-vue-next';
 import { storeToRefs } from 'pinia';
 import { computed } from 'vue';
+import UserChatListButton from './UserChatListButton.vue';
 import UserChatListItem from './UserChatListItem.vue';
 import UserChatListSkeleton from './UserChatListSkeleton.vue';
 
@@ -56,6 +57,7 @@ function scrollHandler(event: Event) {
 				<ul v-else class="bg-white px-2.5" @click="showAside = false">
 					<UserChatListItem v-for="chat in chats" :key="chat.id" :chat />
 				</ul>
+				<UserChatListButton />
 				<LoaderIcon
 					v-if="isFetchingNextPage"
 					class="mx-auto my-2.5 size-6 animate-spin text-brand-500"
