@@ -8,8 +8,10 @@ export function useChatQuery() {
 		queryKey: chatKeys.list().queryKey,
 
 		initialPageParam: '',
-
+		staleTime: Infinity,
+		gcTime: Infinity,
 		refetchOnMount: false,
+		refetchOnWindowFocus: false,
 
 		queryFn: async ({ pageParam }) => {
 			const result = await chatsIndex({ query: { cursor: pageParam } });
@@ -20,8 +22,6 @@ export function useChatQuery() {
 
 			return result;
 		},
-
-		retry: false,
 
 		getNextPageParam: (lastPage) => {
 			return lastPage.data?.meta?.next_cursor || undefined;

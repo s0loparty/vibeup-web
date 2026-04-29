@@ -1,8 +1,40 @@
 <script setup lang="ts">
+import { useChatShowQuery } from '@/app/query/chat/useChatShowQuery';
+import router from '@/app/router';
+import { computed, watchEffect } from 'vue';
+import { useRoute } from 'vue-router';
 import ChatWindowFooter from './ChatWindowFooter.vue';
 import ChatWindowHeader from './ChatWindowHeader.vue';
+import ChatWindowHeaderGroup from './ChatWindowHeaderGroup.vue';
+import ChatWindowHeaderSkeleton from './ChatWindowHeaderSkeleton.vue';
 import ChatWindowMessages from './ChatWindowMessages.vue';
 import ChatWindowWallpaper from './ChatWindowWallpaper.vue';
+
+const route = useRoute<'chat-window'>();
+
+const chatId = computed(() => {
+	return Number(route.params.id);
+});
+
+const { data: chat, isFetching } = useChatShowQuery(chatId);
+
+const member = computed(() => {
+	if (!chat.value?.chat?.members) {
+		return;
+	} else {
+		return chat.value.chat.members[0];
+	}
+});
+
+const isPrivateChat = computed(() => {
+	return chat.value?.chat?.type === 'private';
+});
+
+watchEffect(() => {
+	if (!chatId.value) {
+		router.push({ name: 'main' });
+	}
+});
 </script>
 
 <template>
@@ -11,7 +43,13 @@ import ChatWindowWallpaper from './ChatWindowWallpaper.vue';
 	>
 		<div class="flex h-full flex-col">
 			<ChatWindowWallpaper />
-			<ChatWindowHeader />
+			<ChatWindowHeaderSkeleton v-if="isFetching" />
+			<ChatWindowHeader v-else-if="member && isPrivateChat" :member="member" />
+			<!--тут для группового чата данные за место member-->
+			<ChatWindowHeaderGroup
+				v-else-if="member && !isPrivateChat"
+				:member="member"
+			/>
 			<ChatWindowMessages />
 			<ChatWindowFooter />
 		</div>

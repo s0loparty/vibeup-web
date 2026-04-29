@@ -2,6 +2,7 @@
 import BaseNavigationItem from '@/app/components/base/BaseNavigationItem.vue';
 import { ScrollArea } from '@/app/components/ui/scroll-area';
 import { useLogoutMutation } from '@/app/query/auth/useLogoutMutation';
+import { useAsidePanelStore } from '@/app/stores/useAsidePanelStore';
 import {
 	BellIcon,
 	DatabaseIcon,
@@ -10,9 +11,15 @@ import {
 	PencilIcon,
 	SettingsIcon,
 } from 'lucide-vue-next';
+import UserEditProfile from './UserEditProfile.vue';
+import UserGeneral from './UserGeneral.vue';
+import UserNotify from './UserNotify.vue';
+import UserPrivacy from './UserPrivacy.vue';
 import UserSettingsHeader from './UserSettingsHeader.vue';
+import UserStorage from './UserStorage.vue';
 
 const { mutate: logout } = useLogoutMutation();
+const asideStore = useAsidePanelStore();
 </script>
 
 <template>
@@ -26,7 +33,7 @@ const { mutate: logout } = useLogoutMutation();
 						<BaseNavigationItem
 							label="Edit profile"
 							:icon="PencilIcon"
-							@click="$router.push({ name: 'settings:profile-edit' })"
+							@click="asideStore.pushLevel(UserEditProfile)"
 						/>
 					</li>
 
@@ -34,7 +41,7 @@ const { mutate: logout } = useLogoutMutation();
 						<BaseNavigationItem
 							label="Notification"
 							:icon="BellIcon"
-							@click="$router.push({ name: 'settings:notify' })"
+							@click="asideStore.pushLevel(UserNotify)"
 						/>
 					</li>
 
@@ -42,7 +49,7 @@ const { mutate: logout } = useLogoutMutation();
 						<BaseNavigationItem
 							label="Data and Storage"
 							:icon="DatabaseIcon"
-							@click="$router.push({ name: 'settings:storage' })"
+							@click="asideStore.pushLevel(UserStorage)"
 						/>
 					</li>
 
@@ -50,7 +57,7 @@ const { mutate: logout } = useLogoutMutation();
 						<BaseNavigationItem
 							label="Privacy and Security"
 							:icon="LockIcon"
-							@click="$router.push({ name: 'settings:privacy' })"
+							@click="asideStore.pushLevel(UserPrivacy)"
 						/>
 					</li>
 
@@ -58,7 +65,7 @@ const { mutate: logout } = useLogoutMutation();
 						<BaseNavigationItem
 							label="General Settings"
 							:icon="SettingsIcon"
-							@click="$router.push({ name: 'settings:general' })"
+							@click="asideStore.pushLevel(UserGeneral)"
 						/>
 					</li>
 

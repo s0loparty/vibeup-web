@@ -1,10 +1,14 @@
 <script setup lang="ts">
 import BaseNavigationItem from '@/app/components/base/BaseNavigationItem.vue';
+import { useAsidePanelStore } from '@/app/stores/useAsidePanelStore';
 import { useAuthStore } from '@/app/stores/useAuthStore';
 import { MailIcon, UserXIcon } from 'lucide-vue-next';
 import TabTitle from './TabTitle.vue';
+import UserPrivacyBlacklist from './UserPrivacyBlacklist.vue';
+import UserPrivacyChangeEmail from './UserPrivacyChangeEmail.vue';
 
 const authStore = useAuthStore();
+const asideStore = useAsidePanelStore();
 </script>
 
 <template>
@@ -17,14 +21,14 @@ const authStore = useAuthStore();
 					label="Blocked Users"
 					sublabel="100 users"
 					:icon="UserXIcon"
-					@click="$router.push({ name: 'settings:privacy:blacklist' })"
+					@click="asideStore.pushLevel(UserPrivacyBlacklist)"
 				/>
 
 				<BaseNavigationItem
 					label="Login Email"
 					:sublabel="authStore.user?.email"
 					:icon="MailIcon"
-					@click="$router.push({ name: 'settings:privacy:change-email' })"
+					@click="asideStore.pushLevel(UserPrivacyChangeEmail)"
 				/>
 			</div>
 		</div>

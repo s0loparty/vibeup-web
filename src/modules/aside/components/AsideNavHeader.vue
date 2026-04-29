@@ -6,12 +6,16 @@ import {
 	DropdownMenuItem,
 	DropdownMenuTrigger,
 } from '@/app/components/ui/dropdown-menu';
+import { useAsidePanelStore } from '@/app/stores/useAsidePanelStore';
 import {
 	BookmarkIcon,
 	MenuIcon,
 	SearchIcon,
 	SettingsIcon,
 } from 'lucide-vue-next';
+import UserSettingsTabList from '../aside-tabs/UserSettingsTabList.vue';
+
+const asidePanel = useAsidePanelStore();
 </script>
 
 <template>
@@ -29,7 +33,9 @@ import {
 				<DropdownMenuItem>
 					<BookmarkIcon /> Сохранённые сообщения
 				</DropdownMenuItem>
-				<DropdownMenuItem @click="$router.push('/settings')">
+				<DropdownMenuItem
+					@click="asidePanel.openPanel('settings', UserSettingsTabList)"
+				>
 					<SettingsIcon /> Настройки
 				</DropdownMenuItem>
 			</DropdownMenuContent>

@@ -10,7 +10,8 @@ import {
 } from '@/app/components/ui/dropdown-menu';
 import { Skeleton } from '@/app/components/ui/skeleton';
 import { useRemoveUserAvatarMutation } from '@/app/query/user/useRemoveUserAvatarMutation';
-import { CircleUserRoundIcon, EllipsisVerticalIcon } from 'lucide-vue-next';
+import { useAuthStore } from '@/app/stores/useAuthStore';
+import { EllipsisVerticalIcon } from 'lucide-vue-next';
 import { ref } from 'vue';
 import { useUserEditProfile } from '../composables/useUserEditProfile';
 import TabTitle from './TabTitle.vue';
@@ -22,6 +23,8 @@ const { isAvatarUpdate, waitUserAvatar, userAvatar, open } =
 
 const { mutate: removeAvatar, isPending: isRemovingAvatar } =
 	useRemoveUserAvatarMutation();
+
+const authStore = useAuthStore();
 //TODO: НАДО СДЕЛАТЬ ХРАНИЛИЩЕ ДЛЯ АВАТАРОК ГРУППОВЫХ ЧАТОВ
 // И ДЛЯ НИХ УЖЕ МУТАЦИИ ЮЗАТЬ И ТАК ДАЛЕЕ
 </script>
@@ -54,14 +57,11 @@ const { mutate: removeAvatar, isPending: isRemovingAvatar } =
 							class="mx-auto size-30 rounded-full"
 							v-if="isAvatarUpdate || isRemovingAvatar || waitUserAvatar"
 						/>
-						<CircleUserRoundIcon
-							v-else-if="!userAvatar?.thumbnail"
-							class="mx-auto size-30 text-brand-400"
-						/>
 						<BaseAvatar
 							v-else
-							class="size-30 brightness-50"
-							:src="userAvatar.thumbnail"
+							class="size-30 bg-gray-500/50 text-2xl text-white"
+							:name="authStore.user?.username"
+							:src="userAvatar?.thumbnail"
 						/>
 					</div>
 				</div>

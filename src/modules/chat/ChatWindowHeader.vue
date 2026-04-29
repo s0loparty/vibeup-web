@@ -2,11 +2,16 @@
 import BaseAvatar from '@/app/components/base/BaseAvatar.vue';
 import { Button } from '@/app/components/ui/button';
 import { useAppMenuStore } from '@/app/stores/useAppMenuStore';
+import type { PublicUser } from '@/shared/api';
 import { ArrowLeftIcon, PinIcon, SearchIcon } from 'lucide-vue-next';
 import { storeToRefs } from 'pinia';
 import ChatWindowHeaderOptions from './ChatWindowHeaderOptions.vue';
 
 const { showUserInfo, showAside } = storeToRefs(useAppMenuStore());
+
+defineProps<{
+	member: PublicUser;
+}>();
 </script>
 
 <template>
@@ -28,15 +33,17 @@ const { showUserInfo, showAside } = storeToRefs(useAppMenuStore());
 			>
 				<!--аватарка-->
 				<BaseAvatar
-					src="https://github.com/shadcn.png"
-					name="avatar"
-					class="size-11"
+					:src="member.avatar?.thumbnail"
+					:name="member.username"
+					class="size-11 bg-gray-500/50 text-sm text-white"
 				/>
 				<div class="flex max-w-full min-w-0 flex-col">
 					<span class="truncate leading-normal font-semibold text-ellipsis">
-						Alex DarkStalker 2016
+						{{ member.username }}
 					</span>
-					<span class="text-sm text-gray-500">был(а) в сети в 13:37</span>
+					<span class="text-sm text-gray-500"
+						>был(а) в сети в {{ member.last_seen_at }}</span
+					>
 				</div>
 			</div>
 

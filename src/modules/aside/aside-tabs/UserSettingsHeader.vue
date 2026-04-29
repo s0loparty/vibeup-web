@@ -1,5 +1,7 @@
 <script setup lang="ts">
+import BaseAvatar from '@/app/components/base/BaseAvatar.vue';
 import BaseNavigationItem from '@/app/components/base/BaseNavigationItem.vue';
+import { Skeleton } from '@/app/components/ui/skeleton';
 import {
 	Tooltip,
 	TooltipContent,
@@ -8,7 +10,7 @@ import {
 } from '@/app/components/ui/tooltip';
 import { useAuthStore } from '@/app/stores/useAuthStore';
 import { useClipboard } from '@vueuse/core';
-import { AtSignIcon, CircleUserRoundIcon } from 'lucide-vue-next';
+import { AtSignIcon } from 'lucide-vue-next';
 import { ref } from 'vue';
 import { useUserEditProfile } from '../composables/useUserEditProfile';
 import TabTitle from './TabTitle.vue';
@@ -16,8 +18,9 @@ import TabTitle from './TabTitle.vue';
 const showTooltip = ref(false);
 
 const authStore = useAuthStore();
+
 const { copy } = useClipboard();
-const { userAvatar } = useUserEditProfile();
+const { userAvatar, waitUserAvatar } = useUserEditProfile();
 
 function copyHandler() {
 	copy(authStore.user?.username || '');
@@ -35,15 +38,15 @@ function copyHandler() {
 				<TabTitle title="Settings" />
 
 				<div class="relative">
-					<CircleUserRoundIcon
-						v-if="!userAvatar?.original"
-						class="mx-auto size-50 text-brand-400"
-					/>
-					<img
-						v-else
+					<Skeleton
 						class="max-h-90.5 min-h-90.5 w-full object-cover"
-						:src="userAvatar.original"
-						:alt="authStore.user?.username"
+						v-if="waitUserAvatar"
+					/>
+
+					<BaseAvatar
+						class="mx-auto size-90.5 text-6xl"
+						:src="userAvatar?.original"
+						:name="authStore.user?.username"
 					/>
 
 					<div
