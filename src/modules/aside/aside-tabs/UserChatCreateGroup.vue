@@ -1,10 +1,12 @@
 <script setup lang="ts">
 import BaseInput from '@/app/components/base/BaseInput.vue';
 import { ScrollArea } from '@/app/components/ui/scroll-area';
+import { useAsidePanelStore } from '@/app/stores/useAsidePanelStore';
 import { ArrowRight } from 'lucide-vue-next';
 import { ref } from 'vue';
 import TabTitle from './TabTitle.vue';
 import UserChatCreateGroupListItem from './UserChatCreateGroupListItem.vue';
+import UserChatCreateGroupSettings from './UserChatCreateGroupSettings.vue';
 
 const selectedUsers = ref(new Set());
 const groupSearch = ref<string>('');
@@ -16,6 +18,8 @@ function checkedHandler(id: number) {
 		selectedUsers.value.add(id);
 	}
 }
+
+const panelStore = useAsidePanelStore();
 </script>
 
 <template>
@@ -52,7 +56,7 @@ function checkedHandler(id: number) {
 				<div class="absolute right-3.75 bottom-3.75">
 					<button
 						class="flex h-14 w-14 cursor-pointer items-center justify-center rounded-full bg-brand-500 shadow-[0_0_10px_0_rgba(0,0,0,0.3)]"
-						@click="$router.push({ name: 'create-group:settings' })"
+						@click="panelStore.pushLevel(UserChatCreateGroupSettings)"
 					>
 						<ArrowRight class="text-white" />
 					</button>

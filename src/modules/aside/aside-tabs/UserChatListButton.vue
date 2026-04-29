@@ -4,8 +4,14 @@ import {
 	PopoverContent,
 	PopoverTrigger,
 } from '@/app/components/ui/popover';
+import { useAsidePanelStore } from '@/app/stores/useAsidePanelStore';
 import { Megaphone, PencilIcon, UserRoundIcon } from 'lucide-vue-next';
+import UserChatCreateGroup from './UserChatCreateGroup.vue';
+import UserChatCreatePrivat from './UserChatCreatePrivat.vue';
+
+const panelStore = useAsidePanelStore();
 </script>
+
 <template>
 	<Popover>
 		<PopoverTrigger as-child>
@@ -19,14 +25,14 @@ import { Megaphone, PencilIcon, UserRoundIcon } from 'lucide-vue-next';
 		<PopoverContent align="end" class="w-60 cursor-pointer bg-white/95 p-1">
 			<button
 				class="flex w-full items-center gap-2.5 rounded-sm p-2.5 hover:bg-gray-100"
-				@click="$router.push({ name: 'create-group' })"
+				@click="panelStore.openPanel('create-group', UserChatCreateGroup)"
 			>
 				<Megaphone />
 				<span class="text-sm">Новый групповой чат</span>
 			</button>
 			<button
 				class="flex w-full items-center gap-2.5 rounded-sm p-2.5 hover:bg-gray-100"
-				@click="$router.push({ name: 'create-private' })"
+				@click="panelStore.openPanel('create-private', UserChatCreatePrivat)"
 			>
 				<UserRoundIcon />
 				<span class="text-sm">Новый чат</span>

@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { useChatWallpaper } from '@/modules/chat/composables/useChatWallpaper';
 import TWallpaper from '@twallpaper/vue';
+import '@twallpaper/vue/css';
 
 const { wallpaper } = useChatWallpaper();
 </script>

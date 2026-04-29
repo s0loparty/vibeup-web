@@ -36,7 +36,7 @@ export function useRegisterMutation() {
 				authStore.setUser(data.user!);
 			}
 
-			router.push({ name: 'chatlist' });
+			router.push({ name: 'chat-hello' });
 		},
 
 		onError(error) {

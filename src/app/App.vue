@@ -6,11 +6,11 @@ import {
 } from '@/app/components/ui/resizable';
 import { Toaster } from '@/app/components/ui/sonner';
 import ChatUserinfo from '@/modules/chat/chat-userinfo/ChatUserinfo.vue';
-import ChatWindow from '@/modules/chat/ChatWindow.vue';
 import { VueQueryDevtools } from '@tanstack/vue-query-devtools';
 import { watch } from 'vue';
 import AppLoader from './components/AppLoader.vue';
 import { useAppColor } from './composables/useAppColor';
+import AsideLayout from './layouts/AsideLayout.vue';
 import { useUserAvatarQuery } from './query/user/useUserAvatarQuery';
 import { useUserQuery } from './query/user/useUserQuery';
 import { useAuthStore } from './stores/useAuthStore';
@@ -54,11 +54,11 @@ watch(
 		<div class="relative flex min-h-dvh justify-center">
 			<ResizablePanelGroup direction="horizontal">
 				<ResizablePanel sizeUnit="px" :maxSize="420" :minSize="300">
-					<RouterView />
+					<AsideLayout />
 				</ResizablePanel>
 				<ResizableHandle />
 				<ResizablePanel>
-					<ChatWindow />
+					<RouterView />
 				</ResizablePanel>
 			</ResizablePanelGroup>
 			<ChatUserinfo />

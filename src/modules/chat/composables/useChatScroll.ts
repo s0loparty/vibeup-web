@@ -1,10 +1,18 @@
 import type ScrollArea from '@/app/components/ui/scroll-area/ScrollArea.vue';
-import { onMounted, ref, type Ref } from 'vue';
+import { ref, type Ref } from 'vue';
 
 export function useChatScroll(
 	scrollAreaRef: Ref<InstanceType<typeof ScrollArea> | null>,
 ) {
 	const showScrollBtn = ref(false);
+
+	function getViewport(): HTMLElement | null {
+		if (!scrollAreaRef.value) return null;
+
+		return scrollAreaRef.value.$el?.querySelector(
+			'[data-slot="scroll-area-viewport"]',
+		) as HTMLElement | null;
+	}
 
 	function handleScroll(event: Event) {
 		const target = event.target as HTMLElement;
@@ -18,23 +26,15 @@ export function useChatScroll(
 	}
 
 	function scrollToBottom() {
-		if (scrollAreaRef.value) {
-			const viewport = scrollAreaRef.value.$el?.querySelector(
-				'[data-slot="scroll-area-viewport"]',
-			);
+		const viewport = getViewport();
 
-			if (viewport) {
-				viewport.scrollTo({
-					top: viewport.scrollHeight,
-					behavior: 'smooth',
-				});
-			}
+		if (viewport) {
+			viewport.scrollTo({
+				top: viewport.scrollHeight,
+				behavior: 'smooth',
+			});
 		}
 	}
-
-	onMounted(() => {
-		scrollToBottom();
-	});
 
 	return {
 		showScrollBtn,

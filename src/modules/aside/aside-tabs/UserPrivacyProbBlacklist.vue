@@ -8,6 +8,7 @@ import BaseAvatar from '@/app/components/base/BaseAvatar.vue';
 	>
 		<div>
 			<BaseAvatar
+				class="bg-gray-500/50 text-sm text-white"
 				src="https://avatars.fastly.steamstatic.com/b26fca93fa06c59914c985d829bd8126390ec1b1_full.jpg"
 				name="Заголовок чата / Имя Человека"
 			/>

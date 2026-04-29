@@ -6,9 +6,11 @@ import { RadioGroup, RadioGroupItem } from '@/app/components/ui/radio-group';
 import { Slider } from '@/app/components/ui/slider';
 import { useAppColor } from '@/app/composables/useAppColor';
 import { useFontSize } from '@/app/composables/useFontSize';
+import { useAsidePanelStore } from '@/app/stores/useAsidePanelStore';
 import { ImageIcon, RotateCcwIcon } from 'lucide-vue-next';
 import { computed } from 'vue';
 import TabTitle from './TabTitle.vue';
+import UserGeneralWallpaper from './UserGeneralWallpaper.vue';
 
 const { appColor, resetColor } = useAppColor();
 const { fontSize, resetFontSize, MIN_FONT_SIZE, MAX_FONT_SIZE } = useFontSize();
@@ -25,6 +27,8 @@ const sliderValue = computed({
 		fontSize.value = Math.round(MIN_FONT_SIZE + (firstValue / 100) * range);
 	},
 });
+
+const asideStore = useAsidePanelStore();
 </script>
 
 <template>
@@ -38,7 +42,7 @@ const sliderValue = computed({
 					<BaseNavigationItem
 						label="Chat Wallpaper"
 						:icon="ImageIcon"
-						@click="$router.push({ name: 'settings:general:wallpaper' })"
+						@click="asideStore.pushLevel(UserGeneralWallpaper)"
 					/>
 				</div>
 

@@ -1,42 +1,14 @@
 <script setup lang="ts">
 import { ScrollArea } from '@/app/components/ui/scroll-area';
-import { useChatQuery } from '@/app/query/chat/useChatQuery';
-import { useAppMenuStore } from '@/app/stores/useAppMenuStore';
 import AsideNavHeader from '@/modules/aside/components/AsideNavHeader.vue';
 import { LoaderIcon } from 'lucide-vue-next';
-import { storeToRefs } from 'pinia';
-import { computed } from 'vue';
+import { useUserChatListScroll } from '../composables/useUserChatListScroll';
 import UserChatListButton from './UserChatListButton.vue';
 import UserChatListItem from './UserChatListItem.vue';
 import UserChatListSkeleton from './UserChatListSkeleton.vue';
 
-const { showAside } = storeToRefs(useAppMenuStore());
-
-const {
-	data: pages,
-	fetchNextPage,
-	status,
-	isFetchingNextPage,
-	isError,
-	error,
-} = useChatQuery();
-
-const chats = computed(() => {
-	return pages.value?.pages.flatMap((p) => p.data?.data ?? []) ?? [];
-});
-
-//TODO: ПЕРЕНЕСТИ ПОТОМ СКРОЛЛ ХАНДЛЕР в компосабл
-function scrollHandler(event: Event) {
-	const el = event.target as HTMLElement;
-
-	if (isFetchingNextPage.value || !el || isError.value) return;
-
-	const distanceFromBottom = el.scrollHeight - el.scrollTop - el.clientHeight;
-
-	if (distanceFromBottom < 700) {
-		fetchNextPage();
-	}
-}
+const { isError, isFetchingNextPage, status, error, chats, scrollHandler } =
+	useUserChatListScroll();
 </script>
 
 <template>
@@ -54,7 +26,7 @@ function scrollHandler(event: Event) {
 				<div v-else-if="isError" class="py-5 text-center text-xl text-red-400">
 					{{ error?.message }}
 				</div>
-				<ul v-else class="bg-white px-2.5" @click="showAside = false">
+				<ul v-else class="bg-white px-2.5">
 					<UserChatListItem v-for="chat in chats" :key="chat.id" :chat />
 				</ul>
 				<UserChatListButton />
