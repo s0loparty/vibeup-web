@@ -20,8 +20,25 @@ export function useMessageScroll(chatId: Ref<PublicMessage['chat_id']>) {
 
 	const messagesList = computed(() => {
 		const list = pages.value?.pages.flatMap((p) => p.data ?? []) ?? [];
-		return [...list].reverse();
+
+		return [...list].reverse().reduce(
+			(prev, curr) => {
+				const dateKey = new Date(curr.created_at).toLocaleDateString('ru-RU');
+				if (!prev[dateKey]) {
+					prev[dateKey] = [curr];
+				} else {
+					prev[dateKey].push(curr);
+				}
+
+				return prev;
+			},
+			{} as { [key: string]: PublicMessage[] },
+		);
 	});
+
+	setTimeout(() => {
+		console.log(messagesList.value);
+	}, 5000);
 
 	// Функция для восстановления позиции скролла после подгрузки
 	async function restoreScrollPosition(viewport: HTMLElement) {

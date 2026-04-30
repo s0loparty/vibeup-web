@@ -1,17 +1,27 @@
 <script setup lang="ts">
 import BaseAvatar from '@/app/components/base/BaseAvatar.vue';
 import { Button } from '@/app/components/ui/button';
+import { useTransformDate } from '@/app/composables/useTransformDate';
 import { useAppMenuStore } from '@/app/stores/useAppMenuStore';
 import type { PublicUser } from '@/shared/api';
 import { ArrowLeftIcon, PinIcon, SearchIcon } from 'lucide-vue-next';
 import { storeToRefs } from 'pinia';
+import { computed } from 'vue';
 import ChatWindowHeaderOptions from './ChatWindowHeaderOptions.vue';
 
 const { showUserInfo, showAside } = storeToRefs(useAppMenuStore());
 
-defineProps<{
+const props = defineProps<{
 	member: PublicUser;
 }>();
+
+const { formatDateFull, formatDateHours, isToday } = useTransformDate();
+
+const lastSeenAt = computed(() => {
+	return isToday(props.member.last_seen_at!)
+		? formatDateHours(props.member.last_seen_at!)
+		: formatDateFull(props.member.last_seen_at!);
+});
 </script>
 
 <template>
@@ -42,7 +52,7 @@ defineProps<{
 						{{ member.username }}
 					</span>
 					<span class="text-sm text-gray-500"
-						>был(а) в сети в {{ member.last_seen_at }}</span
+						>был(а) в сети в {{ lastSeenAt }}</span
 					>
 				</div>
 			</div>

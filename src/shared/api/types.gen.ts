@@ -14,10 +14,10 @@ export type User = {
     username: string;
     bio?: string | null;
     email: string;
-    email_verified_at?: string | null;
-    last_seen_at?: string | null;
-    created_at?: string;
-    updated_at?: string;
+    email_verified_at: string | null;
+    last_seen_at: string | null;
+    created_at: string;
+    updated_at: string;
     avatar?: AvatarResponse | null;
 };
 
@@ -30,7 +30,7 @@ export type PublicUser = {
     id: number;
     username: string;
     bio?: string | null;
-    last_seen_at?: string | null;
+    last_seen_at: string | null;
     avatar?: AvatarResponse | null;
 };
 
@@ -79,8 +79,8 @@ export type PublicChat = {
      * Отображаемый заголовок: для group — title, для private — username собеседника
      */
     display_title: string;
-    created_at?: string;
-    updated_at?: string;
+    created_at: string;
+    updated_at: string;
     created_by: number;
     last_message_id?: number | null;
     last_message?: PublicMessage | null;
@@ -102,7 +102,7 @@ export type ChatMember = {
     last_read_message_id?: number | null;
     created_at?: string;
     updated_at?: string;
-    user?: User | null;
+    user?: PublicUser | null;
 };
 
 /**
@@ -117,10 +117,10 @@ export type Message = {
     type: 'text' | 'image' | 'video' | 'audio' | 'file';
     body: string;
     reply_to_id?: number | null;
-    edited_at?: string | null;
-    created_at?: string;
-    updated_at?: string;
-    sender?: User | null;
+    edited_at: string | null;
+    created_at: string;
+    updated_at: string;
+    sender?: PublicUser | null;
     reply_to?: PublicMessage | null;
 };
 
@@ -136,9 +136,9 @@ export type PublicMessage = {
     type: 'text' | 'image' | 'video' | 'audio' | 'file';
     body: string;
     reply_to_id?: number | null;
-    edited_at?: string | null;
-    created_at?: string;
-    updated_at?: string;
+    edited_at: string | null;
+    created_at: string;
+    updated_at: string;
     sender?: PublicUser | null;
     reply_to?: PublicMessage | null;
 };
@@ -184,7 +184,7 @@ export type PaginatedChatsResponse = {
     /**
      * Массив чатов
      */
-    data?: Array<Chat>;
+    data?: Array<PublicChat>;
     meta?: CursorPaginationMeta;
 };
 
@@ -234,7 +234,7 @@ export type ChatFileResponse = {
      * Временная ссылка для скачивания
      */
     temporary_url?: string | null;
-    created_at?: string;
+    created_at: string;
 };
 
 /**
@@ -456,14 +456,14 @@ export type ChatsStoreResponses = {
      */
     200: {
         message?: string;
-        chat?: Chat;
+        chat?: PublicChat;
     };
     /**
      * Чат создан
      */
     201: {
         message?: string;
-        chat?: Chat;
+        chat?: PublicChat;
     };
 };
 
@@ -589,7 +589,7 @@ export type ChatsUpdateResponses = {
      */
     200: {
         message?: string;
-        chat?: Chat;
+        chat?: PublicChat;
     };
 };
 
