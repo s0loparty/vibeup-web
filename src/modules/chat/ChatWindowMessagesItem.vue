@@ -6,6 +6,7 @@ import {
 	ContextMenuItem,
 	ContextMenuTrigger,
 } from '@/app/components/ui/context-menu';
+import { useTransformDate } from '@/app/composables/useTransformDate';
 import { useAuthStore } from '@/app/stores/useAuthStore';
 import type { PublicMessage } from '@/shared/api';
 import { CopyIcon, PinIcon, ReplyIcon, TrashIcon } from 'lucide-vue-next';
@@ -24,6 +25,8 @@ const isOwner = computed(() => {
 const avatarName = computed(() => {
 	return props.message.sender?.username;
 });
+
+const { formatDateHours } = useTransformDate();
 </script>
 
 <template>
@@ -51,7 +54,9 @@ const avatarName = computed(() => {
 				>
 					<div>
 						{{ props.message.body }}
-						<div class="text-right text-xs">{{ props.message.created_at }}</div>
+						<div class="text-right text-sm">
+							{{ formatDateHours(props.message.created_at) }}
+						</div>
 					</div>
 				</div>
 			</div>

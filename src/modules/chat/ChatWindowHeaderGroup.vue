@@ -10,12 +10,13 @@ import ChatWindowHeaderOptions from './ChatWindowHeaderOptions.vue';
 const { showUserInfo, showAside } = storeToRefs(useAppMenuStore());
 
 defineProps<{
-	member: PublicUser;
+	members: PublicUser[];
 }>();
 </script>
 
 <template>
 	<div
+		v-if="members.length"
 		id="user-chat-header"
 		class="relative z-5 flex h-14 shrink-0 items-center bg-white"
 	>
@@ -33,17 +34,18 @@ defineProps<{
 			>
 				<!--аватарка Здес в нейм надо тайтл группы закинуть вместо юзер нейма для аватарки-->
 				<BaseAvatar
-					:src="member.avatar?.thumbnail"
-					:name="member.username"
+					:src="members[0]!.avatar?.thumbnail"
+					:name="members[0]!.username"
 					class="size-11 bg-gray-500/50 text-sm text-white"
 				/>
 				<div class="flex max-w-full min-w-0 flex-col">
 					<span class="truncate leading-normal font-semibold text-ellipsis">
-						{{ member.username }}
+						Название группы
 					</span>
+					<!--TODO добавить онлайн сколько людей в группе-->
 					<span class="text-sm text-gray-500"
-						>был(а) в сети в {{ member.last_seen_at }}</span
-					>
+						>Участников группы: {{ members.length }}
+					</span>
 				</div>
 			</div>
 

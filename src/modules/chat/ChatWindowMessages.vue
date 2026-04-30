@@ -20,10 +20,9 @@ const messageScroll = useMessageScroll(chatId);
 
 // При первой загрузке или смене чата скроллим вниз
 watch(
-	() => messageScroll.messagesList.value.length,
+	() => Object.values(messageScroll.messagesList.value).length,
 	async (newLen, oldLen) => {
 		if (newLen && oldLen === 0) {
-			// Первая загрузка сообщений
 			await nextTick();
 			scrollToBottom();
 			messageScroll.isAutoScrolling.value = false;
@@ -54,7 +53,7 @@ watch(chatId, async (newId, oldId) => {
 			ref="scrollAreaRef"
 			class="relative h-full"
 		>
-			<div class="chat mx-auto max-w-175 space-y-3 p-4">
+			<div>
 				<!-- Индикатор загрузки сверху -->
 				<div
 					v-if="messageScroll.isLoadingOlder.value"
@@ -63,11 +62,22 @@ watch(chatId, async (newId, oldId) => {
 					Загрузка старых сообщений...
 				</div>
 
-				<ChatWindowMessagesItem
-					v-for="message in messageScroll.messagesList.value"
-					:key="message.id"
-					:message="message"
-				/>
+				<div
+					v-for="(group, index) in messageScroll.messagesList.value"
+					:key="index"
+					class="mx-auto max-w-175 space-y-3 p-4 pt-0"
+				>
+					<div
+						class="sticky top-2 mx-auto w-min rounded-lg bg-black/75 px-2 py-1 text-sm text-white"
+					>
+						{{ index }}
+					</div>
+					<ChatWindowMessagesItem
+						v-for="message in group"
+						:key="message.id"
+						:message
+					/>
+				</div>
 			</div>
 		</ScrollArea>
 		<BaseScrollButton v-if="showScrollBtn" @click="scrollToBottom" />

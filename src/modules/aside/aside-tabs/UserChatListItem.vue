@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import BaseAvatar from '@/app/components/base/BaseAvatar.vue';
-import type { Chat } from '@/shared/api';
+import { useTransformDate } from '@/app/composables/useTransformDate';
+import type { PublicChat } from '@/shared/api';
+import { computed } from 'vue';
 import UserChatListMessagePin from './UserChatListMessagePin.vue';
 import UserChatListMessagesCount from './UserChatListMessagesCount.vue';
 
@@ -14,9 +16,18 @@ const countMessages = getRandomIntegerInclusive(1, 150);
 
 const fiftyFifty = Math.random() < 0.5;
 
-defineProps<{
-	chat: Chat;
+const { formatDateFull, formatDateHours, isToday } = useTransformDate();
+
+const props = defineProps<{
+	chat: PublicChat;
 }>();
+
+const updateAt = computed(() => {
+	if (!props.chat.last_message) return formatDateFull();
+	return isToday(props.chat.last_message?.created_at)
+		? formatDateHours(props.chat.last_message?.created_at)
+		: formatDateFull(props.chat.last_message?.created_at);
+});
 </script>
 
 <template>
@@ -39,7 +50,7 @@ defineProps<{
 					{{ chat.display_title }}
 				</span>
 				<span v-if="chat.last_message" class="shrink-0 text-sm text-gray-400">
-					{{ chat.last_message.updated_at }}
+					{{ updateAt }}
 				</span>
 			</div>
 			<div class="flex flex-nowrap justify-between gap-x-2">
