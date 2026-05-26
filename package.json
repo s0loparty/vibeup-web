@@ -27,7 +27,7 @@
     "@vue/compiler-sfc": "^3.5.31",
     "@vueuse/core": "^14.2.1",
     "@vueuse/integrations": "^14.2.1",
-    "axios": "^1.15.0",
+    "axios": "^1.16.1",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "idb-keyval": "^6.2.2",
