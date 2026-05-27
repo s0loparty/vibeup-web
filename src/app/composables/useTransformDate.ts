@@ -11,6 +11,16 @@ export function useTransformDate() {
 		return useDateFormat(date, 'DD.MM.YYYY HH:mm', { locales: 'ru-RU' });
 	}
 
+	function formatDate(inputDate?: string) {
+		if (!inputDate)
+			return useDateFormat(new Date(), 'DD.MM.YYYY', {
+				locales: 'ru-RU',
+			});
+
+		const date = new Date(inputDate);
+		return useDateFormat(date, 'DD.MM.YYYY', { locales: 'ru-RU' });
+	}
+
 	function formatDateHours(inputDate?: string) {
 		if (!inputDate)
 			return useDateFormat(new Date(), 'HH:mm', { locales: 'ru-RU' });
@@ -30,9 +40,19 @@ export function useTransformDate() {
 		);
 	}
 
+	function dateOrHours(inputDate: string) {
+		if (isToday(inputDate)) {
+			return formatDateHours(inputDate);
+		} else {
+			return formatDate(inputDate);
+		}
+	}
+
 	return {
 		isToday,
 		formatDateFull,
 		formatDateHours,
+		formatDate,
+		dateOrHours,
 	};
 }

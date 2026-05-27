@@ -53,7 +53,11 @@ watchEffect(() => {
 		<div class="flex h-full flex-col">
 			<ChatWindowWallpaper />
 			<ChatWindowHeaderSkeleton v-if="isFetching" />
-			<ChatWindowHeader v-else-if="member && isPrivateChat" :member="member" />
+			<ChatWindowHeader
+				v-else-if="member && isPrivateChat"
+				:member="member"
+				:chat-id="chatId"
+			/>
 			<!--тут для группового чата данные за место member-->
 			<ChatWindowHeaderGroup
 				v-else-if="member && !isPrivateChat"

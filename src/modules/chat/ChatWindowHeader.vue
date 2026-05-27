@@ -3,19 +3,24 @@ import BaseAvatar from '@/app/components/base/BaseAvatar.vue';
 import { Button } from '@/app/components/ui/button';
 import { useTransformDate } from '@/app/composables/useTransformDate';
 import { useAppMenuStore } from '@/app/stores/useAppMenuStore';
-import type { PublicUser } from '@/shared/api';
+import type { Chat, PublicUser } from '@/shared/api';
 import { ArrowLeftIcon, PinIcon, SearchIcon } from 'lucide-vue-next';
 import { storeToRefs } from 'pinia';
 import { computed } from 'vue';
+import { useMessageSearchInput } from '../messages/composables/useMessageSearchInput';
+import MessagesSearchInput from '../messages/MessagesSearchInput.vue';
 import ChatWindowHeaderOptions from './ChatWindowHeaderOptions.vue';
 
 const { showUserInfo, showAside } = storeToRefs(useAppMenuStore());
 
 const props = defineProps<{
 	member: PublicUser;
+	chatId: Chat['id'];
 }>();
 
 const { formatDateFull, formatDateHours, isToday } = useTransformDate();
+const { isShowSearch, searchInput, findedMessages, closeSearch, isLoading } =
+	useMessageSearchInput(props.chatId);
 
 const lastSeenAt = computed(() => {
 	return isToday(props.member.last_seen_at!)
@@ -36,8 +41,10 @@ const lastSeenAt = computed(() => {
 		>
 			<ArrowLeftIcon class="size-6 text-gray-500" />
 		</Button>
+
 		<div class="flex w-full items-center justify-between px-2 xs:px-4">
 			<div
+				v-if="!isShowSearch"
 				class="flex cursor-pointer items-center gap-2.5"
 				@click="showUserInfo = true"
 			>
@@ -57,6 +64,14 @@ const lastSeenAt = computed(() => {
 				</div>
 			</div>
 
+			<MessagesSearchInput
+				v-model.trim="searchInput"
+				:isLoading
+				:finded-messages="findedMessages"
+				:is-searching="isShowSearch"
+				@close="closeSearch"
+			/>
+
 			<div class="flex items-center justify-between gap-2.5">
 				<!-- pin messages -->
 				<Button
@@ -74,6 +89,7 @@ const lastSeenAt = computed(() => {
 					size="icon"
 					class="hidden p-0 xs:flex"
 					title="Поиск по чату"
+					@click="closeSearch"
 				>
 					<SearchIcon class="size-6 text-gray-500" />
 				</Button>

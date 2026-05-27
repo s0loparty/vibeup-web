@@ -2,7 +2,7 @@
 
 import { type Client, formDataBodySerializer, type Options as Options2, type TDataShape } from './client';
 import { client } from './client.gen';
-import type { AuthLoginData, AuthLoginErrors, AuthLoginResponses, AuthLogoutData, AuthLogoutErrors, AuthLogoutResponses, AuthRegisterData, AuthRegisterErrors, AuthRegisterResponses, ChatFilesDestroyData, ChatFilesDestroyErrors, ChatFilesDestroyResponses, ChatFilesDownloadData, ChatFilesDownloadErrors, ChatFilesDownloadResponses, ChatFilesStoreData, ChatFilesStoreErrors, ChatFilesStoreResponses, ChatsDestroyData, ChatsDestroyErrors, ChatsDestroyResponses, ChatsIndexData, ChatsIndexErrors, ChatsIndexResponses, ChatsShowData, ChatsShowErrors, ChatsShowResponses, ChatsStoreData, ChatsStoreErrors, ChatsStoreResponses, ChatsUpdateData, ChatsUpdateErrors, ChatsUpdateResponses, MessagesDestroyData, MessagesDestroyErrors, MessagesDestroyResponses, MessagesIndexData, MessagesIndexErrors, MessagesIndexResponses, MessagesShowData, MessagesShowErrors, MessagesShowResponses, MessagesStoreData, MessagesStoreErrors, MessagesStoreResponses, MessagesUpdateData, MessagesUpdateErrors, MessagesUpdateResponses, UserDestroyData, UserDestroyErrors, UserDestroyResponses, UsersAvatarsDestroyData, UsersAvatarsDestroyErrors, UsersAvatarsDestroyResponses, UsersAvatarsShowData, UsersAvatarsShowErrors, UsersAvatarsShowResponses, UsersAvatarsStoreData, UsersAvatarsStoreErrors, UsersAvatarsStoreResponses, UserShowData, UserShowErrors, UserShowResponses, UserUpdateData, UserUpdateErrors, UserUpdateResponses } from './types.gen';
+import type { AuthLoginData, AuthLoginErrors, AuthLoginResponses, AuthLogoutData, AuthLogoutErrors, AuthLogoutResponses, AuthRegisterData, AuthRegisterErrors, AuthRegisterResponses, ChatFilesDestroyData, ChatFilesDestroyErrors, ChatFilesDestroyResponses, ChatFilesDownloadData, ChatFilesDownloadErrors, ChatFilesDownloadResponses, ChatFilesStoreData, ChatFilesStoreErrors, ChatFilesStoreResponses, ChatsDestroyData, ChatsDestroyErrors, ChatsDestroyResponses, ChatsIndexData, ChatsIndexErrors, ChatsIndexResponses, ChatsShowData, ChatsShowErrors, ChatsShowResponses, ChatsStoreData, ChatsStoreErrors, ChatsStoreResponses, ChatsUpdateData, ChatsUpdateErrors, ChatsUpdateResponses, MessagesContextData, MessagesContextErrors, MessagesContextResponses, MessagesDestroyData, MessagesDestroyErrors, MessagesDestroyResponses, MessagesIndexData, MessagesIndexErrors, MessagesIndexResponses, MessagesSearchData, MessagesSearchErrors, MessagesSearchResponses, MessagesShowData, MessagesShowErrors, MessagesShowResponses, MessagesStoreData, MessagesStoreErrors, MessagesStoreResponses, MessagesUpdateData, MessagesUpdateErrors, MessagesUpdateResponses, UserDestroyData, UserDestroyErrors, UserDestroyResponses, UsersAvatarsDestroyData, UsersAvatarsDestroyErrors, UsersAvatarsDestroyResponses, UsersAvatarsShowData, UsersAvatarsShowErrors, UsersAvatarsShowResponses, UsersAvatarsStoreData, UsersAvatarsStoreErrors, UsersAvatarsStoreResponses, UserShowData, UserShowErrors, UserShowResponses, UserUpdateData, UserUpdateErrors, UserUpdateResponses } from './types.gen';
 
 export type Options<TData extends TDataShape = TDataShape, ThrowOnError extends boolean = boolean, TResponse = unknown> = Options2<TData, ThrowOnError, TResponse> & {
     /**
@@ -275,6 +275,30 @@ export const messagesUpdate = <ThrowOnError extends boolean = false>(options: Op
         'Content-Type': 'application/json',
         ...options.headers
     }
+});
+
+/**
+ * Получить сообщение с контекстом
+ *
+ * Возвращает все сообщения после целевого, само целевое сообщение и N предыдущих (до целевого), а также курсоры для пагинации
+ */
+export const messagesContext = <ThrowOnError extends boolean = false>(options: Options<MessagesContextData, ThrowOnError>) => (options.client ?? client).get<MessagesContextResponses, MessagesContextErrors, ThrowOnError>({
+    responseType: 'json',
+    security: [{ scheme: 'bearer', type: 'http' }],
+    url: '/api/v1/chats/{chat}/messages/context/{message}',
+    ...options
+});
+
+/**
+ * Поиск сообщений в чате
+ *
+ * Выполняет нечеткий поиск по тексту сообщений в указанном чате с использованием алгоритма Левенштейна. Поддерживает толерантность к опечаткам. Результаты фильтруются по порогу релевантности (_score >= 0.3)
+ */
+export const messagesSearch = <ThrowOnError extends boolean = false>(options: Options<MessagesSearchData, ThrowOnError>) => (options.client ?? client).get<MessagesSearchResponses, MessagesSearchErrors, ThrowOnError>({
+    responseType: 'json',
+    security: [{ scheme: 'bearer', type: 'http' }],
+    url: '/api/v1/chats/{chat}/messages/search',
+    ...options
 });
 
 /**

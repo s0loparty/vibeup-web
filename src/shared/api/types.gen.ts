@@ -144,6 +144,24 @@ export type PublicMessage = {
 };
 
 /**
+ * MessageSearch
+ *
+ * Сообщения неточного поиска
+ */
+export type MessageSearch = {
+    id: number;
+    sender_id: number;
+    type: 'text' | 'image' | 'video' | 'audio' | 'file';
+    body: string;
+    reply_to_id?: number | null;
+    edited_at: string | null;
+    created_at: string;
+    sender?: PublicUser | null;
+    reply_to?: PublicMessage | null;
+    _score: number;
+};
+
+/**
  * CursorPaginationMeta
  *
  * Метаданные курсорной пагинации
@@ -1052,6 +1070,126 @@ export type MessagesUpdateResponses = {
 
 export type MessagesUpdateResponse = MessagesUpdateResponses[keyof MessagesUpdateResponses];
 
+export type MessagesContextData = {
+    body?: never;
+    path: {
+        /**
+         * ID чата
+         */
+        chat: number;
+        /**
+         * ID сообщения
+         */
+        message: number;
+    };
+    query?: {
+        /**
+         * Количество сообщений перед целевым (по умолчанию 30)
+         */
+        limit?: number;
+    };
+    url: '/api/v1/chats/{chat}/messages/context/{message}';
+};
+
+export type MessagesContextErrors = {
+    /**
+     * Нет доступа
+     */
+    403: unknown;
+    /**
+     * Сообщение не найдено
+     */
+    404: unknown;
+};
+
+export type MessagesContextResponses = {
+    /**
+     * Успешный ответ
+     */
+    200: {
+        data?: Array<PublicMessage>;
+        prev_cursor?: string | null;
+        next_cursor?: string | null;
+        target_message_id?: number;
+    };
+};
+
+export type MessagesContextResponse = MessagesContextResponses[keyof MessagesContextResponses];
+
+export type MessagesSearchData = {
+    body?: never;
+    path: {
+        /**
+         * ID чата
+         */
+        chat: number;
+    };
+    query: {
+        /**
+         * Поисковый запрос
+         */
+        q: string;
+        /**
+         * Номер страницы
+         */
+        page?: number;
+        /**
+         * Количество результатов на странице (по умолчанию 15)
+         */
+        per_page?: number;
+    };
+    url: '/api/v1/chats/{chat}/messages/search';
+};
+
+export type MessagesSearchErrors = {
+    /**
+     * Не указан поисковый запрос
+     */
+    400: {
+        message?: string;
+    };
+    /**
+     * Нет доступа к чату
+     */
+    403: unknown;
+    /**
+     * Чат не найден
+     */
+    404: unknown;
+};
+
+export type MessagesSearchError = MessagesSearchErrors[keyof MessagesSearchErrors];
+
+export type MessagesSearchResponses = {
+    /**
+     * Успешный ответ
+     */
+    200: {
+        data?: Array<MessageSearch>;
+        current_page?: number;
+        per_page?: number;
+        total?: number;
+        last_page?: number;
+        links?: {
+            first?: string | null;
+            last?: string | null;
+            prev?: string | null;
+            next?: string | null;
+        };
+        meta?: {
+            current_page?: number;
+            from?: number | null;
+            last_page?: number;
+            path?: string;
+            per_page?: number;
+            to?: number | null;
+            total?: number;
+        };
+    };
+};
+
+export type MessagesSearchResponse = MessagesSearchResponses[keyof MessagesSearchResponses];
+
 export type UsersAvatarsDestroyData = {
     body?: never;
     path: {
@@ -1113,10 +1251,7 @@ export type UsersAvatarsShowResponses = {
     /**
      * Данные аватарки
      */
-    200: {
-        original?: string | null;
-        thumbnail?: string | null;
-    };
+    200: AvatarResponse;
 };
 
 export type UsersAvatarsShowResponse = UsersAvatarsShowResponses[keyof UsersAvatarsShowResponses];
@@ -1157,10 +1292,7 @@ export type UsersAvatarsStoreResponses = {
     /**
      * Аватарка загружена
      */
-    200: {
-        original?: string;
-        thumbnail?: string;
-    };
+    200: AvatarResponse;
 };
 
 export type UsersAvatarsStoreResponse = UsersAvatarsStoreResponses[keyof UsersAvatarsStoreResponses];
