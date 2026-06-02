@@ -3,24 +3,25 @@ import BaseAvatar from '@/app/components/base/BaseAvatar.vue';
 import { Button } from '@/app/components/ui/button';
 import { useTransformDate } from '@/app/composables/useTransformDate';
 import { useAppMenuStore } from '@/app/stores/useAppMenuStore';
-import type { Chat, PublicUser } from '@/shared/api';
+import type { PublicUser } from '@/shared/api';
 import { ArrowLeftIcon, PinIcon, SearchIcon } from 'lucide-vue-next';
 import { storeToRefs } from 'pinia';
 import { computed } from 'vue';
 import { useMessageSearchInput } from '../messages/composables/useMessageSearchInput';
 import MessagesSearchInput from '../messages/MessagesSearchInput.vue';
+import { useChatMessagesStore } from '../messages/stores/useChatMessagesStore.ts';
 import ChatWindowHeaderOptions from './ChatWindowHeaderOptions.vue';
 
 const { showUserInfo, showAside } = storeToRefs(useAppMenuStore());
+const { toggleSearch } = useChatMessagesStore();
+const { isShowSearch } = storeToRefs(useChatMessagesStore());
 
 const props = defineProps<{
 	member: PublicUser;
-	chatId: Chat['id'];
 }>();
 
 const { formatDateFull, formatDateHours, isToday } = useTransformDate();
-const { isShowSearch, searchInput, findedMessages, closeSearch, isLoading } =
-	useMessageSearchInput(props.chatId);
+const { searchInput, findedMsg, findedIsLoading } = useMessageSearchInput();
 
 const lastSeenAt = computed(() => {
 	return isToday(props.member.last_seen_at!)
@@ -66,10 +67,10 @@ const lastSeenAt = computed(() => {
 
 			<MessagesSearchInput
 				v-model.trim="searchInput"
-				:isLoading
-				:finded-messages="findedMessages"
+				:is-loading="findedIsLoading"
+				:finded-messages="findedMsg"
 				:is-searching="isShowSearch"
-				@close="closeSearch"
+				@close="toggleSearch"
 			/>
 
 			<div class="flex items-center justify-between gap-2.5">
@@ -89,7 +90,7 @@ const lastSeenAt = computed(() => {
 					size="icon"
 					class="hidden p-0 xs:flex"
 					title="Поиск по чату"
-					@click="closeSearch"
+					@click="toggleSearch"
 				>
 					<SearchIcon class="size-6 text-gray-500" />
 				</Button>

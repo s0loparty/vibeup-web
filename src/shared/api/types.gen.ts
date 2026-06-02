@@ -156,9 +156,9 @@ export type MessageSearch = {
     reply_to_id?: number | null;
     edited_at: string | null;
     created_at: string;
-    sender?: PublicUser | null;
     reply_to?: PublicMessage | null;
     _score: number;
+    sender: PublicUser | null;
 };
 
 /**
@@ -1087,6 +1087,10 @@ export type MessagesContextData = {
          * Количество сообщений перед целевым (по умолчанию 30)
          */
         limit?: number;
+        /**
+         * Курсор для пагинации (для загрузки следующих порций старых сообщений)
+         */
+        prev_cursor?: string;
     };
     url: '/api/v1/chats/{chat}/messages/context/{message}';
 };

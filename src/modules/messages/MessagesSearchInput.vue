@@ -1,19 +1,25 @@
 <script setup lang="ts">
-import type { MessagesSearchResponses } from '@/shared/api/types.gen.ts';
+import type { MessageSearch } from '@/shared/api/types.gen.ts';
 import { LoaderIcon, SearchIcon, XIcon } from 'lucide-vue-next';
-import { nextTick, ref, watch } from 'vue';
+import { computed, nextTick, ref, watch } from 'vue';
 import MessagesSearchList from './MessagesSearchList.vue';
+import { useChatMessagesStore } from './stores/useChatMessagesStore.ts';
 
 const model = defineModel<string>({ required: true });
 const inputRef = ref<HTMLInputElement | null>(null);
+const chatMessagesStore = useChatMessagesStore();
 
-defineProps<{
+const props = defineProps<{
 	isSearching: boolean;
-	findedMessages: MessagesSearchResponses['200'] | undefined;
+	findedMessages: MessageSearch[];
 	isLoading: boolean;
 }>();
 
 const emits = defineEmits(['close']);
+
+const isShowFinded = computed(() => {
+	return props.findedMessages.length && chatMessagesStore.isShowSearch;
+});
 
 watch(inputRef, async (newVal) => {
 	if (newVal) {
@@ -51,8 +57,8 @@ watch(inputRef, async (newVal) => {
 
 		<div class="absolute top-full right-0 left-0 z-10">
 			<MessagesSearchList
-				:finded-message-list="findedMessages.data"
-				v-if="findedMessages?.data"
+				:finded-message-list="findedMessages"
+				v-if="isShowFinded"
 			/>
 		</div>
 	</div>
