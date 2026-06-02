@@ -1,14 +1,23 @@
 <script setup lang="ts">
 import { ScrollArea } from '@/app/components/ui/scroll-area';
 import AsideNavHeader from '@/modules/aside/components/AsideNavHeader.vue';
+import { useScrollHander } from '@/shared/utils/useScrollHandler.ts';
 import { LoaderIcon } from 'lucide-vue-next';
 import { useUserChatListScroll } from '../composables/useUserChatListScroll';
 import UserChatListButton from './UserChatListButton.vue';
 import UserChatListItem from './UserChatListItem.vue';
 import UserChatListSkeleton from './UserChatListSkeleton.vue';
 
-const { isError, isFetchingNextPage, status, error, chats, scrollHandler } =
-	useUserChatListScroll();
+const {
+	isError,
+	isFetchingNextPage,
+	status,
+	error,
+	chats,
+	fetchNextPage,
+	hasNextPage,
+} = useUserChatListScroll();
+const { scrollHandler } = useScrollHander();
 </script>
 
 <template>
@@ -18,8 +27,15 @@ const { isError, isFetchingNextPage, status, error, chats, scrollHandler } =
 		<ScrollArea
 			class="h-[calc(100%-56px)] flex-1"
 			:class="status === 'pending' ? 'pointer-events-none' : ''"
-			ref="viewportRef"
-			@scroll="scrollHandler"
+			@scroll="
+				scrollHandler(
+					$event,
+					fetchNextPage,
+					hasNextPage,
+					isFetchingNextPage,
+					isError,
+				)
+			"
 		>
 			<div>
 				<UserChatListSkeleton v-if="status === 'pending'" />

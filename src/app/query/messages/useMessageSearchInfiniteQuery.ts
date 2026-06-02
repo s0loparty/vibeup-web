@@ -1,21 +1,22 @@
 import { messagesSearch, type MessagesSearchData } from '@/shared/api';
-import { useQuery } from '@tanstack/vue-query';
+import { useInfiniteQuery } from '@tanstack/vue-query';
 import type { Ref } from 'vue';
 import { messageKeys } from './message.keys';
 
-export function useMessageSearchQuery(
+export function useMessageSearchInfiniteQuery(
 	chat: Ref<MessagesSearchData['path']['chat']>,
 	searchQuery: Ref<MessagesSearchData['query']['q']>,
 ) {
-	return useQuery({
+	return useInfiniteQuery({
+		initialPageParam: 1,
 		enabled: !!searchQuery.value,
 
 		queryKey: messageKeys.search(chat, searchQuery).queryKey,
 
-		queryFn: async () => {
+		queryFn: async ({ pageParam }) => {
 			const result = await messagesSearch({
 				path: { chat: chat.value },
-				query: { q: searchQuery.value },
+				query: { q: searchQuery.value, page: pageParam },
 			});
 
 			if (result.error) {
@@ -23,6 +24,17 @@ export function useMessageSearchQuery(
 			}
 
 			return result.data;
+		},
+
+		getNextPageParam: (lastPage) => {
+			if (
+				lastPage?.current_page &&
+				lastPage.last_page &&
+				lastPage.current_page < lastPage.last_page
+			) {
+				return lastPage.current_page + 1;
+			}
+			return undefined;
 		},
 	});
 }
