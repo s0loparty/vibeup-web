@@ -3,7 +3,7 @@ import { ScrollArea } from '@/app/components/ui/scroll-area';
 import AsideNavHeader from '@/modules/aside/components/AsideNavHeader.vue';
 import { useScrollHander } from '@/shared/utils/useScrollHandler.ts';
 import { LoaderIcon } from 'lucide-vue-next';
-import { useUserChatListScroll } from '../composables/useUserChatListScroll';
+import { useUserChatList } from '../composables/useUserChatList.ts';
 import UserChatListButton from './UserChatListButton.vue';
 import UserChatListItem from './UserChatListItem.vue';
 import UserChatListSkeleton from './UserChatListSkeleton.vue';
@@ -16,7 +16,7 @@ const {
 	chats,
 	fetchNextPage,
 	hasNextPage,
-} = useUserChatListScroll();
+} = useUserChatList();
 const { scrollHandler } = useScrollHander();
 </script>
 

@@ -1,7 +1,8 @@
-import { useChatQuery } from '@/app/query/chat/useChatQuery';
+import { useChatInfiniteQuery } from '@/app/query/chat/useChatInfiniteQuery';
+import type { ChatsIndexData } from '@/shared/api';
 import { computed } from 'vue';
 
-export function useUserChatListScroll() {
+export function useUserChatList(options?: ChatsIndexData['query']) {
 	const {
 		data: pages,
 		hasNextPage,
@@ -10,7 +11,7 @@ export function useUserChatListScroll() {
 		isFetchingNextPage,
 		isError,
 		error,
-	} = useChatQuery();
+	} = useChatInfiniteQuery(options);
 
 	const chats = computed(() => {
 		return pages.value?.pages.flatMap((p) => p.data?.data ?? []) ?? [];

@@ -1,5 +1,11 @@
 <script setup lang="ts">
 import BaseAvatar from '@/app/components/base/BaseAvatar.vue';
+import { useTransformDate } from '@/app/composables/useTransformDate';
+import type { PublicChat } from '@/shared/api';
+defineProps<{
+	chat: PublicChat;
+}>();
+const { dateOrHours } = useTransformDate();
 </script>
 
 <template>
@@ -9,19 +15,21 @@ import BaseAvatar from '@/app/components/base/BaseAvatar.vue';
 		<div>
 			<BaseAvatar
 				class="bg-gray-500/50 text-sm text-white"
-				src="https://avatars.fastly.steamstatic.com/b26fca93fa06c59914c985d829bd8126390ec1b1_full.jpg"
-				name="Заголовок чата / Имя Человека"
+				:src="chat.members[0]?.avatar?.thumbnail"
+				:name="chat.members[0]?.username"
 			/>
 		</div>
 
 		<div class="w-full max-w-full min-w-0">
 			<div class="flex flex-col justify-center gap-1.25">
 				<span class="truncate leading-normal font-semibold text-ellipsis">
-					Имя Человека
+					{{ chat.members[0]?.username }}
 				</span>
 				<div class="flex items-center justify-between">
-					<span class="text-sm text-gray-400">Nick Name</span>
-					<span class="text-sm text-gray-400">16:41</span>
+					<span class="text-sm text-gray-400">example@kekes.com</span>
+					<span class="text-sm text-gray-400">{{
+						dateOrHours(chat.members[0]?.last_seen_at!)
+					}}</span>
 				</div>
 			</div>
 		</div>
