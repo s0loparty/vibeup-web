@@ -2,11 +2,14 @@
 import BaseInput from '@/app/components/base/BaseInput.vue';
 import { ScrollArea } from '@/app/components/ui/scroll-area';
 import { useAsidePanelStore } from '@/app/stores/useAsidePanelStore';
-import { ArrowRight } from 'lucide-vue-next';
+import { useScrollHander } from '@/shared/utils/useScrollHandler.ts';
+import { ArrowRight, LoaderIcon } from 'lucide-vue-next';
 import { ref } from 'vue';
+import { useUserChatList } from '../composables/useUserChatList.ts';
 import TabTitle from './TabTitle.vue';
 import UserChatCreateGroupListItem from './UserChatCreateGroupListItem.vue';
 import UserChatCreateGroupSettings from './UserChatCreateGroupSettings.vue';
+import UserChatListSkeleton from './UserChatListSkeleton.vue';
 
 const selectedUsers = ref(new Set());
 const groupSearch = ref<string>('');
@@ -20,6 +23,16 @@ function checkedHandler(id: number) {
 }
 
 const panelStore = useAsidePanelStore();
+const {
+	error,
+	isError,
+	isFetchingNextPage,
+	hasNextPage,
+	chats,
+	fetchNextPage,
+	status,
+} = useUserChatList({ 'filter[type]': 'private' });
+const { scrollHandler } = useScrollHander();
 </script>
 
 <template>
@@ -39,18 +52,40 @@ const panelStore = useAsidePanelStore();
 			</div>
 
 			<div class="relative flex-1 overflow-hidden">
-				<ScrollArea class="h-full">
-					<ul class="bg-white pb-20">
+				<UserChatListSkeleton v-if="status === 'pending'" />
+				<div v-if="isError" class="py-5 text-center text-xl text-red-400">
+					{{ error?.message }}
+				</div>
+
+				<ScrollArea
+					v-else
+					class="h-full"
+					@scroll="
+						scrollHandler(
+							$event,
+							fetchNextPage,
+							hasNextPage,
+							isFetchingNextPage,
+							isError,
+						)
+					"
+				>
+					<ul class="bg-white">
 						<!--TODO когда список юзеров уже будет актуальный будем передавать сюда список
 						этих юзеров для заполнения шаблона
 						-->
 						<UserChatCreateGroupListItem
-							v-for="(num, idx) in 50"
-							:id="idx"
-							:key="num"
+							v-for="chat in chats"
+							:id="chat.id"
+							:key="chat.id"
+							:chat="chat"
 							@checked="checkedHandler"
 						/>
 					</ul>
+					<LoaderIcon
+						v-if="isFetchingNextPage"
+						class="mx-auto my-2.5 size-6 animate-spin text-brand-500"
+					/>
 				</ScrollArea>
 
 				<div class="absolute right-3.75 bottom-3.75">

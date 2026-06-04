@@ -109,7 +109,17 @@ watch(
 
 <template>
 	<div class="relative min-h-0 flex-1 overflow-hidden">
+		<div
+			v-if="
+				messageScroll.isPending.value ||
+				(chatMessagesStore.isContext && contextIsPending)
+			"
+			class="mx-auto max-w-175 space-y-3 p-4 pt-0"
+		>
+			<ChatWindowMessagesSkeleton />
+		</div>
 		<ScrollArea
+			v-else
 			@scroll="
 				chatMessagesStore.isContext
 					? contextHandler($event)
@@ -126,39 +136,28 @@ watch(
 				>
 					Загрузка старых сообщений...
 				</div>
+
 				<div
-					v-if="
-						messageScroll.isPending.value ||
-						(chatMessagesStore.isContext && contextIsPending)
-					"
+					v-for="(group, index) in messageScroll.messagesList.value"
+					:key="index"
 					class="mx-auto max-w-175 space-y-3 p-4 pt-0"
 				>
-					<ChatWindowMessagesSkeleton />
-				</div>
-
-				<template v-else>
+					<!--mark time-->
 					<div
-						v-for="(group, index) in messageScroll.messagesList.value"
-						:key="index"
-						class="mx-auto max-w-175 space-y-3 p-4 pt-0"
+						class="sticky top-2 mx-auto w-min rounded-lg bg-black/75 px-2 py-1 text-sm text-white"
 					>
-						<!--mark time-->
-						<div
-							class="sticky top-2 mx-auto w-min rounded-lg bg-black/75 px-2 py-1 text-sm text-white"
-						>
-							{{ index }}
-						</div>
-
-						<div
-							v-for="message in group"
-							:key="message.id"
-							ref="messageRefs"
-							:data-message-id="message.id"
-						>
-							<ChatWindowMessagesItem :message />
-						</div>
+						{{ index }}
 					</div>
-				</template>
+
+					<div
+						v-for="message in group"
+						:key="message.id"
+						ref="messageRefs"
+						:data-message-id="message.id"
+					>
+						<ChatWindowMessagesItem :message />
+					</div>
+				</div>
 			</div>
 		</ScrollArea>
 		<BaseScrollButton
