@@ -18,26 +18,7 @@ const chatId = computed(() => {
 
 const { data: chat, isFetching } = useChatShowQuery(chatId);
 
-// TODO members[0] не так работает как думали иногда там неверный юзер.
-const member = computed(() => {
-	if (!chat.value?.chat?.members) {
-		return null;
-	} else {
-		return chat.value.chat.members[0];
-	}
-});
-
-const membersGroup = computed(() => {
-	if (!chat.value?.chat?.members) {
-		return [];
-	} else {
-		return chat.value.chat.members;
-	}
-});
-
-const isPrivateChat = computed(() => {
-	return chat.value?.chat?.type === 'private';
-});
+const isPrivateChat = computed(() => chat.value?.type === 'private');
 
 watchEffect(() => {
 	if (!chatId.value) {
@@ -52,17 +33,14 @@ watchEffect(() => {
 	>
 		<div class="flex h-full flex-col">
 			<ChatWindowWallpaper />
+
 			<ChatWindowHeaderSkeleton v-if="isFetching" />
-			<ChatWindowHeader
-				v-else-if="member && isPrivateChat"
-				:member="member"
-				:chat-id="chatId"
-			/>
-			<!--тут для группового чата данные за место member-->
-			<ChatWindowHeaderGroup
-				v-else-if="member && !isPrivateChat"
-				:members="membersGroup"
-			/>
+
+			<template v-else-if="chat">
+				<ChatWindowHeader v-if="isPrivateChat" :chat="chat" />
+				<ChatWindowHeaderGroup v-else :chat="chat" />
+			</template>
+
 			<ChatWindowMessages />
 			<ChatWindowFooter />
 		</div>

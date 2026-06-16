@@ -22,5 +22,7 @@ export function useChatShowQuery(chatId: Ref<ChatsShowData['path']['chat']>) {
 
 			return result.data;
 		},
+
+		select: (data) => data.chat,
 	});
 }

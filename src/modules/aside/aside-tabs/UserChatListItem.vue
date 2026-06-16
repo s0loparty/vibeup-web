@@ -2,6 +2,7 @@
 import BaseAvatar from '@/app/components/base/BaseAvatar.vue';
 import { useTransformDate } from '@/app/composables/useTransformDate';
 import type { PublicChat } from '@/shared/api';
+import { UsersRoundIcon } from 'lucide-vue-next';
 import { computed } from 'vue';
 import UserChatListMessagePin from './UserChatListMessagePin.vue';
 import UserChatListMessagesCount from './UserChatListMessagesCount.vue';
@@ -46,9 +47,12 @@ const updateAt = computed(() => {
 
 		<div class="w-full max-w-full min-w-0">
 			<div class="flex items-center justify-between gap-2.5">
-				<span class="truncate leading-normal font-semibold text-ellipsis">
-					{{ chat.display_title }}
-				</span>
+				<div class="flex items-center gap-x-1">
+					<UsersRoundIcon v-if="chat.type === 'group'" class="size-4" />
+					<span class="truncate leading-normal font-semibold text-ellipsis">
+						{{ chat.display_title }}
+					</span>
+				</div>
 				<span v-if="chat.last_message" class="shrink-0 text-sm text-gray-400">
 					{{ updateAt }}
 				</span>

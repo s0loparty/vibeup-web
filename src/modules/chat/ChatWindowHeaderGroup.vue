@@ -2,21 +2,24 @@
 import BaseAvatar from '@/app/components/base/BaseAvatar.vue';
 import { Button } from '@/app/components/ui/button';
 import { useAppMenuStore } from '@/app/stores/useAppMenuStore';
-import type { PublicUser } from '@/shared/api';
+import type { PublicChat } from '@/shared/api';
 import { ArrowLeftIcon, PinIcon, SearchIcon } from 'lucide-vue-next';
 import { storeToRefs } from 'pinia';
 import ChatWindowHeaderOptions from './ChatWindowHeaderOptions.vue';
 
+const props = defineProps<{ chat: PublicChat }>();
+
+// const authStore = useAuthStore();
 const { showUserInfo, showAside } = storeToRefs(useAppMenuStore());
 
-defineProps<{
-	members: PublicUser[];
-}>();
+// const companion = computed(() => {
+// 	return props.chat.members.find((m) => m.id !== authStore.user?.id!)!;
+// });
 </script>
 
 <template>
 	<div
-		v-if="members.length"
+		v-if="props.chat.members.length"
 		id="user-chat-header"
 		class="relative z-5 flex h-14 shrink-0 items-center bg-white"
 	>
@@ -34,17 +37,17 @@ defineProps<{
 			>
 				<!--аватарка Здес в нейм надо тайтл группы закинуть вместо юзер нейма для аватарки-->
 				<BaseAvatar
-					:src="members[0]!.avatar?.thumbnail"
-					:name="members[0]!.username"
+					:src="undefined"
+					:name="props.chat.display_title"
 					class="size-11 bg-gray-500/50 text-sm text-white"
 				/>
 				<div class="flex max-w-full min-w-0 flex-col">
 					<span class="truncate leading-normal font-semibold text-ellipsis">
-						Название группы
+						{{ props.chat.display_title }}
 					</span>
 					<!--TODO добавить онлайн сколько людей в группе-->
-					<span class="text-sm text-gray-500"
-						>Участников группы: {{ members.length }}
+					<span class="text-sm text-gray-500">
+						Участников группы: {{ props.chat.members.length }}
 					</span>
 				</div>
 			</div>

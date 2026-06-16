@@ -3,7 +3,8 @@ import BaseAvatar from '@/app/components/base/BaseAvatar.vue';
 import { Button } from '@/app/components/ui/button';
 import { useTransformDate } from '@/app/composables/useTransformDate';
 import { useAppMenuStore } from '@/app/stores/useAppMenuStore';
-import type { PublicUser } from '@/shared/api';
+import { useAuthStore } from '@/app/stores/useAuthStore.ts';
+import type { PublicChat } from '@/shared/api';
 import { ArrowLeftIcon, PinIcon, SearchIcon } from 'lucide-vue-next';
 import { storeToRefs } from 'pinia';
 import { computed } from 'vue';
@@ -13,20 +14,22 @@ import { useChatMessagesStore } from '../messages/stores/useChatMessagesStore.ts
 import ChatWindowHeaderOptions from './ChatWindowHeaderOptions.vue';
 
 const { showUserInfo, showAside } = storeToRefs(useAppMenuStore());
-const { toggleSearch } = useChatMessagesStore();
-const { isShowSearch } = storeToRefs(useChatMessagesStore());
+const chatMessagesStore = useChatMessagesStore();
+const authStore = useAuthStore();
 
-const props = defineProps<{
-	member: PublicUser;
-}>();
+const props = defineProps<{ chat: PublicChat }>();
 
 const { formatDateFull, formatDateHours, isToday } = useTransformDate();
 const { searchInput, findedMsg, findedIsLoading } = useMessageSearchInput();
 
+const companion = computed(() => {
+	return props.chat.members.find((m) => m.id !== authStore.user?.id!)!;
+});
+
 const lastSeenAt = computed(() => {
-	return isToday(props.member.last_seen_at!)
-		? formatDateHours(props.member.last_seen_at!)
-		: formatDateFull(props.member.last_seen_at!);
+	return isToday(companion.value.last_seen_at!)
+		? formatDateHours(companion.value.last_seen_at!)
+		: formatDateFull(companion.value.last_seen_at!);
 });
 </script>
 
@@ -45,23 +48,23 @@ const lastSeenAt = computed(() => {
 
 		<div class="flex w-full items-center justify-between px-2 xs:px-4">
 			<div
-				v-if="!isShowSearch"
+				v-if="!chatMessagesStore.isShowSearch"
 				class="flex cursor-pointer items-center gap-2.5"
 				@click="showUserInfo = true"
 			>
 				<!--аватарка-->
 				<BaseAvatar
-					:src="member.avatar?.thumbnail"
-					:name="member.username"
+					:src="companion.avatar?.thumbnail"
+					:name="companion.username"
 					class="size-11 bg-gray-500/50 text-sm text-white"
 				/>
 				<div class="flex max-w-full min-w-0 flex-col">
 					<span class="truncate leading-normal font-semibold text-ellipsis">
-						{{ member.username }}
+						{{ companion.username }}
 					</span>
-					<span class="text-sm text-gray-500"
-						>был(а) в сети в {{ lastSeenAt }}</span
-					>
+					<span class="text-sm text-gray-500">
+						был(а) в сети в {{ lastSeenAt }}
+					</span>
 				</div>
 			</div>
 
@@ -69,8 +72,8 @@ const lastSeenAt = computed(() => {
 				v-model.trim="searchInput"
 				:is-loading="findedIsLoading"
 				:finded-messages="findedMsg"
-				:is-searching="isShowSearch"
-				@close="toggleSearch"
+				:is-searching="chatMessagesStore.isShowSearch"
+				@close="chatMessagesStore.toggleSearch"
 			/>
 
 			<div class="flex items-center justify-between gap-2.5">
@@ -90,7 +93,7 @@ const lastSeenAt = computed(() => {
 					size="icon"
 					class="hidden p-0 xs:flex"
 					title="Поиск по чату"
-					@click="toggleSearch"
+					@click="chatMessagesStore.toggleSearch"
 				>
 					<SearchIcon class="size-6 text-gray-500" />
 				</Button>
