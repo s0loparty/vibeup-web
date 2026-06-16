@@ -7,15 +7,37 @@ import {
 import { Toaster } from '@/app/components/ui/sonner';
 import ChatUserinfo from '@/modules/chat/chat-userinfo/ChatUserinfo.vue';
 import { VueQueryDevtools } from '@tanstack/vue-query-devtools';
-import { watch } from 'vue';
+import { breakpointsTailwind, useBreakpoints } from '@vueuse/core';
+import { storeToRefs } from 'pinia';
+import type { SplitterPanel } from 'reka-ui';
+import { computed, ref, watch } from 'vue';
 import AppLoader from './components/AppLoader.vue';
 import { useAppColor } from './composables/useAppColor';
 import AsideLayout from './layouts/AsideLayout.vue';
 import { useUserAvatarQuery } from './query/user/useUserAvatarQuery';
 import { useUserQuery } from './query/user/useUserQuery';
+import { useAppMenuStore } from './stores/useAppMenuStore.ts';
 import { useAuthStore } from './stores/useAuthStore';
 
 const authStore = useAuthStore();
+const { showAside } = storeToRefs(useAppMenuStore());
+
+const breakpoints = useBreakpoints(breakpointsTailwind);
+const lgAndSmaller = breakpoints.smaller('lg');
+const shouldShowAside = computed(() => {
+	if (!lgAndSmaller.value) return true;
+	return showAside.value;
+});
+const asidePanelRef = ref<InstanceType<typeof SplitterPanel> | null>(null);
+watch(shouldShowAside, (isShow) => {
+	if (!asidePanelRef.value) return;
+
+	if (isShow) {
+		asidePanelRef.value.expand();
+	} else {
+		asidePanelRef.value.collapse();
+	}
+});
 
 // Initialize app color
 const appColor = useAppColor();
@@ -53,9 +75,15 @@ watch(
 	>
 		<div class="relative flex min-h-dvh justify-center">
 			<ResizablePanelGroup direction="horizontal">
-				<ResizablePanel sizeUnit="px" :maxSize="420" :minSize="300">
+				<ResizablePanel
+					ref="asidePanelRef"
+					sizeUnit="px"
+					:maxSize="lgAndSmaller ? 0 : 420"
+					:minSize="lgAndSmaller ? 0 : 300"
+				>
 					<AsideLayout />
 				</ResizablePanel>
+
 				<ResizableHandle />
 				<ResizablePanel>
 					<RouterView />

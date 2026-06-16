@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { useChatShowQuery } from '@/app/query/chat/useChatShowQuery';
 import router from '@/app/router';
+import { useAppMenuStore } from '@/app/stores/useAppMenuStore.ts';
 import { computed, watchEffect } from 'vue';
 import { useRoute } from 'vue-router';
 import ChatWindowFooter from './ChatWindowFooter.vue';
@@ -11,6 +12,7 @@ import ChatWindowMessages from './ChatWindowMessages.vue';
 import ChatWindowWallpaper from './ChatWindowWallpaper.vue';
 
 const route = useRoute<'chat-window'>();
+const appMenuStore = useAppMenuStore();
 
 const chatId = computed(() => {
 	return Number(route.params.id);
@@ -23,7 +25,10 @@ const isPrivateChat = computed(() => chat.value?.type === 'private');
 watchEffect(() => {
 	if (!chatId.value) {
 		router.push({ name: 'main' });
+		return;
 	}
+
+	appMenuStore.showAside = false;
 });
 </script>
 

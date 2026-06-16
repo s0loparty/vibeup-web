@@ -5,13 +5,19 @@ import { useTransformDate } from '@/app/composables/useTransformDate';
 import { useAppMenuStore } from '@/app/stores/useAppMenuStore';
 import { useAuthStore } from '@/app/stores/useAuthStore.ts';
 import type { PublicChat } from '@/shared/api';
-import { ArrowLeftIcon, PinIcon, SearchIcon } from 'lucide-vue-next';
+import {
+	ArrowLeftIcon,
+	CirclePlayIcon,
+	PinIcon,
+	SearchIcon,
+} from 'lucide-vue-next';
 import { storeToRefs } from 'pinia';
 import { computed } from 'vue';
 import { useMessageSearchInput } from '../messages/composables/useMessageSearchInput';
 import MessagesSearchInput from '../messages/MessagesSearchInput.vue';
 import { useChatMessagesStore } from '../messages/stores/useChatMessagesStore.ts';
 import ChatWindowHeaderOptions from './ChatWindowHeaderOptions.vue';
+import { useDialogCreateVideochat } from './composables/useDialogCreateVideochat.ts';
 
 const { showUserInfo, showAside } = storeToRefs(useAppMenuStore());
 const chatMessagesStore = useChatMessagesStore();
@@ -21,6 +27,8 @@ const props = defineProps<{ chat: PublicChat }>();
 
 const { formatDateFull, formatDateHours, isToday } = useTransformDate();
 const { searchInput, findedMsg, findedIsLoading } = useMessageSearchInput();
+
+const { showDialogCreateVideochat } = useDialogCreateVideochat();
 
 const companion = computed(() => {
 	return props.chat.members.find((m) => m.id !== authStore.user?.id!)!;
@@ -41,7 +49,7 @@ const lastSeenAt = computed(() => {
 		<Button
 			@click="showAside = !showAside"
 			variant="ghost"
-			class="hidden p-0 max-lg:block"
+			class="p-0 lg:hidden"
 		>
 			<ArrowLeftIcon class="size-6 text-gray-500" />
 		</Button>
@@ -81,7 +89,7 @@ const lastSeenAt = computed(() => {
 				<Button
 					variant="ghost"
 					size="icon"
-					class="hidden p-0 xs:flex"
+					class="hidden p-0 lg:flex"
 					title="Закреплённые сообщения"
 				>
 					<PinIcon class="size-6 text-gray-500" />
@@ -91,15 +99,27 @@ const lastSeenAt = computed(() => {
 				<Button
 					variant="ghost"
 					size="icon"
-					class="hidden p-0 xs:flex"
+					class="hidden p-0 lg:flex"
 					title="Поиск по чату"
 					@click="chatMessagesStore.toggleSearch"
 				>
 					<SearchIcon class="size-6 text-gray-500" />
 				</Button>
 
+				<Button
+					variant="ghost"
+					size="icon"
+					class="hidden p-0 lg:flex"
+					title="Начать видеочат"
+					@click="showDialogCreateVideochat = true"
+				>
+					<CirclePlayIcon class="size-6 text-gray-500" />
+				</Button>
+
 				<!-- other buttons -->
-				<ChatWindowHeaderOptions />
+				<ChatWindowHeaderOptions
+					v-model:dialog-create-videochat="showDialogCreateVideochat"
+				/>
 			</div>
 		</div>
 	</div>

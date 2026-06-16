@@ -32,7 +32,7 @@ function messageHandler(id: PublicMessage['id']) {
 
 <template>
 	<ScrollArea
-		class="h-76 rounded-b-md shadow"
+		class="h-76 rounded-b-md bg-white shadow"
 		@scroll="
 			scrollHandler(
 				$event,

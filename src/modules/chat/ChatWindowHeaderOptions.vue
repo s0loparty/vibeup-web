@@ -8,6 +8,7 @@ import {
 	DropdownMenuTrigger,
 } from '@/app/components/ui/dropdown-menu';
 import {
+	CirclePlayIcon,
 	EllipsisVerticalIcon,
 	LockIcon,
 	PinIcon,
@@ -15,6 +16,15 @@ import {
 	TrashIcon,
 	VolumeOffIcon,
 } from 'lucide-vue-next';
+import { useChatMessagesStore } from '../messages/stores/useChatMessagesStore.ts';
+import ChatWindowDialogCreateVideochat from './ChatWindowDialogCreateVideochat.vue';
+
+const dialogCreateVideochatModel = defineModel('dialogCreateVideochat', {
+	required: true,
+	default: false,
+});
+
+const chatMessagesStore = useChatMessagesStore();
 </script>
 
 <template>
@@ -28,10 +38,19 @@ import {
 			<DropdownMenuItem> <VolumeOffIcon />Mute </DropdownMenuItem>
 			<DropdownMenuItem> <LockIcon /> Заблокировать </DropdownMenuItem>
 
-			<DropdownMenuItem class="xs:hidden">
+			<DropdownMenuItem class="lg:hidden">
 				<PinIcon /> Закреп. сообщения
 			</DropdownMenuItem>
-			<DropdownMenuItem class="xs:hidden">
+			<DropdownMenuItem
+				class="lg:hidden"
+				@click="dialogCreateVideochatModel = false"
+			>
+				<CirclePlayIcon /> Начать видеочат
+			</DropdownMenuItem>
+			<DropdownMenuItem
+				class="lg:hidden"
+				@click="chatMessagesStore.toggleSearch"
+			>
 				<SearchIcon /> Поиск по чату
 			</DropdownMenuItem>
 
@@ -44,4 +63,6 @@ import {
 			</DropdownMenuItem>
 		</DropdownMenuContent>
 	</DropdownMenu>
+
+	<ChatWindowDialogCreateVideochat v-model:open="dialogCreateVideochatModel" />
 </template>

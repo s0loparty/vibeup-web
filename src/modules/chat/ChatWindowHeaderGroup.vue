@@ -3,18 +3,21 @@ import BaseAvatar from '@/app/components/base/BaseAvatar.vue';
 import { Button } from '@/app/components/ui/button';
 import { useAppMenuStore } from '@/app/stores/useAppMenuStore';
 import type { PublicChat } from '@/shared/api';
-import { ArrowLeftIcon, PinIcon, SearchIcon } from 'lucide-vue-next';
+import {
+	ArrowLeftIcon,
+	CirclePlayIcon,
+	PinIcon,
+	SearchIcon,
+} from 'lucide-vue-next';
 import { storeToRefs } from 'pinia';
 import ChatWindowHeaderOptions from './ChatWindowHeaderOptions.vue';
+import { useDialogCreateVideochat } from './composables/useDialogCreateVideochat.ts';
 
 const props = defineProps<{ chat: PublicChat }>();
 
-// const authStore = useAuthStore();
 const { showUserInfo, showAside } = storeToRefs(useAppMenuStore());
 
-// const companion = computed(() => {
-// 	return props.chat.members.find((m) => m.id !== authStore.user?.id!)!;
-// });
+const { showDialogCreateVideochat } = useDialogCreateVideochat();
 </script>
 
 <template>
@@ -26,7 +29,7 @@ const { showUserInfo, showAside } = storeToRefs(useAppMenuStore());
 		<Button
 			@click="showAside = !showAside"
 			variant="ghost"
-			class="hidden p-0 max-lg:block"
+			class="p-0 lg:hidden"
 		>
 			<ArrowLeftIcon class="size-6 text-gray-500" />
 		</Button>
@@ -35,6 +38,7 @@ const { showUserInfo, showAside } = storeToRefs(useAppMenuStore());
 				class="flex cursor-pointer items-center gap-2.5"
 				@click="showUserInfo = true"
 			>
+				<!-- TODO -->
 				<!--аватарка Здес в нейм надо тайтл группы закинуть вместо юзер нейма для аватарки-->
 				<BaseAvatar
 					:src="undefined"
@@ -57,7 +61,7 @@ const { showUserInfo, showAside } = storeToRefs(useAppMenuStore());
 				<Button
 					variant="ghost"
 					size="icon"
-					class="hidden p-0 xs:flex"
+					class="hidden p-0 lg:flex"
 					title="Закреплённые сообщения"
 				>
 					<PinIcon class="size-6 text-gray-500" />
@@ -67,14 +71,26 @@ const { showUserInfo, showAside } = storeToRefs(useAppMenuStore());
 				<Button
 					variant="ghost"
 					size="icon"
-					class="hidden p-0 xs:flex"
+					class="hidden p-0 lg:flex"
 					title="Поиск по чату"
 				>
 					<SearchIcon class="size-6 text-gray-500" />
 				</Button>
 
+				<Button
+					variant="ghost"
+					size="icon"
+					class="hidden p-0 lg:flex"
+					title="Начать видеочат"
+					@click="showDialogCreateVideochat = true"
+				>
+					<CirclePlayIcon class="size-6 text-gray-500" />
+				</Button>
+
 				<!-- other buttons -->
-				<ChatWindowHeaderOptions />
+				<ChatWindowHeaderOptions
+					v-model:dialog-create-videochat="showDialogCreateVideochat"
+				/>
 			</div>
 		</div>
 	</div>

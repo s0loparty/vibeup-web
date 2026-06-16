@@ -47,9 +47,12 @@ const updateAt = computed(() => {
 
 		<div class="w-full max-w-full min-w-0">
 			<div class="flex items-center justify-between gap-2.5">
-				<div class="flex items-center gap-x-1">
-					<UsersRoundIcon v-if="chat.type === 'group'" class="size-4" />
-					<span class="truncate leading-normal font-semibold text-ellipsis">
+				<div class="flex items-center gap-x-1 truncate text-ellipsis">
+					<UsersRoundIcon
+						v-if="chat.type === 'group'"
+						class="size-4 shrink-0"
+					/>
+					<span class="leading-normal font-semibold">
 						{{ chat.display_title }}
 					</span>
 				</div>
