@@ -55,7 +55,7 @@ watch(inputRef, async (newVal) => {
 			</div>
 		</div>
 
-		<div class="absolute top-full right-0 left-0 z-10">
+		<div class="absolute top-[calc(100%+1px)] right-0 left-0 z-10">
 			<MessagesSearchList
 				:finded-message-list="findedMessages"
 				v-if="isShowFinded"

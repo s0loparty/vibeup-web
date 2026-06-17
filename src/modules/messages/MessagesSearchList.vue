@@ -6,7 +6,6 @@ import type { MessagesSearchResponses, PublicMessage } from '@/shared/api';
 import { useScrollHander } from '@/shared/utils/useScrollHandler';
 import { useMessageSearchInput } from './composables/useMessageSearchInput';
 import { useChatMessagesStore } from './stores/useChatMessagesStore';
-const { dateOrHours } = useTransformDate();
 
 defineProps<{
 	findedMessageList: MessagesSearchResponses['200']['data'];
@@ -14,14 +13,15 @@ defineProps<{
 
 const chatSearchStore = useChatMessagesStore();
 
+const { dateOrHours } = useTransformDate();
+const { scrollHandler } = useScrollHander();
+
 const {
 	findedFetchNextPage,
 	findedHasNextPage,
 	findedIsFetchingNextPage,
 	findedIsError,
 } = useMessageSearchInput();
-
-const { scrollHandler } = useScrollHander();
 
 function messageHandler(id: PublicMessage['id']) {
 	chatSearchStore.setContextMessageId(id);
@@ -60,9 +60,12 @@ function messageHandler(id: PublicMessage['id']) {
 						<div class="text-sm font-bold">{{ item.sender?.username }}</div>
 						<div class="text-sm" v-html="item.body"></div>
 					</div>
-					<time class="text-sm text-gray-500">{{
-						dateOrHours(item.created_at)
-					}}</time>
+					<time
+						:datetime="dateOrHours(item.created_at).value"
+						class="text-sm text-nowrap text-gray-500"
+					>
+						{{ dateOrHours(item.created_at).value }}
+					</time>
 				</div>
 			</li>
 		</ul>

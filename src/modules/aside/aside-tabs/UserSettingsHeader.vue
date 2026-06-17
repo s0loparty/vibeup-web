@@ -44,22 +44,17 @@ function copyHandler() {
 					/>
 
 					<BaseAvatar
-						class="mx-auto size-90.5 text-6xl"
+						class="mx-auto size-40 text-6xl"
 						:src="userAvatar?.original"
 						:name="authStore.user?.username"
 					/>
 
-					<div
-						class="absolute right-4 bottom-4 left-4 flex w-max max-w-[calc(100%-32px)] min-w-37.5 flex-col rounded-md bg-black/50 p-4 backdrop-blur-[2px]"
-					>
-						<span class="text-lg leading-normal font-semibold text-white">
-							{{ authStore.user?.username }}
-						</span>
-						<span class="text-gray-300">
-							<!--TODO ВРЕМЕННО ВЫГЛЯДИТ КАК ОТСТОЙ НАДО ЗАМЕНИТЬ-->
-							Был(а) в сети
-							{{ authStore.user?.last_seen_at }}
-						</span>
+					<div v-if="authStore.user" class="mt-2 px-4 text-sm text-gray-500">
+						<!--TODO ВРЕМЕННО ВЫГЛЯДИТ КАК ОТСТОЙ НАДО ЗАМЕНИТЬ-->
+						Был(а) в сети
+						<time :datetime="authStore.user.last_seen_at ?? ''">
+							{{ authStore.user.last_seen_at }}
+						</time>
 					</div>
 				</div>
 
