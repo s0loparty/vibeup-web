@@ -2,7 +2,7 @@ name: Build and publish Docker image
 
 on:
   push:
-    branches: [main]
+    branches: [dokploy-deployment]
   workflow_dispatch:
 
 permissions:
@@ -38,7 +38,7 @@ jobs:
           images: ghcr.io/${{ github.repository }}
           tags: |
             type=sha,format=long
-            type=raw,value=latest,enable=${{ github.ref == 'refs/heads/main' }}
+            type=raw,value=latest,enable=${{ github.ref == 'refs/heads/dokploy-deployment' }}
       - name: Build and push
         uses: docker/build-push-action@v6
         with:
