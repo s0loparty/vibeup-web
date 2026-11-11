@@ -1,60 +1,60 @@
 # msg-app
 
-This template should help get you started developing with Vue 3 in Vite.
+Приложение на Vue 3 и Vite.
 
-## Recommended IDE Setup
+## Рекомендуемая настройка редактора
 
-[VS Code](https://code.visualstudio.com/) + [Vue (Official)](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
+[VS Code](https://code.visualstudio.com/) с расширением [Vue (Official)](https://marketplace.visualstudio.com/items?itemName=Vue.volar). Если установлено расширение Vetur, отключите его.
 
-## Recommended Browser Setup
+## Рекомендуемая настройка браузера
 
-- Chromium-based browsers (Chrome, Edge, Brave, etc.):
+- Браузеры на основе Chromium (Chrome, Edge, Brave и другие):
   - [Vue.js devtools](https://chromewebstore.google.com/detail/vuejs-devtools/nhdogjmejiglipccpnnnanhbledajbpd)
-  - [Turn on Custom Object Formatter in Chrome DevTools](http://bit.ly/object-formatters)
+  - [Включение Custom Object Formatter в Chrome DevTools](http://bit.ly/object-formatters)
 - Firefox:
   - [Vue.js devtools](https://addons.mozilla.org/en-US/firefox/addon/vue-js-devtools/)
-  - [Turn on Custom Object Formatter in Firefox DevTools](https://fxdx.dev/firefox-devtools-custom-object-formatters/)
+  - [Включение Custom Object Formatter в Firefox DevTools](https://fxdx.dev/firefox-devtools-custom-object-formatters/)
 
-## Type Support for `.vue` Imports in TS
+## Поддержка типов при импорте `.vue` в TypeScript
 
-TypeScript cannot handle type information for `.vue` imports by default, so we replace the `tsc` CLI with `vue-tsc` for type checking. In editors, we need [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) to make the TypeScript language service aware of `.vue` types.
+По умолчанию TypeScript не обрабатывает типы импортируемых файлов `.vue`, поэтому для проверки типов вместо `tsc` используется `vue-tsc`. В редакторе для поддержки типов `.vue` служит расширение [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar).
 
-## Customize configuration
+## Настройка конфигурации
 
-See [Vite Configuration Reference](https://vite.dev/config/).
+См. [справочник по конфигурации Vite](https://vite.dev/config/).
 
-## Project Setup
+## Установка проекта
 
 ```sh
 npm install
 ```
 
-### Compile and Hot-Reload for Development
+### Запуск для разработки с горячей перезагрузкой
 
 ```sh
 npm run dev
 ```
 
-### Type-Check, Compile and Minify for Production
+### Проверка типов и production-сборка
 
 ```sh
 npm run build
 ```
 
-### Lint with [ESLint](https://eslint.org/)
+### Проверка с помощью [ESLint](https://eslint.org/)
 
 ```sh
 npm run lint
 ```
 
-## Deployment with Dokploy
+## Развёртывание через Dokploy
 
-The frontend image is built by GitHub Actions and published to GitHub Container Registry (GHCR). Dokploy only pulls and runs the image; it does not build the application.
+GitHub Actions собирает образ фронтенда и публикует его в GitHub Container Registry (GHCR). Dokploy скачивает и запускает готовый образ, не собирая приложение.
 
-1. In GitHub, open **Settings → Secrets and variables → Actions → Variables** and create the repository variable `VITE_API_BASE_URL`, for example `https://api.example.com`. Use the API URL reachable from the user's browser. This value is public and is embedded in the frontend at build time; do not put secrets in it. Configure the API's CORS settings to allow the frontend domain if they use different origins.
-2. Push to `dokploy-deployment` or run **Build and publish Docker image** manually from the Actions tab. Each successful build publishes a `sha-<commit>` tag; builds of `dokploy-deployment` also update `latest`. After changing the API URL, run the workflow again to create a new image.
-3. In **Packages** on GitHub, make the GHCR package public, or configure registry authentication in Dokploy using a GitHub token with `read:packages` and access to the package. The workflow uses `GITHUB_TOKEN` to publish; check that Actions is allowed to write packages if publication fails.
-4. In Dokploy, create a **Compose** service and use this repository's `compose.yaml` as its Compose source. If deploying from another repository or a fork, set `IMAGE` in Dokploy to the published image, for example `ghcr.io/owner/repository:latest` (GHCR image names are lowercase). For a fixed version use the published `sha-<commit>` tag instead.
-5. Add a domain to the `web` service in Dokploy and set its container port to **80**, then deploy. On subsequent releases, redeploy and pull the updated image; a pinned SHA must first be changed to the new tag. Configure HTTPS for the domain in Dokploy.
+1. В GitHub откройте **Settings → Secrets and variables → Actions → Variables** и создайте переменную репозитория `VITE_API_BASE_URL`, например `https://api.example.com`. Укажите адрес API, доступный из браузера пользователя. Это публичное значение встраивается во фронтенд при сборке, поэтому не указывайте в нём секреты. Если API и фронтенд находятся на разных доменах, настройте CORS на стороне API так, чтобы разрешить запросы с домена фронтенда.
+2. Отправьте изменения в `dokploy-deployment` или запустите **Build and publish Docker image** вручную на вкладке Actions. Каждая успешная сборка публикует тег `sha-<commit>`; сборки ветки `dokploy-deployment` также обновляют тег `latest`. После изменения адреса API запустите workflow заново, чтобы создать новый образ.
+3. В разделе **Packages** на GitHub сделайте пакет GHCR публичным или настройте в Dokploy аутентификацию в реестре с помощью GitHub-токена с правом `read:packages` и доступом к пакету. Для публикации workflow использует `GITHUB_TOKEN`; если публикация завершится ошибкой, проверьте, разрешена ли GitHub Actions запись пакетов.
+4. В Dokploy создайте сервис **Compose** и укажите в качестве источника Compose файл `compose.yaml` этого репозитория. Если развёртываете приложение из другого репозитория или форка, задайте в Dokploy переменную `IMAGE` с адресом опубликованного образа, например `ghcr.io/owner/repository:latest` (имена образов GHCR записываются строчными буквами). Чтобы закрепить версию, используйте опубликованный тег `sha-<commit>`.
+5. Добавьте домен для сервиса `web` в Dokploy, укажите порт контейнера **80** и запустите развёртывание. При следующих выпусках повторно разверните сервис с загрузкой обновлённого образа; если версия закреплена по SHA, сначала замените тег на новый. Настройте HTTPS для домена в Dokploy.
 
-The Compose file intentionally does not publish a host port: Dokploy routes traffic to port 80 through its proxy. The backend is a separate service and is not included in this Compose file.
+Compose-файл не публикует порт на хосте: Dokploy направляет трафик на порт 80 через свой прокси. Бэкенд является отдельным сервисом и не входит в этот Compose-файл.
