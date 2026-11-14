@@ -4,6 +4,7 @@ import router from '@/app/router';
 import { useAppMenuStore } from '@/app/stores/useAppMenuStore.ts';
 import { computed, watchEffect } from 'vue';
 import { useRoute } from 'vue-router';
+import { useChatMessagesStore } from '../messages/stores/useChatMessagesStore.ts';
 import ChatWindowFooter from './ChatWindowFooter.vue';
 import ChatWindowHeader from './ChatWindowHeader.vue';
 import ChatWindowHeaderGroup from './ChatWindowHeaderGroup.vue';
@@ -13,6 +14,7 @@ import ChatWindowWallpaper from './ChatWindowWallpaper.vue';
 
 const route = useRoute<'chat-window'>();
 const appMenuStore = useAppMenuStore();
+const chatMessagesStore = useChatMessagesStore();
 
 const chatId = computed(() => {
 	return Number(route.params.id);
@@ -29,6 +31,7 @@ watchEffect(() => {
 	}
 
 	appMenuStore.showAside = false;
+	chatMessagesStore.toggleSearch(false);
 });
 </script>
 
