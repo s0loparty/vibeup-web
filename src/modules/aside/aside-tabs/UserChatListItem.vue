@@ -3,7 +3,7 @@ import BaseAvatar from '@/app/components/base/BaseAvatar.vue';
 import { useTransformDate } from '@/app/composables/useTransformDate';
 import type { PublicChat } from '@/shared/api';
 import { UsersRoundIcon } from 'lucide-vue-next';
-import { computed } from 'vue';
+import { computed, ref } from 'vue';
 import UserChatListMessagePin from './UserChatListMessagePin.vue';
 import UserChatListMessagesCount from './UserChatListMessagesCount.vue';
 
@@ -15,7 +15,7 @@ function getRandomIntegerInclusive(min: number, max: number) {
 
 const countMessages = getRandomIntegerInclusive(1, 150);
 
-const fiftyFifty = Math.random() < 0.5;
+const fiftyFifty = ref(Math.random() < 0.5);
 
 const { formatDateFull, formatDateHours, isToday } = useTransformDate();
 
