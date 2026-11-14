@@ -1,8 +1,15 @@
 <script setup lang="ts">
 import BaseScrollButton from '@/app/components/base/BaseScrollButton.vue';
+import {
+	ContextMenu,
+	ContextMenuContent,
+	ContextMenuItem,
+	ContextMenuTrigger,
+} from '@/app/components/ui/context-menu';
 import { ScrollArea } from '@/app/components/ui/scroll-area';
 import { animateScrollToBottom } from '@/shared/utils/animateScrollToBottom';
 import { useScrollMessagesHandler } from '@/shared/utils/useScrollMessagesHandler.ts';
+import { CopyIcon, PinIcon, ReplyIcon, TrashIcon } from 'lucide-vue-next';
 import { computed, nextTick, onBeforeUnmount, ref, watch } from 'vue';
 import { useRoute } from 'vue-router';
 
@@ -209,46 +216,58 @@ watch(
 				Загрузка старых сообщений...
 			</div>
 
-			<div
-				:style="{
-					height: `${totalSize}px`,
-					position: 'relative',
-					width: '100%',
-				}"
-			>
-				<div
-					v-for="virtualRow in virtualRows"
-					:key="virtualRow.key"
-					:data-index="virtualRow.index"
-					:ref="measureRowElement"
-					class="absolute top-0 left-0 w-full"
-					:style="{
-						transform: `translateY(${virtualRow.start}px)`,
-					}"
-				>
-					<template v-if="virtualRow.row?.type === 'date'">
-						<div class="mx-auto max-w-175 px-4 pt-2 pb-3">
-							<div
-								class="mx-auto w-min rounded-lg bg-black/75 px-2 py-1 text-sm whitespace-nowrap text-white"
-							>
-								{{ virtualRow.row.date }}
-							</div>
-						</div>
-					</template>
-
-					<template v-else-if="virtualRow.row?.type === 'message'">
+			<ContextMenu :key="chatId">
+				<ContextMenuTrigger as-child>
+					<div
+						:style="{
+							height: `${totalSize}px`,
+							position: 'relative',
+							width: '100%',
+						}"
+					>
 						<div
-							class="mx-auto max-w-175 px-4 pb-3 transition-colors"
-							:class="{
-								'rounded-lg bg-brand-500/30':
-									highlightedMessageId === virtualRow.row.message.id,
+							v-for="virtualRow in virtualRows"
+							:key="virtualRow.key"
+							:data-index="virtualRow.index"
+							:ref="measureRowElement"
+							class="absolute top-0 left-0 w-full"
+							:style="{
+								transform: `translateY(${virtualRow.start}px)`,
 							}"
 						>
-							<ChatWindowMessagesItem :message="virtualRow.row.message" />
+							<template v-if="virtualRow.row?.type === 'date'">
+								<div data-message-date @contextmenu.stop @pointerdown.stop>
+									<div class="mx-auto max-w-175 px-4 pt-2 pb-3">
+										<div
+											class="mx-auto w-min rounded-lg bg-black/75 px-2 py-1 text-sm whitespace-nowrap text-white"
+										>
+											{{ virtualRow.row.date }}
+										</div>
+									</div>
+								</div>
+							</template>
+
+							<template v-else-if="virtualRow.row?.type === 'message'">
+								<div
+									class="mx-auto max-w-175 px-4 pb-3 transition-colors"
+									:class="{
+										'rounded-lg bg-brand-500/30':
+											highlightedMessageId === virtualRow.row.message.id,
+									}"
+								>
+									<ChatWindowMessagesItem :message="virtualRow.row.message" />
+								</div>
+							</template>
 						</div>
-					</template>
-				</div>
-			</div>
+					</div>
+				</ContextMenuTrigger>
+				<ContextMenuContent class="w-25 bg-white/95">
+					<ContextMenuItem><ReplyIcon /> Reply</ContextMenuItem>
+					<ContextMenuItem><CopyIcon /> Copy</ContextMenuItem>
+					<ContextMenuItem><PinIcon /> Pin</ContextMenuItem>
+					<ContextMenuItem><TrashIcon /> Delete</ContextMenuItem>
+				</ContextMenuContent>
+			</ContextMenu>
 		</ScrollArea>
 
 		<BaseScrollButton

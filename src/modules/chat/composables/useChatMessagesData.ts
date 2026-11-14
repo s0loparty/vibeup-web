@@ -36,13 +36,17 @@ export function useChatMessagesData({
 }: Params) {
 	function groupMessagesByDate(messages: PublicMessage[]): MessagesGroupMap {
 		const grouped: MessagesGroupMap = {};
+		const formatter = new Intl.DateTimeFormat('ru-RU', {
+			day: '2-digit',
+			month: '2-digit',
+			year: 'numeric',
+		});
 
 		for (const message of messages) {
-			const dateKey = new Date(message.created_at).toLocaleDateString('ru-RU', {
-				day: '2-digit',
-				month: '2-digit',
-				year: 'numeric',
-			});
+			const date = new Date(message.created_at);
+			const dateKey = Number.isNaN(date.getTime())
+				? date.toLocaleDateString('ru-RU')
+				: formatter.format(date);
 
 			if (!grouped[dateKey]) {
 				grouped[dateKey] = [];
