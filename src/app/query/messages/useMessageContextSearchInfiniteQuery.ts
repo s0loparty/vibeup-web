@@ -4,7 +4,7 @@ import {
 	type PublicMessage,
 } from '@/shared/api';
 import { useInfiniteQuery } from '@tanstack/vue-query';
-import type { Ref } from 'vue';
+import { computed, type Ref } from 'vue';
 import { messageKeys } from './message.keys';
 
 export function useMessageContextSearchInfiniteQuery(
@@ -17,7 +17,7 @@ export function useMessageContextSearchInfiniteQuery(
 		gcTime: Infinity,
 		refetchOnMount: false,
 		refetchOnWindowFocus: false,
-		enabled: !!chatId.value && !!messageId.value,
+		enabled: computed(() => !!chatId.value && !!messageId.value),
 
 		queryKey: messageKeys.searchContext(chatId, messageId).queryKey,
 
@@ -30,7 +30,7 @@ export function useMessageContextSearchInfiniteQuery(
 			});
 
 			if (result.error) {
-				throw result.error;
+				throw result;
 			}
 
 			return result.data;

@@ -20,7 +20,7 @@ export function useUpdateUserAvatarMutation() {
 			});
 
 			if (result.error) {
-				throw result.error;
+				throw result;
 			}
 
 			return result.data;

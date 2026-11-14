@@ -17,7 +17,7 @@ export function useChatShowQuery(chatId: Ref<ChatsShowData['path']['chat']>) {
 			});
 
 			if (result.error) {
-				throw result.error;
+				throw result;
 			}
 
 			return result.data;

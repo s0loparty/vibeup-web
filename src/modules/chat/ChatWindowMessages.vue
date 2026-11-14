@@ -4,24 +4,33 @@ import { ScrollArea } from '@/app/components/ui/scroll-area';
 import { useScrollMessagesHandler } from '@/shared/utils/useScrollMessagesHandler.ts';
 import { computed, nextTick, ref, watch } from 'vue';
 import { useRoute } from 'vue-router';
+
 import { useMessageSearchInput } from '../messages/composables/useMessageSearchInput.ts';
 import { useChatMessagesStore } from '../messages/stores/useChatMessagesStore.ts';
 import ChatWindowMessagesItem from './ChatWindowMessagesItem.vue';
 import ChatWindowMessagesSkeleton from './ChatWindowMessagesSkeleton.vue';
+import { useChatMessagesData } from './composables/useChatMessagesData';
+import { useChatMessagesVirtualizer } from './composables/useChatMessagesVirtualizer';
 import { useMessageScroll } from './composables/useMessageScroll';
+import { useStickyDate } from './composables/useStickyDate';
 
 const chatMessagesStore = useChatMessagesStore();
 
-const scrollAreaRef = ref<InstanceType<typeof ScrollArea> | null>(null);
-const messageRefs = ref<HTMLElement[] | null>(null);
+const scrollViewportRef = ref<HTMLElement | null>(null);
+const highlightedMessageId = ref<number | null>(null);
+let initializedChatId: number | null = null;
+
+function setScrollViewportRef(el: HTMLElement | null) {
+	scrollViewportRef.value = el;
+}
 
 const route = useRoute<'chat-window'>();
-const chatId = computed(() => {
-	return Number(route.params.id);
-});
+
+const chatId = computed(() => Number(route.params.id));
 
 const messageScroll = useMessageScroll(chatId);
-const scrollMessagesHandler = useScrollMessagesHandler(scrollAreaRef);
+const scrollMessagesHandler = useScrollMessagesHandler(scrollViewportRef);
+
 const {
 	contextIsPending,
 	contextMessage,
@@ -31,6 +40,33 @@ const {
 	contextIsError,
 } = useMessageSearchInput();
 
+const { virtualRowsData, messageIndexById } = useChatMessagesData({
+	isContext: computed(() => chatMessagesStore.isContext),
+	contextMessage,
+	messagesList: computed(() => messageScroll.messagesList.value),
+});
+
+const {
+	rowVirtualizer,
+	virtualRows,
+	totalSize,
+	measureRowElement,
+	scrollToBottom: scrollToBottomBase,
+} = useChatMessagesVirtualizer({
+	scrollViewportRef,
+	virtualRowsData,
+});
+
+const { stickyDate } = useStickyDate({
+	scrollViewportRef,
+	virtualRowsData,
+	getVirtualItems: () => rowVirtualizer.value.getVirtualItems(),
+});
+
+function scrollToBottom(behavior: ScrollBehavior = 'auto') {
+	scrollToBottomBase(behavior);
+}
+
 function messagesHandler(e: Event) {
 	scrollMessagesHandler.scrollHandler(
 		e,
@@ -39,6 +75,7 @@ function messagesHandler(e: Event) {
 		messageScroll.isFetchingNextPage.value,
 		messageScroll.isError.value,
 	);
+
 	scrollMessagesHandler.updateScrollButton(e);
 }
 
@@ -50,59 +87,69 @@ function contextHandler(e: Event) {
 		contextIsFetchingNextPage.value,
 		contextIsError.value,
 	);
+
 	scrollMessagesHandler.updateScrollButton(e);
 }
 
-// При первой загрузке или смене чата скроллим вниз
 watch(
-	() => Object.values(messageScroll.messagesList.value).length,
-	async (newLen, oldLen) => {
-		if (newLen && oldLen === 0) {
-			await nextTick();
-			scrollMessagesHandler.scrollToBottom();
-			scrollMessagesHandler.isAutoScrolling.value = false;
-		}
+	[
+		chatId,
+		scrollViewportRef,
+		() => virtualRowsData.value.length,
+		messageScroll.isPending,
+	],
+	async ([id, viewport, length, pending]) => {
+		if (
+			!viewport ||
+			!length ||
+			pending ||
+			chatMessagesStore.isContext ||
+			initializedChatId === id
+		)
+			return;
+		await nextTick();
+		if (chatId.value !== id || scrollViewportRef.value !== viewport) return;
+		scrollToBottom();
+		initializedChatId = id;
+		scrollMessagesHandler.isAutoScrolling.value = false;
+		scrollMessagesHandler.updateScrollButton();
 	},
+	{ flush: 'post' },
 );
 
-// Сбрасываем состояние при смене чата
-watch(chatId, async (newId, oldId) => {
-	if (newId !== oldId) {
-		scrollMessagesHandler.resetScroll();
-		await nextTick();
-		scrollMessagesHandler.scrollToBottom();
-		scrollMessagesHandler.isAutoScrolling.value = false;
-		chatMessagesStore.setIsContext(false);
-		chatMessagesStore.setContextMessageId(null);
-	}
+watch(chatId, () => {
+	initializedChatId = null;
+	scrollMessagesHandler.resetScroll();
+	highlightedMessageId.value = null;
+	chatMessagesStore.setIsContext(false);
+	chatMessagesStore.setContextMessageId(null);
 });
 
-//watcher html
 watch(
-	[() => chatMessagesStore.contextScrollTick, contextMessage],
-
+	[
+		() => chatMessagesStore.contextScrollTick,
+		() => contextMessage.value?.pages[0],
+		scrollViewportRef,
+	],
 	async () => {
+		const messageId = chatMessagesStore.contextMessageId;
+		const page = contextMessage.value?.pages[0];
+		if (!messageId || !page || page.target_message_id !== messageId) return;
+
 		chatMessagesStore.setIsContext(true);
-
 		await nextTick();
-
-		const finedElem = messageRefs.value?.find(
-			(e) =>
-				Number(e.getAttribute('data-message-id')) ===
-				chatMessagesStore.contextMessageId,
-		);
-
-		//TODO: Вынести стиль глобально красиво
-		finedElem?.classList.add(...['bg-brand-500/30', 'rounded-lg']);
-		setTimeout(
-			() => finedElem?.classList.remove(...['bg-brand-500/30', 'rounded-lg']),
-			2000,
-		);
-
-		finedElem?.scrollIntoView({
-			behavior: 'smooth',
-			block: 'center',
+		const index = messageIndexById.value.get(messageId);
+		if (index === undefined || !scrollViewportRef.value) return;
+		rowVirtualizer.value.scrollToIndex(index, {
+			align: 'center',
+			behavior: 'auto',
 		});
+		scrollMessagesHandler.isAutoScrolling.value = false;
+		highlightedMessageId.value = messageId;
+		window.setTimeout(() => {
+			if (highlightedMessageId.value === messageId)
+				highlightedMessageId.value = null;
+		}, 2000);
 	},
 );
 </script>
@@ -118,51 +165,76 @@ watch(
 		>
 			<ChatWindowMessagesSkeleton />
 		</div>
+
 		<ScrollArea
 			v-else
+			:viewport-ref="setScrollViewportRef"
+			class="relative h-full"
 			@scroll="
 				chatMessagesStore.isContext
 					? contextHandler($event)
 					: messagesHandler($event)
 			"
-			ref="scrollAreaRef"
-			class="relative h-full"
 		>
-			<div>
-				<!-- Индикатор загрузки сверху -->
-				<div
-					v-if="scrollMessagesHandler.isLoadingOlder.value"
-					class="py-2 text-center text-gray-400"
-				>
-					Загрузка старых сообщений...
-				</div>
+			<div
+				v-if="stickyDate"
+				class="pointer-events-none absolute top-2 left-1/2 z-5 -translate-x-1/2 rounded-lg bg-black/75 px-2 py-1 text-sm whitespace-nowrap text-white"
+			>
+				{{ stickyDate }}
+			</div>
 
-				<div
-					v-for="(group, index) in messageScroll.messagesList.value"
-					:key="index"
-					class="mx-auto max-w-175 space-y-3 p-4 pt-0"
-				>
-					<!--mark time-->
-					<div
-						class="sticky top-2 mx-auto w-min rounded-lg bg-black/75 px-2 py-1 text-sm text-white"
-					>
-						{{ index }}
-					</div>
+			<div
+				v-if="scrollMessagesHandler.isLoadingOlder.value"
+				class="pointer-events-none absolute top-10 z-10 w-full py-2 text-center text-gray-400"
+			>
+				Загрузка старых сообщений...
+			</div>
 
-					<div
-						v-for="message in group"
-						:key="message.id"
-						ref="messageRefs"
-						:data-message-id="message.id"
-					>
-						<ChatWindowMessagesItem :message />
-					</div>
+			<div
+				:style="{
+					height: `${totalSize}px`,
+					position: 'relative',
+					width: '100%',
+				}"
+			>
+				<div
+					v-for="virtualRow in virtualRows"
+					:key="virtualRow.key"
+					:data-index="virtualRow.index"
+					:ref="measureRowElement"
+					class="absolute top-0 left-0 w-full"
+					:style="{
+						transform: `translateY(${virtualRow.start}px)`,
+					}"
+				>
+					<template v-if="virtualRow.row?.type === 'date'">
+						<div class="mx-auto max-w-175 px-4 pt-2 pb-3">
+							<div
+								class="mx-auto w-min rounded-lg bg-black/75 px-2 py-1 text-sm whitespace-nowrap text-white"
+							>
+								{{ virtualRow.row.date }}
+							</div>
+						</div>
+					</template>
+
+					<template v-else-if="virtualRow.row?.type === 'message'">
+						<div
+							class="mx-auto max-w-175 px-4 pb-3 transition-colors"
+							:class="{
+								'rounded-lg bg-brand-500/30':
+									highlightedMessageId === virtualRow.row.message.id,
+							}"
+						>
+							<ChatWindowMessagesItem :message="virtualRow.row.message" />
+						</div>
+					</template>
 				</div>
 			</div>
 		</ScrollArea>
+
 		<BaseScrollButton
 			v-if="scrollMessagesHandler.showScrollBtn.value"
-			@click="scrollMessagesHandler.scrollToBottom"
+			@click="scrollToBottom('smooth')"
 		/>
 	</div>
 </template>

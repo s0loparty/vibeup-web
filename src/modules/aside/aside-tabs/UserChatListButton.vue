@@ -24,18 +24,18 @@ const panelStore = useAsidePanelStore();
 
 		<PopoverContent align="end" class="w-60 cursor-pointer bg-white/95 p-1">
 			<button
-				class="flex w-full items-center gap-2.5 rounded-sm p-2.5 hover:bg-gray-100"
+				class="flex w-full cursor-pointer items-center gap-2.5 rounded-sm p-2.5 hover:bg-gray-100"
 				@click="panelStore.openPanel('create-group', UserChatCreateGroup)"
 			>
 				<Megaphone />
-				<span class="text-sm">Новый групповой чат</span>
+				<span class="text-sm">New group chat</span>
 			</button>
 			<button
-				class="flex w-full items-center gap-2.5 rounded-sm p-2.5 hover:bg-gray-100"
+				class="flex w-full cursor-pointer items-center gap-2.5 rounded-sm p-2.5 hover:bg-gray-100"
 				@click="panelStore.openPanel('create-private', UserChatCreatePrivat)"
 			>
 				<UserRoundIcon />
-				<span class="text-sm">Новый чат</span>
+				<span class="text-sm">New chat</span>
 			</button>
 		</PopoverContent>
 	</Popover>

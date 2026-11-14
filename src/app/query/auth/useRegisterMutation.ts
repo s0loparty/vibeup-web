@@ -21,7 +21,7 @@ export function useRegisterMutation() {
 			const result = await authRegister({ body: credential });
 
 			if (result.error) {
-				throw result.error;
+				throw result;
 			}
 
 			return result.data;
