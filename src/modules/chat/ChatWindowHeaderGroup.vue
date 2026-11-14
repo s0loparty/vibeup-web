@@ -10,12 +10,17 @@ import {
 	SearchIcon,
 } from 'lucide-vue-next';
 import { storeToRefs } from 'pinia';
+import { useMessageSearchInput } from '../messages/composables/useMessageSearchInput';
+import MessagesSearchInput from '../messages/MessagesSearchInput.vue';
+import { useChatMessagesStore } from '../messages/stores/useChatMessagesStore';
 import ChatWindowHeaderOptions from './ChatWindowHeaderOptions.vue';
 import { useDialogCreateVideochat } from './composables/useDialogCreateVideochat.ts';
 
 const props = defineProps<{ chat: PublicChat }>();
 
 const { showUserInfo, showAside } = storeToRefs(useAppMenuStore());
+const chatMessagesStore = useChatMessagesStore();
+const { searchInput, findedMsg, findedIsLoading } = useMessageSearchInput();
 
 const { showDialogCreateVideochat } = useDialogCreateVideochat();
 </script>
@@ -35,6 +40,7 @@ const { showDialogCreateVideochat } = useDialogCreateVideochat();
 		</Button>
 		<div class="flex w-full items-center justify-between px-2 xs:px-4">
 			<div
+				v-if="!chatMessagesStore.isShowSearch"
 				class="flex cursor-pointer items-center gap-2.5"
 				@click="showUserInfo = true"
 			>
@@ -56,6 +62,14 @@ const { showDialogCreateVideochat } = useDialogCreateVideochat();
 				</div>
 			</div>
 
+			<MessagesSearchInput
+				v-model.trim="searchInput"
+				:is-loading="findedIsLoading"
+				:finded-messages="findedMsg"
+				:is-searching="chatMessagesStore.isShowSearch"
+				@close="chatMessagesStore.toggleSearch"
+			/>
+
 			<div class="flex items-center justify-between gap-2.5">
 				<!-- pin messages -->
 				<Button
@@ -73,6 +87,7 @@ const { showDialogCreateVideochat } = useDialogCreateVideochat();
 					size="icon"
 					class="hidden p-0 lg:flex"
 					title="Поиск по чату"
+					@click="chatMessagesStore.toggleSearch"
 				>
 					<SearchIcon class="size-6 text-gray-500" />
 				</Button>
