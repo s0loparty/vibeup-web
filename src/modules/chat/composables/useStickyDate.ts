@@ -36,7 +36,16 @@ export function useStickyDate({
 			const row = virtualRowsData.value[index];
 
 			if (row?.type === 'date') {
-				return row.date;
+				const dividerIsVisible = items.some((item) => {
+					const visibleRow = virtualRowsData.value[item.index];
+					return (
+						visibleRow?.type === 'date' &&
+						visibleRow.date === row.date &&
+						item.end > scrollTop &&
+						item.start < scrollTop + viewport.clientHeight
+					);
+				});
+				return dividerIsVisible ? null : row.date;
 			}
 		}
 
