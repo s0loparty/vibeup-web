@@ -17,7 +17,7 @@ export function useUpdateUserMutation() {
 			const result = await userUpdate({ body: newUserInfo });
 
 			if (result.error) {
-				throw result.error;
+				throw result;
 			}
 
 			return result.data;

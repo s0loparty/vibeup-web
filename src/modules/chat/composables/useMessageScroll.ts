@@ -1,11 +1,8 @@
 import { useMessageInfinityQuery } from '@/app/query/messages/useMessageInfinityQuery';
-import { useChatMessagesStore } from '@/modules/messages/stores/useChatMessagesStore';
 import type { PublicMessage } from '@/shared/api';
-import { computed, watch, type Ref } from 'vue';
+import { computed, type Ref } from 'vue';
 
 export function useMessageScroll(chatId: Ref<PublicMessage['chat_id']>) {
-	const chatMessagesStore = useChatMessagesStore();
-
 	const {
 		data: pages,
 		isFetchingNextPage,
@@ -16,16 +13,8 @@ export function useMessageScroll(chatId: Ref<PublicMessage['chat_id']>) {
 		isPending,
 	} = useMessageInfinityQuery(chatId);
 
-	watch(pages, (newPages) => {
-		if (!newPages || newPages.pages.length === 0) return;
-		const list = pages.value?.pages.flatMap((p) => p.data ?? []) ?? [];
-		chatMessagesStore.setMessages(list);
-	});
-
 	const messagesList = computed(() => {
-		// const list = pages.value?.pages.flatMap((p) => p.data ?? []) ?? [];
-
-		const list = chatMessagesStore.messages;
+		const list = pages.value?.pages.flatMap((page) => page.data ?? []) ?? [];
 
 		return [...list].reverse().reduce(
 			(prev, curr) => {

@@ -40,7 +40,7 @@ function getTransition() {
 	>
 		<aside
 			v-show="shouldShowAside"
-			class="relative z-50 flex h-screen w-full flex-col overflow-hidden bg-accent max-[840px]:absolute max-[840px]:max-w-full max-[840px]:min-w-auto"
+			class="relative z-50 flex h-dvh w-full flex-col overflow-hidden bg-white max-[840px]:absolute max-[840px]:max-w-full max-[840px]:min-w-auto"
 		>
 			<Transition :name="getTransition()">
 				<component

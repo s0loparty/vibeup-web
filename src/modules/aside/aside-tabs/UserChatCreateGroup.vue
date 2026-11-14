@@ -38,7 +38,7 @@ const { scrollHandler } = useScrollHander();
 <template>
 	<div class="min-h-0 flex-1 overflow-hidden bg-white">
 		<div class="flex h-full flex-col">
-			<TabTitle title="Новый групповой чат" />
+			<TabTitle title="New group chat" />
 			<!--TODO: когда у нас будут списки юзеров
 			уже будем подставлять валидные данные и сюда
 			сделаем красивую карточку заполняя данными по конкретному юзеру через айди

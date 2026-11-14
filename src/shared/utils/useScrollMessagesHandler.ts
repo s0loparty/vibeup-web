@@ -1,20 +1,22 @@
-import type ScrollArea from '@/app/components/ui/scroll-area/ScrollArea.vue';
 import type { InfiniteQueryObserverResult } from '@tanstack/vue-query';
-import { nextTick, ref, watch, type Ref } from 'vue';
+import { nextTick, ref, type Ref } from 'vue';
 
 export function useScrollMessagesHandler(
-	scrollAreaRef: Ref<InstanceType<typeof ScrollArea> | null>,
+	scrollViewportRef: Ref<HTMLElement | null>,
 ) {
 	const isAutoScrolling = ref(true);
-	// Флаг для отслеживания, что мы сейчас подгружаем старые сообщения
 	const isLoadingOlder = ref(false);
-	// Сохраняем ссылку на viewport для восстановления скролла
-	let savedScrollHeight = 0;
-
 	const showScrollBtn = ref(false);
 
-	function updateScrollButton(event: Event) {
-		const target = event.target as HTMLElement;
+	let savedScrollHeight = 0;
+	let savedScrollTop = 0;
+
+	function getViewport(): HTMLElement | null {
+		return scrollViewportRef.value;
+	}
+
+	function updateScrollButton(event?: Event) {
+		const target = (event?.target as HTMLElement | null) ?? getViewport();
 
 		if (!target) {
 			return;
@@ -24,20 +26,18 @@ export function useScrollMessagesHandler(
 			target.scrollHeight - target.scrollTop - target.clientHeight > 100;
 	}
 
-	// Функция для восстановления позиции скролла после подгрузки
 	async function restoreScrollPosition(viewport: HTMLElement) {
 		await nextTick();
+
 		const newScrollHeight = viewport.scrollHeight;
 		const heightDiff = newScrollHeight - savedScrollHeight;
 
 		if (heightDiff > 0) {
-			// Оставляем небольшой отступ сверху, чтобы было видно что подгрузилось
-			// но не прокручиваем на всю высоту новых сообщений
-			const minimalOffset = 50;
-			viewport.scrollTop += minimalOffset;
+			viewport.scrollTop = savedScrollTop + heightDiff;
 		}
 
 		isLoadingOlder.value = false;
+		updateScrollButton();
 	}
 
 	async function scrollHandler(
@@ -47,17 +47,18 @@ export function useScrollMessagesHandler(
 		isFetchingNextPage: boolean,
 		isError: boolean,
 	) {
-		const el = event.target as HTMLElement;
+		const el = event.target as HTMLElement | null;
 
 		if (
+			!el ||
 			!hasNextPage ||
 			isFetchingNextPage ||
-			!el ||
 			isError ||
 			isAutoScrolling.value ||
 			isLoadingOlder.value
-		)
+		) {
 			return;
+		}
 
 		const distanceFromTop = el.scrollTop;
 		const threshold = el.clientHeight * 1.2;
@@ -65,43 +66,37 @@ export function useScrollMessagesHandler(
 		if (distanceFromTop < threshold) {
 			isLoadingOlder.value = true;
 			savedScrollHeight = el.scrollHeight;
+			savedScrollTop = el.scrollTop;
 
-			await cb();
-
-			await restoreScrollPosition(el);
+			try {
+				await cb();
+				if (getViewport() === el) await restoreScrollPosition(el);
+			} finally {
+				isLoadingOlder.value = false;
+			}
 		}
 	}
 
-	// Сброс состояния при смене чата
 	function resetScroll() {
 		isAutoScrolling.value = true;
 		isLoadingOlder.value = false;
 		savedScrollHeight = 0;
+		savedScrollTop = 0;
+		showScrollBtn.value = false;
 	}
 
-	function getViewport(): HTMLElement | null {
-		if (!scrollAreaRef.value) return null;
-
-		return scrollAreaRef.value.$el?.querySelector(
-			'[data-slot="scroll-area-viewport"]',
-		) as HTMLElement | null;
-	}
-
-	function scrollToBottom() {
+	function scrollToBottom(options?: ScrollToOptions) {
 		const viewport = getViewport();
-		if (viewport) {
-			viewport.scrollTo({
-				top: viewport.scrollHeight,
-				behavior: 'smooth',
-			});
-		}
-	}
 
-	watch(isAutoScrolling, (ready) => {
-		if (ready) {
-			isAutoScrolling.value = false;
+		if (!viewport) {
+			return;
 		}
-	});
+
+		viewport.scrollTo({
+			top: viewport.scrollHeight,
+			behavior: options?.behavior ?? 'smooth',
+		});
+	}
 
 	return {
 		showScrollBtn,
@@ -111,5 +106,6 @@ export function useScrollMessagesHandler(
 		resetScroll,
 		scrollToBottom,
 		updateScrollButton,
+		getViewport,
 	};
 }

@@ -23,7 +23,7 @@ const asideStore = useAsidePanelStore();
 </script>
 
 <template>
-	<div class="flex min-h-0 flex-1 flex-col space-y-3 overflow-hidden">
+	<div class="flex min-h-0 flex-1 flex-col gap-3 overflow-hidden bg-accent">
 		<UserSettingsHeader />
 
 		<div class="min-h-0 flex-1 overflow-hidden bg-white shadow-box">

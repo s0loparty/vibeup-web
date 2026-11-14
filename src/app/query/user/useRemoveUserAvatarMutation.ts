@@ -18,7 +18,7 @@ export function useRemoveUserAvatarMutation() {
 			});
 
 			if (result.error) {
-				throw result.error;
+				throw result;
 			}
 
 			return result;
