@@ -1,8 +1,7 @@
-import { getErrorMessage } from '@/app/client/api-errors';
+import { getErrorMessage, isAuthError } from '@/app/client/api-errors';
 import router from '@/app/router';
 import { useAuthStore } from '@/app/stores/useAuthStore';
 import type { QueryMeta } from '@/app/types/query-meta';
-import { handleApiError } from '@/app/utils/error-handler';
 import { authLogout } from '@/shared/api';
 import { useMutation, useQueryClient } from '@tanstack/vue-query';
 import { toast } from 'vue-sonner';
@@ -21,7 +20,9 @@ export function useLogoutMutation() {
 		} satisfies QueryMeta,
 
 		mutationFn: async () => {
-			return authLogout();
+			const result = await authLogout();
+			if (result.error) throw result;
+			return result.data;
 		},
 
 		onSuccess() {
@@ -32,17 +33,15 @@ export function useLogoutMutation() {
 		},
 
 		onError(err) {
-			const error = handleApiError(err);
-
 			// Если токен уже протух (401), всё равно редиректим на логин
-			if (error.status === 401) {
+			if (isAuthError(err)) {
 				authStore.reset();
 				router.push({ name: 'auth:login' });
 				return;
 			}
 
-			toast.error(getErrorMessage(error));
-			console.error('Error logging out:', error);
+			toast.error(getErrorMessage(err));
+			console.error('Error logging out:', err);
 		},
 	});
 }

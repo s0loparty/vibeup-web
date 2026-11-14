@@ -21,7 +21,7 @@ export function useLoginMutation() {
 			const result = await authLogin({ body: credential });
 
 			if (result.error) {
-				throw result.error;
+				throw result;
 			}
 
 			return result.data;

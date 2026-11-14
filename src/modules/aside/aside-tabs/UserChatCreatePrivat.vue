@@ -25,7 +25,7 @@ const { scrollHandler } = useScrollHander();
 <template>
 	<div class="min-h-0 flex-1 overflow-hidden bg-white">
 		<div class="flex h-full flex-col">
-			<TabTitle title="Новый чат" />
+			<TabTitle title="New chat" />
 			<div class="mb-2.5 bg-white p-4">
 				<BaseInput id="create-private" label="Найти" v-model="privateSearch" />
 			</div>

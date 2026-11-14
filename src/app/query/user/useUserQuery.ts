@@ -9,7 +9,11 @@ export function useUserQuery() {
 
 	return useQuery({
 		...userKeys.current(),
-		queryFn: () => userShow(),
+		queryFn: async () => {
+			const result = await userShow();
+			if (result.error) throw result;
+			return result;
+		},
 		enabled: isAuthenticated,
 		staleTime: Infinity,
 		retry: false,

@@ -2,20 +2,18 @@ import { useMessageContextSearchInfiniteQuery } from '@/app/query/messages/useMe
 import { useMessageSearchInfiniteQuery } from '@/app/query/messages/useMessageSearchInfiniteQuery';
 import { watchDebounced } from '@vueuse/core';
 import { storeToRefs } from 'pinia';
-import { computed, toRef, watch } from 'vue';
+import { computed, toRef } from 'vue';
 import { useRoute } from 'vue-router';
 import { useChatMessagesStore } from '../stores/useChatMessagesStore';
 
 export function useMessageSearchInput() {
 	const { searchInput, contextMessageId } = storeToRefs(useChatMessagesStore());
-	const chatMessagesStore = useChatMessagesStore();
 	const route = useRoute<'chat-window'>();
 
 	const chatId = computed(() => Number(route.params.id));
 
 	const {
 		data: contextMessage,
-		refetch: contextRefetch,
 		isPending: contextIsPending,
 		isError: contextIsError,
 		isLoading: contextIsLoading,
@@ -23,16 +21,6 @@ export function useMessageSearchInput() {
 		isFetchingNextPage: contextIsFetchingNextPage,
 		fetchNextPage: contextFetchNextPage,
 	} = useMessageContextSearchInfiniteQuery(toRef(chatId), contextMessageId);
-
-	watch(contextMessageId, (newMessageId) => {
-		if (!newMessageId) return;
-		contextRefetch();
-	});
-
-	watch(contextMessage, (newContext) => {
-		if (!newContext || !newContext.pages[0]?.data) return;
-		chatMessagesStore.setMessages(newContext.pages[0]?.data!);
-	});
 
 	const {
 		data: findedMessages,

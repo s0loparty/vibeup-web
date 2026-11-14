@@ -18,7 +18,7 @@ export function useUserAvatarQuery() {
 			});
 
 			if (result.error) {
-				throw result.error;
+				throw result;
 			}
 
 			return result.data;
