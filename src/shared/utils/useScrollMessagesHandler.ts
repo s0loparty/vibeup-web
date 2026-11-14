@@ -10,6 +10,7 @@ export function useScrollMessagesHandler(
 
 	let savedScrollHeight = 0;
 	let savedScrollTop = 0;
+	let restoreGeneration = 0;
 
 	function getViewport(): HTMLElement | null {
 		return scrollViewportRef.value;
@@ -26,8 +27,12 @@ export function useScrollMessagesHandler(
 			target.scrollHeight - target.scrollTop - target.clientHeight > 100;
 	}
 
-	async function restoreScrollPosition(viewport: HTMLElement) {
+	async function restoreScrollPosition(
+		viewport: HTMLElement,
+		generation: number,
+	) {
 		await nextTick();
+		if (generation !== restoreGeneration || getViewport() !== viewport) return;
 
 		const newScrollHeight = viewport.scrollHeight;
 		const heightDiff = newScrollHeight - savedScrollHeight;
@@ -67,17 +72,25 @@ export function useScrollMessagesHandler(
 			isLoadingOlder.value = true;
 			savedScrollHeight = el.scrollHeight;
 			savedScrollTop = el.scrollTop;
+			const generation = restoreGeneration;
 
 			try {
 				await cb();
-				if (getViewport() === el) await restoreScrollPosition(el);
+				if (getViewport() === el && generation === restoreGeneration) {
+					await restoreScrollPosition(el, generation);
+				}
 			} finally {
 				isLoadingOlder.value = false;
 			}
 		}
 	}
 
+	function cancelPendingRestore() {
+		restoreGeneration++;
+	}
+
 	function resetScroll() {
+		cancelPendingRestore();
 		isAutoScrolling.value = true;
 		isLoadingOlder.value = false;
 		savedScrollHeight = 0;
@@ -104,6 +117,7 @@ export function useScrollMessagesHandler(
 		isLoadingOlder,
 		scrollHandler,
 		resetScroll,
+		cancelPendingRestore,
 		scrollToBottom,
 		updateScrollButton,
 		getViewport,
