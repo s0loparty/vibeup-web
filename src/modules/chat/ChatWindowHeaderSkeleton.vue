@@ -5,7 +5,7 @@ import { Skeleton } from '@/app/components/ui/skeleton';
 <template>
 	<div
 		id="user-chat-header"
-		class="relative z-5 flex h-14 shrink-0 items-center bg-white px-4"
+		class="relative z-20 flex h-14 shrink-0 items-center bg-white px-4"
 	>
 		<div class="flex w-full items-center justify-between gap-4">
 			<!-- Left section: Avatar and text -->

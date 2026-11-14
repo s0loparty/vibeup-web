@@ -29,7 +29,7 @@ const { showDialogCreateVideochat } = useDialogCreateVideochat();
 	<div
 		v-if="props.chat.members.length"
 		id="user-chat-header"
-		class="relative z-5 flex h-14 shrink-0 items-center bg-white"
+		class="relative z-20 flex h-14 shrink-0 items-center bg-white"
 	>
 		<Button
 			@click="showAside = !showAside"
