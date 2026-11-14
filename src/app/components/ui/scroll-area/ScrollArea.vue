@@ -25,9 +25,20 @@ const delegatedProps = reactiveOmit(
 	'viewportRef',
 );
 
-function setViewportRef(el: Element | { $el?: Element } | null) {
+function setViewportRef(
+	el: Element | { viewportElement?: HTMLElement; $el?: Element } | null,
+) {
 	if (el instanceof HTMLElement) {
 		props.viewportRef?.(el);
+		return;
+	}
+
+	if (
+		el &&
+		'viewportElement' in el &&
+		el.viewportElement instanceof HTMLElement
+	) {
+		props.viewportRef?.(el.viewportElement);
 		return;
 	}
 

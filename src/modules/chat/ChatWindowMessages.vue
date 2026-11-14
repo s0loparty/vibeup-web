@@ -1,8 +1,9 @@
 <script setup lang="ts">
 import BaseScrollButton from '@/app/components/base/BaseScrollButton.vue';
 import { ScrollArea } from '@/app/components/ui/scroll-area';
+import { animateScrollToBottom } from '@/shared/utils/animateScrollToBottom';
 import { useScrollMessagesHandler } from '@/shared/utils/useScrollMessagesHandler.ts';
-import { computed, nextTick, ref, watch } from 'vue';
+import { computed, nextTick, onBeforeUnmount, ref, watch } from 'vue';
 import { useRoute } from 'vue-router';
 
 import { useMessageSearchInput } from '../messages/composables/useMessageSearchInput.ts';
@@ -19,6 +20,7 @@ const chatMessagesStore = useChatMessagesStore();
 const scrollViewportRef = ref<HTMLElement | null>(null);
 const highlightedMessageId = ref<number | null>(null);
 let initializedChatId: number | null = null;
+let cancelScrollAnimation: (() => void) | undefined;
 
 function setScrollViewportRef(el: HTMLElement | null) {
 	scrollViewportRef.value = el;
@@ -66,6 +68,22 @@ const { stickyDate } = useStickyDate({
 function scrollToBottom(behavior: ScrollBehavior = 'auto') {
 	scrollToBottomBase(behavior);
 }
+
+function scrollToBottomOnClick() {
+	const viewport = scrollViewportRef.value;
+	if (!viewport) return;
+
+	cancelScrollAnimation?.();
+	scrollMessagesHandler.cancelPendingRestore();
+	scrollMessagesHandler.isAutoScrolling.value = true;
+	cancelScrollAnimation = animateScrollToBottom(viewport, () => {
+		scrollMessagesHandler.isAutoScrolling.value = false;
+		scrollMessagesHandler.updateScrollButton();
+		cancelScrollAnimation = undefined;
+	});
+}
+
+onBeforeUnmount(() => cancelScrollAnimation?.());
 
 function messagesHandler(e: Event) {
 	scrollMessagesHandler.scrollHandler(
@@ -118,6 +136,7 @@ watch(
 );
 
 watch(chatId, () => {
+	cancelScrollAnimation?.();
 	initializedChatId = null;
 	scrollMessagesHandler.resetScroll();
 	highlightedMessageId.value = null;
@@ -234,7 +253,8 @@ watch(
 
 		<BaseScrollButton
 			v-if="scrollMessagesHandler.showScrollBtn.value"
-			@click="scrollToBottom('smooth')"
+			class="z-10"
+			@click="scrollToBottomOnClick"
 		/>
 	</div>
 </template>

@@ -33,9 +33,14 @@ export const useChatMessagesStore = defineStore('chatMessages', () => {
 		messages.value = value;
 	}
 
-	function toggleSearch() {
-		isShowSearch.value = !isShowSearch.value;
+	function toggleSearch(isShow?: boolean) {
 		searchInput.value = '';
+
+		if (typeof isShow === 'boolean') {
+			isShowSearch.value = isShow;
+		} else {
+			isShowSearch.value = !isShowSearch.value;
+		}
 	}
 
 	return {
