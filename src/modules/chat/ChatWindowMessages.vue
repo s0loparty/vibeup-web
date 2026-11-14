@@ -234,6 +234,7 @@ watch(
 
 		<BaseScrollButton
 			v-if="scrollMessagesHandler.showScrollBtn.value"
+			class="z-10"
 			@click="scrollToBottom('smooth')"
 		/>
 	</div>
