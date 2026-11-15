@@ -37,7 +37,7 @@ watchEffect(() => {
 
 <template>
 	<section
-		class="user__chat box-r flex h-screen w-full flex-col border-r border-gray-200/50"
+		class="user__chat box-r flex h-dvh w-full flex-col border-r border-gray-200/50"
 	>
 		<div class="flex h-full flex-col">
 			<ChatWindowWallpaper />
